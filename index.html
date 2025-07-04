@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -272,20 +272,25 @@
 <body class="flex flex-col items-center justify-center min-h-screen p-4 text-gray-900">
 
     <div id="mainContent" class="w-full max-w-3xl bg-white p-6 rounded-xl shadow-lg">
-        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6">Sliding Puzzle Interaktif</h1>
+        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6" data-key="mainTitle">Sliding Puzzle Interaktif</h1>
 
-        <!-- Potensi Area Iklan (Contoh: Banner Atas) -->
-        <!-- <div class="w-full h-20 bg-gray-200 flex items-center justify-center text-gray-600 mb-6 rounded-lg">
-            AREA IKLAN (728x90)
-        </div> -->
+        <div class="mb-6 text-center">
+            <label for="languageSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectLanguage">Select Language:</label>
+            <select id="languageSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <option value="en">English</option>
+                <option value="id">Indonesia</option>
+                <option value="es">Español</option>
+                <option value="ja">日本語</option>
+            </select>
+        </div>
 
         <div class="mb-6">
-            <label for="imageUpload" class="block text-lg font-medium text-gray-700 mb-2">Unggah Foto Anda:</label>
+            <label for="imageUpload" class="block text-lg font-medium text-gray-700 mb-2" data-key="uploadPhoto">Unggah Foto Anda:</label>
             <input type="file" id="imageUpload" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
         </div>
 
         <div class="mb-6 text-center">
-            <label class="block text-lg font-medium text-gray-700 mb-2">Atau Pilih Gambar Contoh:</label>
+            <label class="block text-lg font-medium text-gray-700 mb-2" data-key="orSelectSample">Atau Pilih Gambar Contoh:</label>
             <div id="sampleImageContainer" class="flex flex-wrap justify-center gap-2">
                 <div class="sample-image-container" data-src="https://raw.githubusercontent.com/SapiBersinar/data/main/gambar/1.png">
                     <img src="https://raw.githubusercontent.com/SapiBersinar/data/main/gambar/1.png" alt="Contoh Gambar 1" onerror="this.onerror=null;this.src='https://placehold.co/80x80/cccccc/333333?text=Error';">
@@ -304,7 +309,7 @@
 
         <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
             <div class="text-center">
-                <label for="gridSizeSelect" class="block text-lg font-medium text-gray-700 mb-2">Pilih Ukuran Puzzle:</label>
+                <label for="gridSizeSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectPuzzleSize">Pilih Ukuran Puzzle:</label>
                 <select id="gridSizeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                     <option value="3" selected>3x3</option>
                     <option value="4">4x4</option>
@@ -313,34 +318,34 @@
             </div>
 
             <div class="text-center">
-                <label for="puzzleModeSelect" class="block text-lg font-medium text-gray-700 mb-2">Pilih Mode Puzzle:</label>
+                <label for="puzzleModeSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectPuzzleMode">Pilih Mode Puzzle:</label>
                 <select id="puzzleModeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <option value="sliding" selected>Sliding Puzzle (Default)</option>
-                    <option value="jigsaw">Jigsaw (Tanpa Nomor)</option>
+                    <option value="sliding" data-key="slidingPuzzle">Sliding Puzzle (Default)</option>
+                    <option value="jigsaw" data-key="jigsaw">Jigsaw (Tanpa Nomor)</option>
                 </select>
             </div>
         </div>
         
         <div class="flex justify-center gap-8 mb-4 text-center">
             <div class="text-lg font-semibold text-gray-700">
-                Gerakan: <span id="moveCounter" class="text-indigo-700">0</span>
+                <span data-key="moves">Gerakan</span>: <span id="moveCounter" class="text-indigo-700">0</span>
             </div>
             <div class="text-lg font-semibold text-gray-700">
-                Waktu: <span id="timerDisplay" class="text-indigo-700">00:00</span>
+                <span data-key="time">Waktu</span>: <span id="timerDisplay" class="text-indigo-700">00:00</span>
             </div>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
-            <button id="shuffleButton" class="btn-primary-gradient text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button id="shuffleButton" class="btn-primary-gradient text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-key="shuffle">
                 Acak
             </button>
-            <button id="undoButton" class="btn-purple text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
+            <button id="undoButton" class="btn-purple text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2" data-key="undo">
                 Urungkan
             </button>
-            <button id="solveButton" class="btn-green-solve text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+            <button id="solveButton" class="btn-green-solve text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2" data-key="autoSolve">
                 Selesaikan Otomatis
             </button>
-            <button id="resetButton" class="btn-gray text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+            <button id="resetButton" class="btn-gray text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" data-key="resetPuzzle">
                 Reset Puzzle
             </button>
         </div>
@@ -352,29 +357,24 @@
         </div>
 
         <div class="text-center mt-4 flex flex-wrap justify-center gap-4">
-            <button id="viewOriginalImageButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+            <button id="viewOriginalImageButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" data-key="viewOriginalImage">
                 Lihat Gambar Asli
             </button>
-            <button id="replayButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" style="display: none;">
+            <button id="replayButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" style="display: none;" data-key="replayMoves">
                 Putar Ulang Gerakan
             </button>
         </div>
         
-        <p class="text-center text-gray-600 text-sm italic mt-4">Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.</p>
+        <p class="text-center text-gray-600 text-sm italic mt-4" data-key="clickHint">Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.</p>
 
         <div class="mt-6">
-            <h2 class="text-xl font-semibold text-gray-700 mb-2 text-center">Riwayat Gerakan Anda:</h2>
+            <h2 class="text-xl font-semibold text-gray-700 mb-2 text-center" data-key="moveHistoryTitle">Riwayat Gerakan Anda:</h2>
             <div id="moveHistoryContainer" class="bg-gray-50 p-3 rounded-lg shadow-inner">
                 <ul id="moveHistoryList" class="list-disc list-inside text-gray-700">
                     <!-- Move history items will be appended here -->
                 </ul>
             </div>
         </div>
-
-        <!-- Potensi Area Iklan (Contoh: Banner Bawah) -->
-        <!-- <div class="w-full h-20 bg-gray-200 flex items-center justify-center text-gray-600 mt-6 rounded-lg">
-            AREA IKLAN (728x90)
-        </div> -->
         
     </div>
 
@@ -383,7 +383,7 @@
 
     <div id="originalImageDisplayContainer" class="original-image-display-container">
         <img id="fullImageDisplay" src="" alt="Gambar Asli">
-        <button id="backToPuzzleButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+        <button id="backToPuzzleButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md" data-key="backToPuzzle">
             Kembali ke Puzzle
         </button>
     </div>
@@ -391,13 +391,13 @@
     <!-- Cropper Modal -->
     <div id="imageCropperContainer" class="cropper-modal" style="display: none;">
         <div class="cropper-content">
-            <h2 class="text-2xl font-bold text-center text-indigo-700 mb-4">Pilih Area Puzzle</h2>
+            <h2 class="text-2xl font-bold text-center text-indigo-700 mb-4" data-key="cropAreaTitle">Pilih Area Puzzle</h2>
             <canvas id="cropperCanvas"></canvas>
             <div class="cropper-controls">
-                <button id="confirmCropButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                <button id="confirmCropButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-lg shadow-md" data-key="confirmCrop">
                     Konfirmasi Potongan
                 </button>
-                <button id="cancelCropButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                <button id="cancelCropButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-lg shadow-md" data-key="cancel">
                     Batal
                 </button>
             </div>
@@ -407,7 +407,7 @@
     <!-- Loading Overlay -->
     <div id="loadingOverlay">
         <div class="spinner"></div>
-        <p id="loadingMessage">Memuat...</p>
+        <p id="loadingMessage" data-key="loading">Memuat...</p>
     </div>
 
 
@@ -415,7 +415,7 @@
         const imageUpload = document.getElementById('imageUpload');
         const gridSizeSelect = document.getElementById('gridSizeSelect');
         const puzzleModeSelect = document.getElementById('puzzleModeSelect');
-        // const languageSelect = document.getElementById('languageSelect'); // Removed
+        const languageSelect = document.getElementById('languageSelect');
         const shuffleButton = document.getElementById('shuffleButton');
         const undoButton = document.getElementById('undoButton');
         const solveButton = document.getElementById('solveButton');
@@ -450,6 +450,7 @@
         let puzzlePieces = [];
         let gridSize = parseInt(gridSizeSelect.value);
         let currentPuzzleMode = puzzleModeSelect.value;
+        let currentLanguage = 'en'; // Default language
         const fixedCanvasSize = 1080; // Fixed to 1080x1080
         let pieceWidth;
         let pieceHeight;
@@ -508,11 +509,261 @@
         let moveHistory = [];
         const maxMoveHistory = 10;
 
+        // =====================================================================
+        // Language Translations
+        // =====================================================================
+        const translations = {
+            en: {
+                mainTitle: "Interactive Sliding Puzzle",
+                selectLanguage: "Select Language:",
+                uploadPhoto: "Upload Your Photo:",
+                orSelectSample: "Or Select a Sample Image:",
+                selectPuzzleSize: "Select Puzzle Size:",
+                selectPuzzleMode: "Select Puzzle Mode:",
+                slidingPuzzle: "Sliding Puzzle (Default)",
+                jigsaw: "Jigsaw (No Numbers)",
+                moves: "Moves",
+                time: "Time",
+                shuffle: "Shuffle",
+                undo: "Undo",
+                autoSolve: "Auto Solve",
+                resetPuzzle: "Reset Puzzle",
+                viewOriginalImage: "View Original Image",
+                replayMoves: "Replay Moves",
+                clickHint: "Click a piece adjacent to the empty space to move it.",
+                moveHistoryTitle: "Your Move History:",
+                noMovesYet: "No moves yet.",
+                backToPuzzle: "Back to Puzzle",
+                cropAreaTitle: "Select Puzzle Area",
+                confirmCrop: "Confirm Crop",
+                cancel: "Cancel",
+                loading: "Loading...",
+                loadingImage: "Loading image...",
+                loadingSampleImage: "Loading sample image...",
+                failedLoadImage: "Failed to load image. Please ensure it's a valid image file.",
+                failedLoadSampleImage: "Failed to load sample image. Please try again or upload your own image.",
+                shufflingPuzzle: "Shuffling puzzle...",
+                shuffleSuccess: (numMoves, time) => `Successfully shuffled ${numMoves} moves in ${time} seconds.`,
+                shuffleFail: (attempts) => `Failed to find a solvable puzzle after ${attempts} attempts. Try shuffling again.`,
+                noUndo: "No moves to undo.",
+                confirmReset: "Are you sure you want to reset the puzzle? Your progress will be lost.",
+                uploadImageFirst: "Please upload an image first.",
+                autoSolveConfirm: "Do you want the puzzle to be solved automatically? This will reset your moves.",
+                autoSolveWarning5x5: "Warning: 5x5 Auto-Solve is Very Slow! Please be patient.",
+                autoSolveSearching: "Searching for auto-solve solution...",
+                solutionFound: (numMoves) => `Solution found! Playing ${numMoves} moves...`,
+                errorPlayingSolution: "An error occurred while playing the solution.",
+                solutionNotFound: "Solution not found within time/computation limits. Try shuffling again.",
+                noReplayMoves: "No moves to replay.",
+                replayFinished: "Replay finished.",
+                puzzleSolved: (moves, time) => `Congratulations! Puzzle solved in ${moves} moves and ${time}!`,
+                cropCancelled: "Cropping cancelled. Please upload or select another image.",
+                noImageLoaded: "No image loaded to display.",
+                pieceMoved: (pieceNumber, direction) => `Piece ${pieceNumber} moved ${direction}`,
+                directionRight: "Right",
+                directionLeft: "Left",
+                directionDown: "Down",
+                directionUp: "Up",
+            },
+            id: {
+                mainTitle: "Sliding Puzzle Interaktif",
+                selectLanguage: "Pilih Bahasa:",
+                uploadPhoto: "Unggah Foto Anda:",
+                orSelectSample: "Atau Pilih Gambar Contoh:",
+                selectPuzzleSize: "Pilih Ukuran Puzzle:",
+                selectPuzzleMode: "Pilih Mode Puzzle:",
+                slidingPuzzle: "Sliding Puzzle (Default)",
+                jigsaw: "Jigsaw (Tanpa Nomor)",
+                moves: "Gerakan",
+                time: "Waktu",
+                shuffle: "Acak",
+                undo: "Urungkan",
+                autoSolve: "Selesaikan Otomatis",
+                resetPuzzle: "Reset Puzzle",
+                viewOriginalImage: "Lihat Gambar Asli",
+                replayMoves: "Putar Ulang Gerakan",
+                clickHint: "Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.",
+                moveHistoryTitle: "Riwayat Gerakan Anda:",
+                noMovesYet: "Belum ada gerakan.",
+                backToPuzzle: "Kembali ke Puzzle",
+                cropAreaTitle: "Pilih Area Puzzle",
+                confirmCrop: "Konfirmasi Potongan",
+                cancel: "Batal",
+                loading: "Memuat...",
+                loadingImage: "Memuat gambar...",
+                loadingSampleImage: "Memuat gambar contoh...",
+                failedLoadImage: "Gagal memuat gambar. Pastikan ini adalah file gambar yang valid.",
+                failedLoadSampleImage: "Gagal memuat gambar contoh. Silakan coba lagi atau unggah gambar Anda sendiri.",
+                shufflingPuzzle: "Mengacak puzzle...",
+                shuffleSuccess: (numMoves, time) => `Berhasil mengacak ${numMoves} gerakan dalam ${time} detik.`,
+                shuffleFail: (attempts) => `Gagal menemukan puzzle yang dapat dipecahkan setelah ${attempts} percobaan. Coba acak ulang.`,
+                noUndo: "Tidak ada gerakan untuk di-undo.",
+                confirmReset: "Apakah Anda yakin ingin mereset puzzle? Progres Anda akan hilang.",
+                uploadImageFirst: "Silakan unggah gambar terlebih dahulu.",
+                autoSolveConfirm: "Apakah Anda ingin puzzle diselesaikan secara otomatis? Ini akan mereset gerakan Anda.",
+                autoSolveWarning5x5: "Peringatan: 5x5 Otomatis Sangat Lambat! Harap Bersabar.",
+                autoSolveSearching: "Mencari solusi otomatis...",
+                solutionFound: (numMoves) => `Solusi ditemukan! Memainkan ${numMoves} gerakan...`,
+                errorPlayingSolution: "Terjadi kesalahan saat memainkan solusi.",
+                solutionNotFound: "Solusi tidak ditemukan dalam batas waktu/komputasi. Coba acak ulang.",
+                noReplayMoves: "Tidak ada gerakan untuk diputar ulang.",
+                replayFinished: "Pemutaran ulang selesai.",
+                puzzleSolved: (moves, time) => `Selamat! Puzzle telah selesai dalam ${moves} gerakan dan waktu ${time}!`,
+                cropCancelled: "Pemotongan dibatalkan. Silakan unggah atau pilih gambar lain.",
+                noImageLoaded: "Tidak ada gambar yang dimuat untuk ditampilkan.",
+                pieceMoved: (pieceNumber, direction) => `Potongan ${pieceNumber} bergerak ${direction}`,
+                directionRight: "Kanan",
+                directionLeft: "Kiri",
+                directionDown: "Bawah",
+                directionUp: "Atas",
+            },
+            es: {
+                mainTitle: "Rompecabezas Deslizante Interactivo",
+                selectLanguage: "Seleccionar Idioma:",
+                uploadPhoto: "Sube tu foto:",
+                orSelectSample: "O Selecciona una Imagen de Ejemplo:",
+                selectPuzzleSize: "Seleccionar Tamaño del Rompecabezas:",
+                selectPuzzleMode: "Seleccionar Modo de Rompecabezas:",
+                slidingPuzzle: "Rompecabezas Deslizante (Predeterminado)",
+                jigsaw: "Rompecabezas (Sin Números)",
+                moves: "Movimientos",
+                time: "Tiempo",
+                shuffle: "Barajar",
+                undo: "Deshacer",
+                autoSolve: "Resolver Automáticamente",
+                resetPuzzle: "Reiniciar Rompecabezas",
+                viewOriginalImage: "Ver Imagen Original",
+                replayMoves: "Reproducir Movimientos",
+                clickHint: "Haz clic en una pieza adyacente al espacio vacío para moverla.",
+                moveHistoryTitle: "Tu Historial de Movimientos:",
+                noMovesYet: "Aún no hay movimientos.",
+                backToPuzzle: "Volver al Rompecabezas",
+                cropAreaTitle: "Seleccionar Área del Rompecabezas",
+                confirmCrop: "Confirmar Recorte",
+                cancel: "Cancelar",
+                loading: "Cargando...",
+                loadingImage: "Cargando imagen...",
+                loadingSampleImage: "Cargando imagen de ejemplo...",
+                failedLoadImage: "No se pudo cargar la imagen. Asegúrate de que sea un archivo de imagen válido.",
+                failedLoadSampleImage: "No se pudo cargar la imagen de ejemplo. Inténtalo de nuevo o sube tu propia imagen.",
+                shufflingPuzzle: "Barajando rompecabezas...",
+                shuffleSuccess: (numMoves, time) => `Se barajaron ${numMoves} movimientos en ${time} segundos.`,
+                shuffleFail: (attempts) => `No se pudo encontrar un rompecabezas resoluble después de ${attempts} intentos. Intenta barajar de nuevo.`,
+                noUndo: "No hay movimientos para deshacer.",
+                confirmReset: "¿Estás seguro de que quieres reiniciar el rompecabezas? Tu progreso se perderá.",
+                uploadImageFirst: "Por favor, sube una imagen primero.",
+                autoSolveConfirm: "¿Quieres que el rompecabezas se resuelva automáticamente? Esto reiniciará tus movimientos.",
+                autoSolveWarning5x5: "Advertencia: ¡La resolución automática 5x5 es muy lenta! Ten paciencia.",
+                autoSolveSearching: "Buscando solución automática...",
+                solutionFound: (numMoves) => `¡Solución encontrada! Reproduciendo ${numMoves} movimientos...`,
+                errorPlayingSolution: "Ocurrió un error al reproducir la solución.",
+                solutionNotFound: "Solución no encontrada dentro de los límites de tiempo/cálculo. Intenta barajar de nuevo.",
+                noReplayMoves: "No hay movimientos para reproducir.",
+                replayFinished: "Reproducción finalizada.",
+                puzzleSolved: (moves, time) => `¡Felicidades! Rompecabezas resuelto en ${moves} movimientos y ${time}!`,
+                cropCancelled: "Recorte cancelado. Por favor, sube o selecciona otra imagen.",
+                noImageLoaded: "No hay imagen cargada para mostrar.",
+                pieceMoved: (pieceNumber, direction) => `Pieza ${pieceNumber} movida ${direction}`,
+                directionRight: "Derecha",
+                directionLeft: "Izquierda",
+                directionDown: "Abajo",
+                directionUp: "Arriba",
+            },
+            ja: {
+                mainTitle: "インタラクティブスライディングパズル",
+                selectLanguage: "言語を選択:",
+                uploadPhoto: "写真をアップロード:",
+                orSelectSample: "またはサンプル画像を選択:",
+                selectPuzzleSize: "パズルサイズを選択:",
+                selectPuzzleMode: "パズルモードを選択:",
+                slidingPuzzle: "スライディングパズル（デフォルト）",
+                jigsaw: "ジグソー（数字なし）",
+                moves: "移動",
+                time: "時間",
+                shuffle: "シャッフル",
+                undo: "元に戻す",
+                autoSolve: "自動解決",
+                resetPuzzle: "パズルをリセット",
+                viewOriginalImage: "元の画像を見る",
+                replayMoves: "動きを再生",
+                clickHint: "空のスペースに隣接するピースをクリックして移動します。",
+                moveHistoryTitle: "あなたの移動履歴:",
+                noMovesYet: "まだ動きはありません。",
+                backToPuzzle: "パズルに戻る",
+                cropAreaTitle: "パズル領域を選択",
+                confirmCrop: "トリミングを確定",
+                cancel: "キャンセル",
+                loading: "読み込み中...",
+                loadingImage: "画像を読み込み中...",
+                loadingSampleImage: "サンプル画像を読み込み中...",
+                failedLoadImage: "画像の読み込みに失敗しました。有効な画像ファイルであることを確認してください。",
+                failedLoadSampleImage: "サンプル画像の読み込みに失敗しました。もう一度試すか、ご自身の画像をアップロードしてください。",
+                shufflingPuzzle: "パズルをシャッフル中...",
+                shuffleSuccess: (numMoves, time) => `${numMoves}回の移動を${time}秒で正常にシャッフルしました。`,
+                shuffleFail: (attempts) => `${attempts}回の試行後も解けるパズルが見つかりませんでした。もう一度シャッフルしてみてください。`,
+                noUndo: "元に戻す動きはありません。",
+                confirmReset: "パズルをリセットしてもよろしいですか？進行状況は失われます。",
+                uploadImageFirst: "まず画像をアップロードしてください。",
+                autoSolveConfirm: "パズルを自動的に解決しますか？これにより、あなたの移動がリセットされます。",
+                autoSolveWarning5x5: "警告：5x5の自動解決は非常に遅いです！しばらくお待ちください。",
+                autoSolveSearching: "自動解決策を検索中...",
+                solutionFound: (numMoves) => `解決策が見つかりました！${numMoves}回の移動を再生中...`,
+                errorPlayingSolution: "解決策の再生中にエラーが発生しました。",
+                solutionNotFound: "時間/計算制限内で解決策が見つかりませんでした。もう一度シャッフルしてみてください。",
+                noReplayMoves: "再生する動きはありません。",
+                replayFinished: "再生が終了しました。",
+                puzzleSolved: (moves, time) => `おめでとうございます！${moves}回の移動と${time}でパズルが解決しました！`,
+                cropCancelled: "トリミングがキャンセルされました。別の画像をアップロードまたは選択してください。",
+                noImageLoaded: "表示する画像が読み込まれていません。",
+                pieceMoved: (pieceNumber, direction) => `ピース${pieceNumber}が${direction}に移動しました`,
+                directionRight: "右",
+                directionLeft: "左",
+                directionDown: "下",
+                directionUp: "上",
+            }
+        };
+
+        // =====================================================================
+        // Function to update all text content based on current language
+        // =====================================================================
+        function updateTextContent() {
+            const elements = document.querySelectorAll('[data-key]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+
+            // Update specific elements that have dynamic content or special cases
+            document.getElementById('puzzleModeSelect').querySelector('option[value="sliding"]').textContent = translations[currentLanguage].slidingPuzzle;
+            document.getElementById('puzzleModeSelect').querySelector('option[value="jigsaw"]').textContent = translations[currentLanguage].jigsaw;
+            
+            // Update placeholder text for image upload
+            const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
+            const placeholderSize = fixedCanvasSize;
+            originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
+            
+            renderMoveHistory(); // Re-render move history with updated language
+        }
+
+        // =====================================================================
+        // Handle Language Selection Change (with Local Storage)
+        // =====================================================================
+        languageSelect.addEventListener('change', (event) => {
+            currentLanguage = event.target.value;
+            savePreferences(); // Save preference
+            updateTextContent();
+        });
 
         // =====================================================================
         // Utility function for notifications (replaces alert())
         // =====================================================================
-        function showMessageBox(message) {
+        function showMessageBox(messageKey, ...args) {
+            const message = typeof translations[currentLanguage][messageKey] === 'function' 
+                            ? translations[currentLanguage][messageKey](...args) 
+                            : translations[currentLanguage][messageKey];
+
             const messageBox = document.createElement('div');
             messageBox.className = 'message-box';
             messageBox.innerHTML = `
@@ -533,14 +784,15 @@
         // =====================================================================
         // Custom Confirmation Box
         // =====================================================================
-        function showConfirmationBox(message, onConfirmCallback) {
+        function showConfirmationBox(messageKey, onConfirmCallback) {
+            const message = translations[currentLanguage][messageKey];
             const confirmationBox = document.createElement('div');
             confirmationBox.className = 'confirmation-box';
             confirmationBox.innerHTML = `
                 <p class="text-xl font-semibold mb-6">${message}</p>
                 <div class="flex justify-center gap-4">
-                    <button id="confirmButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-md transition duration-300">Ya</button>
-                    <button id="cancelButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-md transition duration-300">Batal</button>
+                    <button id="confirmButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-md transition duration-300">${translations[currentLanguage].confirmCrop}</button>
+                    <button id="cancelButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-md transition duration-300">${translations[currentLanguage].cancel}</button>
                 </div>
             `;
             const overlay = document.createElement('div');
@@ -561,8 +813,8 @@
         // =====================================================================
         // Loading Indicator Functions
         // =====================================================================
-        function showLoading(message) {
-            loadingMessage.textContent = message;
+        function showLoading(messageKey) {
+            loadingMessage.textContent = translations[currentLanguage][messageKey];
             loadingOverlay.style.display = 'flex';
         }
 
@@ -620,7 +872,7 @@
         imageUpload.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
-                showLoading("Memuat gambar...");
+                showLoading("loadingImage");
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     originalImage.onload = () => {
@@ -635,7 +887,7 @@
                     };
                     originalImage.onerror = () => {
                         hideLoading();
-                        showMessageBox("Gagal memuat gambar. Pastikan ini adalah file gambar yang valid.");
+                        showMessageBox("failedLoadImage");
                         enableAllButtons();
                     };
                     originalImage.src = e.target.result;
@@ -653,7 +905,7 @@
 
                 if (shuffling || solving || isProcessingClick || isReplaying) return; // Disable during replay
 
-                showLoading("Memuat gambar contoh...");
+                showLoading("loadingSampleImage");
                 disableAllButtons(); // Disable main buttons while loading/cropping
 
                 originalImage.onload = () => {
@@ -668,7 +920,7 @@
                 };
                 originalImage.onerror = () => {
                     hideLoading();
-                    showMessageBox("Gagal memuat gambar contoh. Silakan coba lagi atau unggah gambar Anda sendiri.");
+                    showMessageBox("failedLoadSampleImage");
                     enableAllButtons();
                 };
                 originalImage.src = imageUrl;
@@ -686,8 +938,9 @@
                 initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
                 await animateShuffle();
             } else {
+                const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
                 const placeholderSize = fixedCanvasSize;
-                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=Unggah%20Foto%0A(${gridSize}x${gridSize})`;
+                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
             }
         });
 
@@ -825,9 +1078,9 @@
                 return;
             }
             shuffling = true;
-            showLoading("Mengacak puzzle...");
+            showLoading("shufflingPuzzle");
             disableAllButtons();
-            solveStatusDisplay.textContent = 'Mengacak puzzle...';
+            solveStatusDisplay.textContent = translations[currentLanguage].shufflingPuzzle;
             const originalBlankId = gridSize * gridSize - 1; // ID of the blank piece
             const { numMoves, visualDelay } = getShuffleParams(gridSize);
             const shuffleStartTime = Date.now();
@@ -942,20 +1195,21 @@
                 shuffling = false;
                 enableAllButtons();
 
-                solveStatusDisplay.textContent = `Berhasil mengacak ${numMoves} gerakan dalam ${elapsedTimeSeconds} detik.`;
+                solveStatusDisplay.textContent = translations[currentLanguage].shuffleSuccess(numMoves, elapsedTimeSeconds);
                 
             } else {
                 shuffling = false;
                 enableAllButtons();
-                solveStatusDisplay.textContent = `Gagal menemukan puzzle yang dapat dipecahkan setelah ${maxShuffleAttempts} percobaan. Coba acak ulang.`;
-                showMessageBox("Gagal menemukan puzzle yang dapat dipecahkan setelah beberapa kali percobaan. Harap coba lagi atau unggah gambar yang berbeda.");
+                solveStatusDisplay.textContent = translations[currentLanguage].shuffleFail(maxShuffleAttempts);
+                showMessageBox("shuffleFail", maxShuffleAttempts);
                 // Revert to initial state if cropping was done
                 if (finalSourceWidth > 0 && finalSourceHeight > 0) {
                     initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
                 } else {
                     // If no image was properly loaded/cropped, show placeholder
+                    const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
                     const placeholderSize = fixedCanvasSize;
-                    originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=Unggah%20Foto%0A(${gridSize}x${gridSize})`;
+                    originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
                 }
             }
         }
@@ -992,7 +1246,7 @@
                 drawPuzzle();
                 puzzleModeSelect.value = currentPuzzleMode;
             } else {
-                showMessageBox("Tidak ada gerakan untuk di-undo.");
+                showMessageBox("noUndo");
             }
         });
 
@@ -1002,9 +1256,9 @@
         resetButton.addEventListener('click', () => {
             if (isReplaying) return; // Disable during replay
 
-            showConfirmationBox("Apakah Anda yakin ingin mereset puzzle? Progres Anda akan hilang.", () => {
+            showConfirmationBox("confirmReset", () => {
                 if (!puzzleReady) {
-                    showMessageBox("Silakan unggah gambar terlebih dahulu.");
+                    showMessageBox("uploadImageFirst");
                     return;
                 }
 
@@ -1230,7 +1484,7 @@
                 drawPuzzle();
                 puzzleCanvas.classList.add('puzzle-solved-animation'); // Apply bounce animation
                 
-                showMessageBox(`Selamat! Puzzle telah selesai dalam ${moves} gerakan dan waktu ${timerDisplay.textContent}!`);
+                showMessageBox("puzzleSolved", moves, timerDisplay.textContent);
                 
                 enableAllButtons();
                 solving = false;
@@ -1259,6 +1513,7 @@
             replayButton.disabled = true; // Disable replay button during operations
             sampleImageContainers.forEach(container => container.style.pointerEvents = 'none');
             sampleImageContainers.forEach(container => container.style.opacity = '0.5');
+            languageSelect.disabled = true; // Disable language select during operations
         }
 
         // =====================================================================
@@ -1276,13 +1531,14 @@
             replayButton.disabled = false; // Enable replay button
             sampleImageContainers.forEach(container => container.style.pointerEvents = 'auto');
             sampleImageContainers.forEach(container => container.style.opacity = '1');
+            languageSelect.disabled = false; // Enable language select
         }
 
         // =====================================================================
         // Function to auto-solve puzzle using BFS (Breadth-First Search)
         // =====================================================================
         solveButton.addEventListener('click', () => {
-            showConfirmationBox("Apakah Anda ingin puzzle diselesaikan secara otomatis? Ini akan mereset gerakan Anda.", async () => {
+            showConfirmationBox("autoSolveConfirm", async () => {
                 await solvePuzzleAutomatically();
             });
         });
@@ -1297,9 +1553,9 @@
             hasMadeFirstMove = true; // Auto-solve implies moves are being made, so start timer
             startTimer();
             if (gridSize === 5) {
-                showLoading(`Peringatan: 5x5 Otomatis Sangat Lambat! Harap Bersabar.`);
+                showLoading("autoSolveWarning5x5");
             } else {
-                showLoading(`Mencari solusi otomatis...`);
+                showLoading("autoSolveSearching");
             }
             
             disableAllButtons();
@@ -1380,7 +1636,7 @@
             }
 
             if (solutionPath) {
-                solveStatusDisplay.textContent = `Solusi ditemukan! Memainkan ${solutionPath.length} gerakan...`;
+                solveStatusDisplay.textContent = translations[currentLanguage].solutionFound(solutionPath.length);
                 const currentAutoSolveDelay = getAutoSolveStepDelay(gridSize);
                 
                 // Reset moves and replay history for auto-solve
@@ -1400,11 +1656,11 @@
                     const blankPiece = puzzlePieces.find(p => p.isBlank);
 
                     if (!pieceToMove || !blankPiece) { 
-                        console.error("Terjadi kesalahan saat memainkan solusi.");
+                        console.error(translations[currentLanguage].errorPlayingSolution);
                         solving = false;
                         isProcessingClick = false;
                         enableAllButtons();
-                        solveStatusDisplay.textContent = 'Terjadi kesalahan saat memainkan solusi.';
+                        solveStatusDisplay.textContent = translations[currentLanguage].errorPlayingSolution;
                         stopTimer(); // Stop timer on error
                         hasMadeFirstMove = false;
                         return;
@@ -1450,8 +1706,8 @@
                     checkWin(); // Final check if solution playback completed
                 }
             } else { 
-                solveStatusDisplay.textContent = 'Solusi tidak ditemukan dalam batas waktu/komputasi. Coba acak ulang.';
-                showMessageBox('Solusi tidak ditemukan dalam batas waktu atau terlalu kompleks. Coba acak ulang puzzle atau pilih ukuran yang lebih kecil.');
+                solveStatusDisplay.textContent = translations[currentLanguage].solutionNotFound;
+                showMessageBox('solutionNotFound');
             }
 
             solving = false;
@@ -1471,14 +1727,14 @@
         // =====================================================================
         replayButton.addEventListener('click', async () => {
             if (replayMoves.length === 0 || solving || shuffling || isProcessingClick) {
-                showMessageBox("Tidak ada gerakan untuk diputar ulang.");
+                showMessageBox("noReplayMoves");
                 return;
             }
 
             isReplaying = true; // Set replay flag
             disableAllButtons(); // Disable all buttons
             stopTimer(); // Stop timer during replay
-            solveStatusDisplay.textContent = 'Memutar ulang...'; // Keep this status, but no overlay
+            solveStatusDisplay.textContent = translations[currentLanguage].replayFinished; // Keep this status, but no overlay
 
             // Reset puzzle to the initial shuffled state
             puzzlePieces = initialShuffledStateForReplay.map(p => ({ ...p }));
@@ -1543,7 +1799,7 @@
             }
 
             isReplaying = false; // Reset replay flag
-            solveStatusDisplay.textContent = 'Pemutaran ulang selesai.';
+            solveStatusDisplay.textContent = translations[currentLanguage].replayFinished;
             // After replay, the puzzle should be solved
             checkWin(); // This will re-enable buttons and handle final state
         });
@@ -1571,11 +1827,13 @@
         function savePreferences() {
             localStorage.setItem('puzzleGridSize', gridSizeSelect.value);
             localStorage.setItem('puzzleMode', puzzleModeSelect.value);
+            localStorage.setItem('puzzleLanguage', currentLanguage);
         }
 
         function loadPreferences() {
             const savedGridSize = localStorage.getItem('puzzleGridSize');
             const savedPuzzleMode = localStorage.getItem('puzzleMode');
+            const savedLanguage = localStorage.getItem('puzzleLanguage');
 
             if (savedGridSize) {
                 gridSizeSelect.value = savedGridSize;
@@ -1584,6 +1842,13 @@
             if (savedPuzzleMode) {
                 puzzleModeSelect.value = savedPuzzleMode;
                 currentPuzzleMode = savedPuzzleMode;
+            }
+            if (savedLanguage && translations[savedLanguage]) {
+                currentLanguage = savedLanguage;
+                languageSelect.value = savedLanguage;
+            } else {
+                currentLanguage = 'en'; // Default to English if no saved language or invalid
+                languageSelect.value = 'en';
             }
         }
 
@@ -1598,7 +1863,7 @@
                 // Scroll to the top of the original image container
                 originalImageDisplayContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
-                showMessageBox("Tidak ada gambar yang dimuat untuk ditampilkan.");
+                showMessageBox("noImageLoaded");
             }
         });
         backToPuzzleButton.addEventListener('click', () => {
@@ -1663,7 +1928,6 @@
             // Draw crop rectangle border
             cropperCtx.strokeStyle = '#fff';
             cropperCtx.lineWidth = 2;
-            ctx.strokeRect(piece.currentX, piece.currentY, pieceWidth, pieceHeight);
             cropperCtx.strokeRect(cropRect.x, cropRect.y, cropRect.size, cropRect.size);
 
             // Draw resize handles (corners)
@@ -1772,11 +2036,12 @@
         cancelCropButton.addEventListener('click', () => {
             imageCropperContainer.style.display = 'none'; // Hide cropper modal
             mainContent.classList.remove('main-content-hidden'); // Show main puzzle UI
-            showMessageBox("Pemotongan dibatalkan. Silakan unggah atau pilih gambar lain.");
+            showMessageBox("cropCancelled");
             // Reset to placeholder if no image was previously loaded, or just enable buttons
             if (!puzzleReady) {
+                const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
                 const placeholderSize = fixedCanvasSize;
-                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=Unggah%20Foto%0A(${gridSize}x${gridSize})`;
+                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
             }
             enableAllButtons();
         });
@@ -1790,14 +2055,14 @@
             const toRow = Math.floor(toIndex / currentGridSize);
             const toCol = toIndex % currentGridSize;
 
-            let direction = '';
+            let directionKey = '';
             if (fromRow === toRow) { // Horizontal move
-                direction = fromCol < toCol ? 'Kanan' : 'Kiri';
+                directionKey = fromCol < toCol ? 'directionRight' : 'directionLeft';
             } else { // Vertical move
-                direction = fromRow < toRow ? 'Bawah' : 'Atas';
+                directionKey = fromRow < toRow ? 'directionDown' : 'directionUp';
             }
 
-            const moveText = `Potongan ${pieceNumber} bergerak ${direction}`;
+            const moveText = translations[currentLanguage].pieceMoved(pieceNumber, translations[currentLanguage][directionKey]);
             moveHistory.unshift(moveText); // Add to the beginning
             if (moveHistory.length > maxMoveHistory) {
                 moveHistory.pop(); // Remove oldest if exceeding limit
@@ -1808,7 +2073,7 @@
         function renderMoveHistory() {
             moveHistoryList.innerHTML = '';
             if (moveHistory.length === 0) {
-                moveHistoryList.innerHTML = '<li class="text-center text-gray-500">Belum ada gerakan.</li>';
+                moveHistoryList.innerHTML = `<li class="text-center text-gray-500">${translations[currentLanguage].noMovesYet}</li>`;
                 return;
             }
             moveHistory.forEach(move => {
@@ -1823,6 +2088,7 @@
         // =====================================================================
         window.onload = async () => {
             loadPreferences(); // Load saved preferences first
+            updateTextContent(); // Update text based on loaded language
 
             originalImage.onload = async () => {
                 // If the image is already square, directly initialize and shuffle
@@ -1834,10 +2100,12 @@
                     setupCroppingInterface();
                 }
             };
+            const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
             const placeholderSize = fixedCanvasSize; 
-            originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=Unggah%20Foto%0A(${gridSize}x${gridSize})`; 
+            originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`; 
         };
 
     </script>
 </body>
 </html>
+
