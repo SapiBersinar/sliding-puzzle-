@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sliding Puzzle Interaktif Terbaik | Mainkan & Latih Otak Anda</title>
-    <meta name="description" content="Mainkan game sliding puzzle interaktif online dengan gambar pilihan Anda atau gambar contoh menarik. Latih otak Anda, pecahkan puzzle 3x3, 4x4, 5x5, dan nikmati tantangan yang menyenangkan. Cocok untuk semua usia!">
-    <meta name="keywords" content="sliding puzzle, game puzzle, puzzle gambar, game otak, asah otak, puzzle online, game gratis, puzzle interaktif, 3x3 puzzle, 4x4 puzzle, 5x5 puzzle">
-    <meta name="author" content="Nama Anda/SapiBersinar">
-    <meta property="og:title" content="Sliding Puzzle Interaktif Terbaik | Mainkan & Latih Otak Anda">
-    <meta property="og:description" content="Mainkan game sliding puzzle interaktif online dengan gambar pilihan Anda atau gambar contoh menarik. Latih otak Anda, pecahkan puzzle 3x3, 4x4, 5x5, dan nikmati tantangan yang menyenangkan. Cocok untuk semua usia!">
+    <title>Sliding Puzzle Interaktif - Mainkan Puzzle Foto Anda!</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Mainkan game sliding puzzle interaktif dengan foto Anda sendiri atau gambar contoh. Potong gambar sesuai keinginan Anda dan tantang diri Anda dengan berbagai ukuran grid.">
+    <meta name="keywords" content="sliding puzzle, puzzle geser, game puzzle, puzzle foto, game online, puzzle interaktif, potong gambar, gratis">
+    <meta name="author" content="hanzercopy.cloud">
+    
+    <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://hanzercopy.cloud/"> <!-- Ganti dengan URL website Anda -->
-    <meta property="og:image" content="https://raw.githubusercontent.com/"> <!-- Ganti dengan URL gambar thumbnail yang relevan -->
+    <meta property="og:url" content="https://hanzercopy.cloud">
+    <meta property="og:title" content="Sliding Puzzle Interaktif - Mainkan Puzzle Foto Anda!">
+    <meta property="og:description" content="Mainkan game sliding puzzle interaktif dengan foto Anda sendiri atau gambar contoh. Potong gambar sesuai keinginan Anda dan tantang diri Anda dengan berbagai ukuran grid.">
+    <meta property="og:image" content="https://placehold.co/1200x630/e0e7ff/4f46e5?text=Sliding%20Puzzle"> <!-- Ganti dengan URL gambar pratinjau Anda -->
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -268,34 +272,39 @@
 <body class="flex flex-col items-center justify-center min-h-screen p-4 text-gray-900">
 
     <div id="mainContent" class="w-full max-w-3xl bg-white p-6 rounded-xl shadow-lg">
-        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6">Sliding Puzzle Interaktif</h1>
+        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6" data-key="appTitle">Sliding Puzzle Interaktif</h1>
+
+        <!-- Potensi Area Iklan (Contoh: Banner Atas) -->
+        <!-- <div class="w-full h-20 bg-gray-200 flex items-center justify-center text-gray-600 mb-6 rounded-lg">
+            AREA IKLAN (728x90)
+        </div> -->
 
         <div class="mb-6">
-            <label for="imageUpload" class="block text-lg font-medium text-gray-700 mb-2">Unggah Foto Anda:</label>
+            <label for="imageUpload" class="block text-lg font-medium text-gray-700 mb-2" data-key="uploadPhotoLabel">Unggah Foto Anda:</label>
             <input type="file" id="imageUpload" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
         </div>
 
         <div class="mb-6 text-center">
-            <label class="block text-lg font-medium text-gray-700 mb-2">Atau Pilih Gambar Contoh:</label>
+            <label class="block text-lg font-medium text-gray-700 mb-2" data-key="orChooseSampleLabel">Atau Pilih Gambar Contoh:</label>
             <div id="sampleImageContainer" class="flex flex-wrap justify-center gap-2">
                 <div class="sample-image-container" data-src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/1.png">
-                    <img src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/1.png" alt="Gambar Contoh 1: Pemandangan Alam">
+                    <img src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/1.png" alt="Sample Image 1">
                 </div>
                 <div class="sample-image-container" data-src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/2.png">
-                    <img src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/2.png" alt="Gambar Contoh 2: Arsitektur Modern">
+                    <img src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/2.png" alt="Sample Image 2">
                 </div>
                 <div class="sample-image-container" data-src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/3.png">
-                    <img src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/3.png" alt="Gambar Contoh 3: Abstrak Warna-warni">
+                    <img src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/3.png" alt="Sample Image 3">
                 </div>
                 <div class="sample-image-container" data-src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/4.png">
-                    <img src="https://raw.githubusercontent.com/SapiBersinar/data/refs/heads/main/gambar/4.png" alt="Gambar Contoh 4: Hewan Lucu">
+                    <img src="https://raw.githubusercontent.com/SapiBersinar/data/refs/main/gambar/4.png" alt="Sample Image 4">
                 </div>
             </div>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
             <div class="text-center">
-                <label for="gridSizeSelect" class="block text-lg font-medium text-gray-700 mb-2">Pilih Ukuran Puzzle:</label>
+                <label for="gridSizeSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectPuzzleSizeLabel">Pilih Ukuran Puzzle:</label>
                 <select id="gridSizeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                     <option value="3" selected>3x3</option>
                     <option value="4">4x4</option>
@@ -304,34 +313,42 @@
             </div>
 
             <div class="text-center">
-                <label for="puzzleModeSelect" class="block text-lg font-medium text-gray-700 mb-2">Pilih Mode Puzzle:</label>
+                <label for="puzzleModeSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectPuzzleModeLabel">Pilih Mode Puzzle:</label>
                 <select id="puzzleModeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                    <option value="sliding" selected>Sliding Puzzle (Default)</option>
-                    <option value="jigsaw">Jigsaw (Tanpa Nomor)</option>
+                    <option value="sliding" selected data-key="slidingPuzzleOption">Sliding Puzzle (Default)</option>
+                    <option value="jigsaw" data-key="jigsawOption">Jigsaw (Tanpa Nomor)</option>
+                </select>
+            </div>
+            
+            <div class="text-center">
+                <label for="languageSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectLanguageLabel">Pilih Bahasa:</label>
+                <select id="languageSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <option value="id" selected>Bahasa Indonesia</option>
+                    <option value="en">English</option>
                 </select>
             </div>
         </div>
         
         <div class="flex justify-center gap-8 mb-4 text-center">
             <div class="text-lg font-semibold text-gray-700">
-                Gerakan: <span id="moveCounter" class="text-indigo-700">0</span>
+                <span data-key="movesLabel">Gerakan</span>: <span id="moveCounter" class="text-indigo-700">0</span>
             </div>
             <div class="text-lg font-semibold text-gray-700">
-                Waktu: <span id="timerDisplay" class="text-indigo-700">00:00</span>
+                <span data-key="timeLabel">Waktu</span>: <span id="timerDisplay" class="text-indigo-700">00:00</span>
             </div>
         </div>
 
         <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
-            <button id="shuffleButton" class="btn-primary-gradient text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button id="shuffleButton" class="btn-primary-gradient text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" data-key="shuffleButton">
                 Acak
             </button>
-            <button id="undoButton" class="btn-purple text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2">
+            <button id="undoButton" class="btn-purple text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2" data-key="undoButton">
                 Urungkan
             </button>
-            <button id="solveButton" class="btn-green-solve text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+            <button id="solveButton" class="btn-green-solve text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2" data-key="solveButton">
                 Selesaikan Otomatis
             </button>
-            <button id="resetButton" class="btn-gray text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+            <button id="resetButton" class="btn-gray text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" data-key="resetButton">
                 Reset Puzzle
             </button>
         </div>
@@ -343,24 +360,29 @@
         </div>
 
         <div class="text-center mt-4 flex flex-wrap justify-center gap-4">
-            <button id="viewOriginalImageButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+            <button id="viewOriginalImageButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" data-key="viewOriginalImageButton">
                 Lihat Gambar Asli
             </button>
-            <button id="replayButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" style="display: none;">
+            <button id="replayButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" style="display: none;" data-key="replayButton">
                 Putar Ulang Gerakan
             </button>
         </div>
         
-        <p class="text-center text-gray-600 text-sm italic mt-4">Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.</p>
+        <p class="text-center text-gray-600 text-sm italic mt-4" data-key="clickInstructions">Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.</p>
 
         <div class="mt-6">
-            <h2 class="text-xl font-semibold text-gray-700 mb-2 text-center">Riwayat Gerakan Anda:</h2>
+            <h2 class="text-xl font-semibold text-gray-700 mb-2 text-center" data-key="moveHistoryTitle">Riwayat Gerakan Anda:</h2>
             <div id="moveHistoryContainer" class="bg-gray-50 p-3 rounded-lg shadow-inner">
                 <ul id="moveHistoryList" class="list-disc list-inside text-gray-700">
                     <!-- Move history items will be appended here -->
                 </ul>
             </div>
         </div>
+
+        <!-- Potensi Area Iklan (Contoh: Banner Bawah) -->
+        <!-- <div class="w-full h-20 bg-gray-200 flex items-center justify-center text-gray-600 mt-6 rounded-lg">
+            AREA IKLAN (728x90)
+        </div> -->
         
     </div>
 
@@ -368,8 +390,8 @@
     <div id="confirmationBoxContainer"></div>
 
     <div id="originalImageDisplayContainer" class="original-image-display-container">
-        <img id="fullImageDisplay" src="" alt="Gambar Asli Puzzle">
-        <button id="backToPuzzleButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+        <img id="fullImageDisplay" src="" alt="Gambar Asli">
+        <button id="backToPuzzleButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md" data-key="backToPuzzleButton">
             Kembali ke Puzzle
         </button>
     </div>
@@ -377,13 +399,13 @@
     <!-- Cropper Modal -->
     <div id="imageCropperContainer" class="cropper-modal" style="display: none;">
         <div class="cropper-content">
-            <h2 class="text-2xl font-bold text-center text-indigo-700 mb-4">Pilih Area Puzzle</h2>
+            <h2 class="text-2xl font-bold text-center text-indigo-700 mb-4" data-key="cropTitle">Pilih Area Puzzle</h2>
             <canvas id="cropperCanvas"></canvas>
             <div class="cropper-controls">
-                <button id="confirmCropButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                <button id="confirmCropButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-lg shadow-md" data-key="confirmCropButton">
                     Konfirmasi Potongan
                 </button>
-                <button id="cancelCropButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-lg shadow-md">
+                <button id="cancelCropButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-lg shadow-md" data-key="cancelCropButton">
                     Batal
                 </button>
             </div>
@@ -393,7 +415,7 @@
     <!-- Loading Overlay -->
     <div id="loadingOverlay">
         <div class="spinner"></div>
-        <p id="loadingMessage">Memuat...</p>
+        <p id="loadingMessage" data-key="loadingMessage">Memuat...</p>
     </div>
 
 
@@ -401,6 +423,7 @@
         const imageUpload = document.getElementById('imageUpload');
         const gridSizeSelect = document.getElementById('gridSizeSelect');
         const puzzleModeSelect = document.getElementById('puzzleModeSelect');
+        const languageSelect = document.getElementById('languageSelect'); // New
         const shuffleButton = document.getElementById('shuffleButton');
         const undoButton = document.getElementById('undoButton');
         const solveButton = document.getElementById('solveButton');
@@ -432,7 +455,6 @@
         // Sample image elements
         const sampleImageContainers = document.querySelectorAll('.sample-image-container');
         let originalImage = new Image();
-        let puzzlePieces = [];
         let gridSize = parseInt(gridSizeSelect.value);
         let currentPuzzleMode = puzzleModeSelect.value;
         const fixedCanvasSize = 1080; // Fixed to 1080x1080
@@ -471,8 +493,6 @@
         };
         
         const maxStatesToExploreForBFS = 1000000;
-        // For hover effects on puzzle pieces
-        let hoveredPiece = null;
 
         // Cropping variables
         let cropRect = { x: 0, y: 0, size: 0 }; // x, y, width/height of the square crop area
@@ -492,9 +512,149 @@
         let initialShuffledStateForReplay = []; // Stores the piece configuration right after shuffling
         let isReplaying = false; // New flag for replay mode
 
-        let moveHistory = [];
-        const maxMoveHistory = 10;
+        let moveHistory = []; // Added back
+        const maxMoveHistory = 10; // Added back
 
+        // Multi-language translations
+        const translations = {
+            id: {
+                appTitle: "Sliding Puzzle Interaktif",
+                uploadPhotoLabel: "Unggah Foto Anda:",
+                orChooseSampleLabel: "Atau Pilih Gambar Contoh:",
+                selectPuzzleSizeLabel: "Pilih Ukuran Puzzle:",
+                selectPuzzleModeLabel: "Pilih Mode Puzzle:",
+                slidingPuzzleOption: "Sliding Puzzle (Default)",
+                jigsawOption: "Jigsaw (Tanpa Nomor)",
+                selectLanguageLabel: "Pilih Bahasa:",
+                movesLabel: "Gerakan",
+                timeLabel: "Waktu",
+                shuffleButton: "Acak",
+                undoButton: "Urungkan",
+                solveButton: "Selesaikan Otomatis",
+                resetButton: "Reset Puzzle",
+                viewOriginalImageButton: "Lihat Gambar Asli",
+                replayButton: "Putar Ulang Gerakan",
+                clickInstructions: "Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.",
+                moveHistoryTitle: "Riwayat Gerakan Anda:",
+                noMovesYet: "Belum ada gerakan.",
+                backToPuzzleButton: "Kembali ke Puzzle",
+                cropTitle: "Pilih Area Puzzle",
+                confirmCropButton: "Konfirmasi Potongan",
+                cancelCropButton: "Batal",
+                loadingMessage: "Memuat...",
+                loadingImage: "Memuat gambar...",
+                loadingSampleImage: "Memuat gambar contoh...",
+                shufflingPuzzle: "Mengacak puzzle...",
+                solvingPuzzle: "Mencari solusi otomatis...",
+                solvingPuzzleWarning: "Peringatan: 5x5 Otomatis Sangat Lambat! Harap Bersabar.",
+                solutionFound: "Solusi ditemukan! Memainkan {moves} gerakan...",
+                solutionNotFound: "Solusi tidak ditemukan dalam batas waktu/komputasi. Coba acak ulang.",
+                failedToLoadImage: "Gagal memuat gambar. Pastikan ini adalah file gambar yang valid.",
+                failedToLoadSampleImage: "Gagal memuat gambar contoh. Silakan coba lagi atau unggah gambar Anda sendiri.",
+                noMovesToUndo: "Tidak ada gerakan untuk di-undo.",
+                resetConfirmation: "Apakah Anda yakin ingin mereset puzzle? Progres Anda akan hilang.",
+                uploadImageFirst: "Silakan unggah gambar terlebih dahulu.",
+                puzzleSolved: "Selamat! Puzzle telah selesai dalam {moves} gerakan dan waktu {time}!",
+                noMovesToReplay: "Tidak ada gerakan untuk diputar ulang.",
+                replayFinished: "Pemutaran ulang selesai.",
+                pieceMoved: "Potongan {pieceNumber} bergerak {direction}",
+                directionRight: "Kanan",
+                directionLeft: "Kiri",
+                directionDown: "Bawah",
+                directionUp: "Atas",
+                autoSolveError: "Terjadi kesalahan saat memainkan solusi.",
+                autoSolveFailure: "Gagal menemukan puzzle yang dapat dipecahkan setelah beberapa kali percobaan. Harap coba lagi atau unggah gambar yang berbeda."
+            },
+            en: {
+                appTitle: "Interactive Sliding Puzzle",
+                uploadPhotoLabel: "Upload Your Photo:",
+                orChooseSampleLabel: "Or Choose a Sample Image:",
+                selectPuzzleSizeLabel: "Select Puzzle Size:",
+                selectPuzzleModeLabel: "Select Puzzle Mode:",
+                slidingPuzzleOption: "Sliding Puzzle (Default)",
+                jigsawOption: "Jigsaw (No Numbers)",
+                selectLanguageLabel: "Select Language:",
+                movesLabel: "Moves",
+                timeLabel: "Time",
+                shuffleButton: "Shuffle",
+                undoButton: "Undo",
+                solveButton: "Auto-Solve",
+                resetButton: "Reset Puzzle",
+                viewOriginalImageButton: "View Original Image",
+                replayButton: "Replay Moves",
+                clickInstructions: "Click a piece adjacent to the empty space to move it.",
+                moveHistoryTitle: "Your Move History:",
+                noMovesYet: "No moves yet.",
+                backToPuzzleButton: "Back to Puzzle",
+                cropTitle: "Select Puzzle Area",
+                confirmCropButton: "Confirm Crop",
+                cancelCropButton: "Cancel",
+                loadingMessage: "Loading...",
+                loadingImage: "Loading image...",
+                loadingSampleImage: "Loading sample image...",
+                shufflingPuzzle: "Shuffling puzzle...",
+                solvingPuzzle: "Searching for auto-solve solution...",
+                solvingPuzzleWarning: "Warning: 5x5 Auto-Solve is Very Slow! Please Be Patient.",
+                solutionFound: "Solution found! Playing {moves} moves...",
+                solutionNotFound: "Solution not found within time/computation limits. Try shuffling again.",
+                failedToLoadImage: "Failed to load image. Please ensure it's a valid image file.",
+                failedToLoadSampleImage: "Failed to load sample image. Please try again or upload your own image.",
+                noMovesToUndo: "No moves to undo.",
+                resetConfirmation: "Are you sure you want to reset the puzzle? Your progress will be lost.",
+                uploadImageFirst: "Please upload an image first.",
+                puzzleSolved: "Congratulations! Puzzle solved in {moves} moves and {time}!",
+                noMovesToReplay: "No moves to replay.",
+                replayFinished: "Replay finished.",
+                pieceMoved: "Piece {pieceNumber} moved {direction}",
+                directionRight: "Right",
+                directionLeft: "Left",
+                directionDown: "Down",
+                directionUp: "Up",
+                autoSolveError: "An error occurred while playing the solution.",
+                autoSolveFailure: "Failed to find a solvable puzzle after several attempts. Please try again or upload a different image."
+            }
+        };
+
+        let currentLanguage = localStorage.getItem('puzzleLanguage') || 'id'; // Default to Indonesian
+
+        function getTranslation(key, replacements = {}) {
+            let text = translations[currentLanguage][key] || key; // Fallback to key if not found
+            for (const placeholder in replacements) {
+                text = text.replace(`{${placeholder}}`, replacements[placeholder]);
+            }
+            return text;
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-key]').forEach(element => {
+                const key = element.dataset.key;
+                if (element.tagName === 'OPTION') {
+                    // Handle options separately as they might have value attributes
+                    element.textContent = getTranslation(key);
+                } else {
+                    element.textContent = getTranslation(key);
+                }
+            });
+            // Update specific elements that don't use data-key or need dynamic content
+            document.title = getTranslation('appTitle');
+            // Update placeholder text for image upload
+            originalImage.src = `https://placehold.co/${fixedCanvasSize}x${fixedCanvasSize}/e0e7ff/4f46e5?text=${encodeURIComponent(getTranslation('uploadPhotoLabel').replace(':', ''))}%0A(${gridSize}x${gridSize})`;
+            // Update solve status if it's not empty
+            if (solveStatusDisplay.textContent) {
+                // Re-evaluate current solve status to update language
+                if (shuffling) {
+                    solveStatusDisplay.textContent = getTranslation('shufflingPuzzle');
+                } else if (solving) {
+                    solveStatusDisplay.textContent = getTranslation('solvingPuzzle');
+                } else if (isReplaying) {
+                    solveStatusDisplay.textContent = getTranslation('replayFinished'); // Or a specific replay status
+                } else if (!isShuffled && puzzleReady && moves > 0) {
+                    // If solved, re-display win message in new language
+                    solveStatusDisplay.textContent = getTranslation('puzzleSolved', { moves: moves, time: timerDisplay.textContent });
+                }
+            }
+            renderMoveHistory(); // Re-render move history to update language
+        }
 
         // =====================================================================
         // Utility function for notifications (replaces alert())
@@ -504,7 +664,7 @@
             messageBox.className = 'message-box';
             messageBox.innerHTML = `
                 <p class="text-xl font-semibold mb-4">${message}</p>
-                <button id="closeMessageBox" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300">Oke</button>
+                <button id="closeMessageBox" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300">${getTranslation('okButton')}</button>
             `;
             const overlay = document.createElement('div');
             overlay.className = 'overlay';
@@ -526,8 +686,8 @@
             confirmationBox.innerHTML = `
                 <p class="text-xl font-semibold mb-6">${message}</p>
                 <div class="flex justify-center gap-4">
-                    <button id="confirmButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-md transition duration-300">Ya</button>
-                    <button id="cancelButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-md transition duration-300">Batal</button>
+                    <button id="confirmButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-md transition duration-300">${getTranslation('yesButton')}</button>
+                    <button id="cancelButton" class="btn-gray text-white font-semibold py-2 px-4 rounded-md transition duration-300">${getTranslation('cancelButton')}</button>
                 </div>
             `;
             const overlay = document.createElement('div');
@@ -548,8 +708,8 @@
         // =====================================================================
         // Loading Indicator Functions
         // =====================================================================
-        function showLoading(message = "Memuat...") {
-            loadingMessage.textContent = message;
+        function showLoading(messageKey) {
+            loadingMessage.textContent = getTranslation(messageKey);
             loadingOverlay.style.display = 'flex';
         }
 
@@ -607,7 +767,7 @@
         imageUpload.addEventListener('change', (event) => {
             const file = event.target.files[0];
             if (file) {
-                showLoading("Memuat gambar...");
+                showLoading('loadingImage');
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     originalImage.onload = () => {
@@ -622,7 +782,7 @@
                     };
                     originalImage.onerror = () => {
                         hideLoading();
-                        showMessageBox("Gagal memuat gambar. Pastikan ini adalah file gambar yang valid.");
+                        showMessageBox(getTranslation('failedToLoadImage'));
                         enableAllButtons();
                     };
                     originalImage.src = e.target.result;
@@ -640,7 +800,7 @@
 
                 if (shuffling || solving || isProcessingClick || isReplaying) return; // Disable during replay
 
-                showLoading("Memuat gambar contoh...");
+                showLoading('loadingSampleImage');
                 disableAllButtons(); // Disable main buttons while loading/cropping
 
                 originalImage.onload = () => {
@@ -655,7 +815,7 @@
                 };
                 originalImage.onerror = () => {
                     hideLoading();
-                    showMessageBox("Gagal memuat gambar contoh. Silakan coba lagi atau unggah gambar Anda sendiri.");
+                    showMessageBox(getTranslation('failedToLoadSampleImage'));
                     enableAllButtons();
                 };
                 originalImage.src = imageUrl;
@@ -674,7 +834,7 @@
                 await animateShuffle();
             } else {
                 const placeholderSize = fixedCanvasSize;
-                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=Unggah%20Foto%0A(${gridSize}x${gridSize})`;
+                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(getTranslation('uploadPhotoLabel').replace(':', ''))}%0A(${gridSize}x${gridSize})`;
             }
         });
 
@@ -687,6 +847,13 @@
             } else {
                 drawPuzzle();
             }
+        });
+
+        // Language selector
+        languageSelect.addEventListener('change', (event) => {
+            currentLanguage = event.target.value;
+            localStorage.setItem('puzzleLanguage', currentLanguage);
+            applyTranslations();
         });
 
         // =====================================================================
@@ -781,15 +948,6 @@
                     ctx.lineWidth = 2;
                     ctx.strokeRect(piece.currentX, piece.currentY, pieceWidth, pieceHeight);
 
-                    // Hover effect (only when no animation or auto-solve/replay in progress)
-                    if (hoveredPiece && hoveredPiece.id === piece.id && !isProcessingClick && !solving && !shuffling && !isReplaying) {
-                        ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'; // Semi-transparent overlay
-                        ctx.fillRect(piece.currentX, piece.currentY, pieceWidth, pieceHeight);
-                        ctx.strokeStyle = '#9333ea'; // Purple for hover border
-                        ctx.lineWidth = 3;
-                        ctx.strokeRect(piece.currentX, piece.currentY, pieceWidth, pieceHeight);
-                    }
-
                     // Draw numbers only if not in Jigsaw mode
                     if (currentPuzzleMode === 'sliding') {
                         ctx.fillStyle = '#312e81';
@@ -821,9 +979,9 @@
                 return;
             }
             shuffling = true;
-            showLoading("Mengacak puzzle...");
+            showLoading('shufflingPuzzle');
             disableAllButtons();
-            solveStatusDisplay.textContent = 'Mengacak puzzle...';
+            solveStatusDisplay.textContent = getTranslation('shufflingPuzzle');
             const originalBlankId = gridSize * gridSize - 1; // ID of the blank piece
             const { numMoves, visualDelay } = getShuffleParams(gridSize);
             const shuffleStartTime = Date.now();
@@ -938,20 +1096,20 @@
                 shuffling = false;
                 enableAllButtons();
 
-                solveStatusDisplay.textContent = `Berhasil mengacak ${numMoves} gerakan dalam ${elapsedTimeSeconds} detik.`;
+                solveStatusDisplay.textContent = `${getTranslation('shufflingPuzzle')} ${numMoves} ${getTranslation('movesIn')} ${elapsedTimeSeconds} ${getTranslation('seconds')}.`;
                 
             } else {
                 shuffling = false;
                 enableAllButtons();
-                solveStatusDisplay.textContent = `Gagal menemukan puzzle yang dapat dipecahkan setelah ${maxShuffleAttempts} percobaan. Coba acak ulang.`;
-                showMessageBox("Gagal menemukan puzzle yang dapat dipecahkan setelah beberapa kali percobaan. Harap coba lagi atau unggah gambar yang berbeda.");
+                solveStatusDisplay.textContent = getTranslation('solutionNotFound');
+                showMessageBox(getTranslation('autoSolveFailure'));
                 // Revert to initial state if cropping was done
                 if (finalSourceWidth > 0 && finalSourceHeight > 0) {
                     initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
                 } else {
                     // If no image was properly loaded/cropped, show placeholder
                     const placeholderSize = fixedCanvasSize;
-                    originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=Unggah%20Foto%0A(${gridSize}x${gridSize})`;
+                    originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(getTranslation('uploadPhotoLabel').replace(':', ''))}%0A(${gridSize}x${gridSize})`;
                 }
             }
         }
@@ -988,7 +1146,7 @@
                 drawPuzzle();
                 puzzleModeSelect.value = currentPuzzleMode;
             } else {
-                showMessageBox("Tidak ada gerakan untuk di-undo.");
+                showMessageBox(getTranslation('noMovesToUndo'));
             }
         });
 
@@ -998,9 +1156,9 @@
         resetButton.addEventListener('click', () => {
             if (isReplaying) return; // Disable during replay
 
-            showConfirmationBox("Apakah Anda yakin ingin mereset puzzle? Progres Anda akan hilang.", () => {
+            showConfirmationBox(getTranslation('resetConfirmation'), () => {
                 if (!puzzleReady) {
-                    showMessageBox("Silakan unggah gambar terlebih dahulu.");
+                    showMessageBox(getTranslation('uploadImageFirst'));
                     return;
                 }
 
@@ -1091,7 +1249,7 @@
                 const targetXForClicked = blankPiece.currentX;
                 const targetYForClicked = blankPiece.currentY;
                 const targetXForBlank = clickedPiece.currentX;
-                const targetYForBlank = blankPiece.currentY; // Corrected: should be blankPiece.currentY
+                const targetYForBlank = clickedPiece.currentY;
 
                 // Record move for replay
                 const fromIndex = clickedPieceRow * gridSize + clickedPieceCol;
@@ -1125,61 +1283,6 @@
             }
         });
 
-        // =====================================================================
-        // Handle Mouse Hover (for visual effects)
-        // =====================================================================
-        puzzleCanvas.addEventListener('mousemove', (event) => {
-            if (!puzzleReady || !isShuffled || isProcessingClick || solving || shuffling || isReplaying) { // Disable during replay
-                if (hoveredPiece) {
-                    hoveredPiece = null;
-                    drawPuzzle();
-                }
-                return;
-            }
-
-            const rect = puzzleCanvas.getBoundingClientRect();
-            const scaleX = puzzleCanvas.width / rect.width;
-            const scaleY = puzzleCanvas.height / rect.height;
-
-            const mouseX = (event.clientX - rect.left) * scaleX;
-            const mouseY = (event.clientY - rect.top) * scaleY;
-
-            const currentHoverCol = Math.floor(mouseX / pieceWidth);
-            const currentHoverRow = Math.floor(mouseY / pieceHeight);
-
-            const potentialHoveredPiece = puzzlePieces.find(p => 
-                Math.abs(p.currentX - (currentHoverCol * pieceWidth)) < 1 && 
-                Math.abs(p.currentY - (currentHoverRow * pieceHeight)) < 1
-            );
-            
-            let newHoveredPiece = null;
-            if (potentialHoveredPiece && !potentialHoveredPiece.isBlank) {
-                const blankPiece = puzzlePieces.find(p => p.isBlank);
-                const hoveredPieceCol = Math.round(potentialHoveredPiece.currentX / pieceWidth);
-                const hoveredPieceRow = Math.round(potentialHoveredPiece.currentY / pieceHeight);
-                const blankPieceCol = Math.round(blankPiece.currentX / pieceWidth);
-                const blankPieceRow = Math.round(blankPiece.currentY / pieceHeight);
-
-                const isAdjacent = (
-                    (Math.abs(hoveredPieceCol - blankPieceCol) === 1 && hoveredPieceRow === blankPieceRow) ||
-                    (Math.abs(hoveredPieceRow - blankPieceRow) === 1 && hoveredPieceCol === blankPieceCol)
-                );
-                if (isAdjacent) {
-                    newHoveredPiece = potentialHoveredPiece;
-                }
-            }
-
-            if (newHoveredPiece !== hoveredPiece) {
-                hoveredPiece = newHoveredPiece;
-                drawPuzzle();
-            }
-        });
-        puzzleCanvas.addEventListener('mouseleave', () => {
-            if (hoveredPiece) {
-                hoveredPiece = null;
-                drawPuzzle();
-            }
-        });
         // =====================================================================
         // Piece Movement Animation Function (for manual & auto-solve moves)
         // =====================================================================
@@ -1261,551 +1364,376 @@
             if (solved) {
                 isShuffled = false;
                 stopTimer();
-                hasMadeFirstMove = false;
-                puzzleCanvas.classList.add('puzzle-solved-animation');
-                solveStatusDisplay.textContent = `Selamat! Anda memecahkan puzzle dalam ${moves} gerakan dan ${timerDisplay.textContent} detik!`;
-                showMessageBox(`Selamat! Anda memecahkan puzzle dalam ${moves} gerakan dan ${timerDisplay.textContent} detik!`);
-                replayButton.style.display = 'inline-block'; // Show replay button
+                hasMadeFirstMove = false; // Reset first move flag
+
+                // Ensure the blank piece is visually at the last position for a truly solved look
+                const blankPiece = puzzlePieces.find(p => p.isBlank);
+                const blankPieceCurrentIndexInArray = puzzlePieces.indexOf(blankPiece);
+                const lastCorrectArrayPosition = puzzlePieces.length - 1;
+                if (blankPieceCurrentIndexInArray !== lastCorrectArrayPosition) {
+                    const pieceAtLastPosition = puzzlePieces[lastCorrectArrayPosition];
+                    puzzlePieces[lastCorrectArrayPosition] = blankPiece;
+                    puzzlePieces[blankPieceCurrentIndexInArray] = pieceAtLastPosition;
+
+                    blankPiece.currentX = (lastCorrectArrayPosition % gridSize) * pieceWidth;
+                    blankPiece.currentY = Math.floor(lastCorrectArrayPosition / gridSize) * pieceHeight;
+                    pieceAtLastPosition.currentX = (blankPieceCurrentIndexInArray % gridSize) * pieceWidth;
+                    pieceAtLastPosition.currentY = Math.floor(blankPieceCurrentIndexInArray / gridSize) * pieceHeight;
+                }
+                
+                drawPuzzle();
+                puzzleCanvas.classList.add('puzzle-solved-animation'); // Apply bounce animation
+                
+                showMessageBox(getTranslation('puzzleSolved', { moves: moves, time: timerDisplay.textContent }));
+                
                 enableAllButtons();
+                solving = false;
+                shuffling = false;
+                isProcessingClick = false;
+                
+                // Show replay button if there are moves to replay
+                if (replayMoves.length > 0) {
+                    replayButton.style.display = 'inline-block';
+                }
             }
         }
 
         // =====================================================================
-        // Breadth-First Search (BFS) for Auto-Solve
+        // Disable all interactive buttons
         // =====================================================================
-        function solvePuzzleBFS() {
+        function disableAllButtons() {
+            shuffleButton.disabled = true;
+            undoButton.disabled = true;
+            solveButton.disabled = true;
+            resetButton.disabled = false; // Reset button always remains active
+            imageUpload.disabled = true;
+            gridSizeSelect.disabled = true;
+            puzzleModeSelect.disabled = true;
+            languageSelect.disabled = true; // Disable language select during operations
+            viewOriginalImageButton.disabled = true;
+            replayButton.disabled = true; // Disable replay button during operations
+            sampleImageContainers.forEach(container => container.style.pointerEvents = 'none');
+            sampleImageContainers.forEach(container => container.style.opacity = '0.5');
+        }
+
+        // =====================================================================
+        // Enable all interactive buttons
+        // =====================================================================
+        function enableAllButtons() {
+            shuffleButton.disabled = false;
+            undoButton.disabled = false;
+            solveButton.disabled = false; 
+            resetButton.disabled = false;
+            imageUpload.disabled = false;
+            gridSizeSelect.disabled = false;
+            puzzleModeSelect.disabled = false;
+            languageSelect.disabled = false; // Enable language select
+            viewOriginalImageButton.disabled = false;
+            replayButton.disabled = false; // Enable replay button
+            sampleImageContainers.forEach(container => container.style.pointerEvents = 'auto');
+            sampleImageContainers.forEach(container => container.style.opacity = '1');
+        }
+
+        // =====================================================================
+        // Function to auto-solve puzzle using BFS (Breadth-First Search)
+        // =====================================================================
+        solveButton.addEventListener('click', () => {
+            showConfirmationBox(getTranslation('solveConfirmation'), async () => {
+                await solvePuzzleAutomatically();
+            });
+        });
+
+        async function solvePuzzleAutomatically() {
             if (!puzzleReady || !isShuffled || solving || shuffling || isReplaying) { // Disable during replay
                 return;
             }
 
-            showConfirmationBox("Memecahkan puzzle secara otomatis akan menghapus riwayat gerakan Anda. Lanjutkan?", async () => {
-                solving = true;
-                showLoading("Memecahkan puzzle...");
-                disableAllButtons();
-                solveStatusDisplay.textContent = 'Mencari solusi...';
+            solving = true;
+            isProcessingClick = true;
+            hasMadeFirstMove = true; // Auto-solve implies moves are being made, so start timer
+            startTimer();
+            if (gridSize === 5) {
+                showLoading('solvingPuzzleWarning');
+            } else {
+                showLoading('solvingPuzzle');
+            }
+            
+            disableAllButtons();
+            resetButton.disabled = false;
 
-                // Save current state for undo/replay purposes if user cancels auto-solve
-                const currentStateBeforeSolve = puzzlePieces.map(p => ({ ...p }));
-                const currentMovesBeforeSolve = moves;
-                const currentIsShuffledBeforeSolve = isShuffled;
-                const currentPuzzleModeBeforeSolve = currentPuzzleMode;
+            stopTimer(); // Temporarily stop timer during search, will restart for animation playback
 
-                // Define the goal state (pieces sorted by their original ID)
-                const goalState = puzzlePieces.map(p => ({ ...p, currentX: p.originalIndex % gridSize * pieceWidth, currentY: Math.floor(p.originalIndex / gridSize) * pieceHeight }))
-                                            .sort((a, b) => a.originalIndex - b.originalIndex);
+            const queue = [];
+            const visited = new Set();
 
-                // Helper to convert piece positions to a unique string key for visited states
-                const getStateKey = (pieces) => {
-                    return pieces.map(p => {
-                        const col = Math.round(p.currentX / pieceWidth);
-                        const row = Math.round(p.currentY / pieceHeight);
-                        return `${p.id}:${row},${col}`;
-                    }).sort().join('|'); // Sort to ensure consistent key regardless of array order
-                };
-
-                const startStateKey = getStateKey(puzzlePieces);
-                const goalStateKey = getStateKey(goalState);
-
-                if (startStateKey === goalStateKey) {
-                    hideLoading();
-                    solving = false;
-                    enableAllButtons();
-                    solveStatusDisplay.textContent = 'Puzzle sudah terpecahkan!';
-                    showMessageBox("Puzzle sudah terpecahkan!");
-                    return;
-                }
-
-                const queue = [{ pieces: puzzlePieces.map(p => ({ ...p })), path: [] }];
-                const visited = new Set([startStateKey]);
-                let solutionPath = null;
-                let statesExplored = 0;
-
-                while (queue.length > 0 && statesExplored < maxStatesToExploreForBFS) {
-                    const { pieces: currentPieces, path: currentPath } = queue.shift();
-                    statesExplored++;
-
-                    const blankPiece = currentPieces.find(p => p.isBlank);
-                    const blankCol = Math.round(blankPiece.currentX / pieceWidth);
-                    const blankRow = Math.round(blankPiece.currentY / pieceHeight);
-
-                    const movesToCheck = [
-                        { dr: -1, dc: 0, direction: 'atas' }, // Up
-                        { dr: 1, dc: 0, direction: 'bawah' }, // Down
-                        { dr: 0, dc: -1, direction: 'kiri' }, // Left
-                        { dr: 0, dc: 1, direction: 'kanan' }  // Right
-                    ];
-
-                    for (const move of movesToCheck) {
-                        const newRow = blankRow + move.dr;
-                        const newCol = blankCol + move.dc;
-
-                        if (newRow >= 0 && newRow < gridSize && newCol >= 0 && newCol < gridSize) {
-                            const pieceToSwap = currentPieces.find(p => 
-                                Math.round(p.currentX / pieceWidth) === newCol && 
-                                Math.round(p.currentY / pieceHeight) === newRow
-                            );
-
-                            if (pieceToSwap && !pieceToSwap.isBlank) {
-                                const nextPieces = currentPieces.map(p => ({ ...p }));
-                                const nextBlankPiece = nextPieces.find(p => p.isBlank);
-                                const nextPieceToSwap = nextPieces.find(p => p.id === pieceToSwap.id);
-
-                                // Swap positions in the new state
-                                const tempX = nextPieceToSwap.currentX;
-                                const tempY = nextPieceToSwap.currentY;
-
-                                nextPieceToSwap.currentX = nextBlankPiece.currentX;
-                                nextPieceToSwap.currentY = nextBlankPiece.currentY;
-
-                                nextBlankPiece.currentX = tempX;
-                                nextBlankPiece.currentY = tempY;
-
-                                // Update array order for consistency with getStateKey
-                                const pieceToSwapIndexInArray = nextPieces.indexOf(nextPieceToSwap);
-                                const blankIndexInArray = nextPieces.indexOf(nextBlankPiece);
-                                [nextPieces[pieceToSwapIndexInArray], nextPieces[blankIndexInArray]] = 
-                                [nextPieces[blankIndexInArray], nextPieces[pieceToSwapIndexInArray]];
-
-                                const nextStateKey = getStateKey(nextPieces);
-
-                                if (!visited.has(nextStateKey)) {
-                                    visited.add(nextStateKey);
-                                    const newPath = [...currentPath, { pieceId: pieceToSwap.id, fromCol: newCol, fromRow: newRow, toCol: blankCol, toRow: blankRow, direction: move.direction }];
-                                    if (nextStateKey === goalStateKey) {
-                                        solutionPath = newPath;
-                                        break;
-                                    }
-                                    queue.push({ pieces: nextPieces, path: newPath });
-                                }
-                            }
-                        }
-                    }
-                    if (solutionPath) break;
-                }
-                
-                hideLoading();
-
-                if (solutionPath) {
-                    solveStatusDisplay.textContent = `Solusi ditemukan dalam ${solutionPath.length} gerakan. Memulai animasi...`;
-                    moves = 0; // Reset moves for auto-solve animation
-                    updateMoveCounter();
-                    stopTimer(); // Stop timer during auto-solve animation
-                    hasMadeFirstMove = false; // Reset first move flag
-
-                    // Reset puzzle to the initial shuffled state (before auto-solve)
-                    puzzlePieces = currentStateBeforeSolve.map(p => ({ ...p }));
-                    drawPuzzle();
-                    undoStack = []; // Clear undo stack for auto-solve
-                    replayMoves = []; // Clear for fresh replay after auto-solve
-                    moveHistory = []; // Clear move history for auto-solve
-                    renderMoveHistory();
-
-                    const autoSolveStepDelay = getAutoSolveStepDelay(gridSize);
-
-                    for (let i = 0; i < solutionPath.length; i++) {
-                        if (!solving) { // Allow stopping auto-solve
-                            break;
-                        }
-                        const move = solutionPath[i];
-                        const pieceToMove = puzzlePieces.find(p => p.id === move.pieceId);
-                        const blankPiece = puzzlePieces.find(p => p.isBlank);
-
-                        if (!pieceToMove || !blankPiece) {
-                            console.error("Error: Piece or blank not found during auto-solve animation.");
-                            solving = false;
-                            enableAllButtons();
-                            solveStatusDisplay.textContent = 'Terjadi kesalahan saat memecahkan puzzle.';
-                            break;
-                        }
-
-                        const targetXForPiece = blankPiece.currentX;
-                        const targetYForPiece = blankPiece.currentY;
-                        const targetXForBlank = pieceToMove.currentX;
-                        const targetYForBlank = pieceToMove.currentY;
-
-                        // Record move for replay
-                        replayMoves.push({ pieceId: pieceToMove.id, fromIndex: move.fromRow * gridSize + move.fromCol, toIndex: move.toRow * gridSize + move.toCol });
-                        addMoveToHistory(pieceToMove.id + 1, move.fromRow * gridSize + move.fromCol, move.toRow * gridSize + move.toCol, gridSize);
-
-
-                        await new Promise(resolve => {
-                            animatePieceMove(
-                                pieceToMove, targetXForPiece, targetYForPiece,
-                                blankPiece, targetXForBlank, targetYForBlank,
-                                () => {
-                                    pieceToMove.currentX = targetXForPiece;
-                                    pieceToMove.currentY = targetYForPiece;
-                                    blankPiece.currentX = targetXForBlank;
-                                    blankPiece.currentY = targetYForBlank;
-
-                                    const pieceToMoveIndexInArray = puzzlePieces.indexOf(pieceToMove);
-                                    const blankIndexInArray = puzzlePieces.indexOf(blankPiece);
-                                    [puzzlePieces[pieceToMoveIndexInArray], puzzlePieces[blankIndexInArray]] = 
-                                    [puzzlePieces[blankIndexInArray], puzzlePieces[pieceToMoveIndexInArray]];
-
-                                    moves++;
-                                    updateMoveCounter();
-                                    drawPuzzle();
-                                    resolve();
-                                }
-                            );
-                        });
-                        await new Promise(resolve => setTimeout(resolve, autoSolveStepDelay)); // Delay between moves
-                    }
-
-                    solving = false;
-                    enableAllButtons();
-                    checkWin(); // Final check to trigger win animation/message
-                } else {
-                    solving = false;
-                    enableAllButtons();
-                    solveStatusDisplay.textContent = 'Tidak dapat menemukan solusi dalam batas waktu. Coba acak ulang.';
-                    showMessageBox("Tidak dapat menemukan solusi dalam batas waktu. Mungkin puzzle terlalu kompleks atau sudah terpecahkan.");
-                }
+            // Create a state array based on current positions (map original IDs to their current 1D index)
+            const initialPiecesState = puzzlePieces.map(p => {
+                const col = Math.round(p.currentX / pieceWidth);
+                const row = Math.round(p.currentY / pieceHeight);
+                return { id: p.id, currentPos: row * gridSize + col };
             });
-        }
+            initialPiecesState.sort((a, b) => a.currentPos - b.currentPos); // Sort by current position to get current "reading" order
 
-        solveButton.addEventListener('click', solvePuzzleBFS);
+            const initialOrderedIds = initialPiecesState.map(p => p.id);
+            const blankId = puzzlePieces.find(p => p.isBlank).id;
+            const initialBlankPos = initialOrderedIds.indexOf(blankId);
 
-        // =====================================================================
-        // View Original Image
-        // =====================================================================
-        viewOriginalImageButton.addEventListener('click', () => {
-            if (!puzzleReady) {
-                showMessageBox("Silakan unggah gambar terlebih dahulu untuk melihat aslinya.");
+            queue.push({ state: initialOrderedIds, path: [], blankPos: initialBlankPos });
+            visited.add(JSON.stringify(initialOrderedIds));
+            let solutionPath = null;
+            let count = 0; 
+
+            while (queue.length > 0 && solving && count < maxStatesToExploreForBFS) {
+                const { state, path, blankPos } = queue.shift();
+                count++;
+
+                const isSolved = state.every((id, index) => id === index);
+                if (isSolved) {
+                    solutionPath = path;
+                    break;
+                }
+
+                const blankRow = Math.floor(blankPos / gridSize);
+                const blankCol = blankPos % gridSize;
+
+                const possibleSwapPositions = [];
+                // Check neighbors: Up, Down, Left, Right
+                if (blankRow > 0) possibleSwapPositions.push(blankPos - gridSize);
+                if (blankRow < gridSize - 1) possibleSwapPositions.push(blankPos + gridSize); 
+                if (blankCol > 0) possibleSwapPositions.push(blankPos - 1);
+                if (blankCol < gridSize - 1) possibleSwapPositions.push(blankPos + 1); 
+
+                for (const pieceToSwapIndex of possibleSwapPositions) {
+                    const nextState = [...state];
+                    // Swap the IDs in the new state array
+                    const tempId = nextState[blankPos];
+                    nextState[blankPos] = nextState[pieceToSwapIndex];
+                    nextState[pieceToSwapIndex] = tempId;
+
+                    const nextStateStr = JSON.stringify(nextState);
+                    if (!visited.has(nextStateStr)) {
+                        visited.add(nextStateStr);
+                        queue.push({
+                            state: nextState,
+                            path: [...path, state[pieceToSwapIndex]], // Store the ID of the piece that moved into the blank spot
+                            blankPos: pieceToSwapIndex 
+                        });
+                    }
+                }
+                if (count % 1000 === 0) { 
+                    await new Promise(resolve => setTimeout(resolve, 0));
+                    if (!solving) break; 
+                }
+            }
+
+            hideLoading();
+
+            if (!solving) { // If user cancelled auto-solve
+                solveStatusDisplay.textContent = '';
+                stopTimer();
+                hasMadeFirstMove = false;
                 return;
             }
-            fullImageDisplay.src = originalImage.src;
-            originalImageDisplayContainer.classList.add('show');
-            mainContent.classList.add('main-content-hidden');
-        });
 
-        backToPuzzleButton.addEventListener('click', () => {
-            originalImageDisplayContainer.classList.remove('show');
-            mainContent.classList.remove('main-content-hidden');
-        });
+            if (solutionPath) {
+                solveStatusDisplay.textContent = getTranslation('solutionFound', { moves: solutionPath.length });
+                const currentAutoSolveDelay = getAutoSolveStepDelay(gridSize);
+                
+                // Reset moves and replay history for auto-solve
+                moves = 0;
+                replayMoves = [];
+                initialShuffledStateForReplay = []; // Clear initial state for auto-solve replay
+                replayButton.style.display = 'none'; // Hide replay button
+                moveHistory = []; // Reset move history
+                renderMoveHistory(); // Update UI
 
+                // Re-start timer for animation playback
+                startTimer();
+                for (const pieceIdToMove of solutionPath) {
+                    if (!solving) break; // Allow cancellation during playback
+
+                    const pieceToMove = puzzlePieces.find(p => p.id === pieceIdToMove);
+                    const blankPiece = puzzlePieces.find(p => p.isBlank);
+
+                    if (!pieceToMove || !blankPiece) { 
+                        console.error(getTranslation('autoSolveError'));
+                        solving = false;
+                        isProcessingClick = false;
+                        enableAllButtons();
+                        solveStatusDisplay.textContent = getTranslation('autoSolveError');
+                        stopTimer(); // Stop timer on error
+                        hasMadeFirstMove = false;
+                        return;
+                    }
+                    
+                    const startX1 = pieceToMove.currentX;
+                    const startY1 = pieceToMove.currentY;
+                    const startX2 = blankPiece.currentX;
+                    const startY2 = blankPiece.currentY;
+
+                    const targetX1 = startX2; 
+                    const targetY1 = startY2;
+                    const targetX2 = startX1; 
+                    const targetY2 = startY1; 
+
+                    await new Promise(resolve => {
+                        animatePieceMove(
+                            pieceToMove, targetX1, targetY1,
+                            blankPiece, targetX2, targetY2,
+                            () => {
+                                pieceToMove.currentX = targetX1;
+                                pieceToMove.currentY = targetY1;
+                                blankPiece.currentX = targetX2;
+                                blankPiece.currentY = targetY2;
+
+                                const pieceToMoveCurrentIndex = puzzlePieces.indexOf(pieceToMove);
+                                const blankIndexInArray = puzzlePieces.indexOf(blankPiece);
+                                [puzzlePieces[pieceToMoveCurrentIndex], puzzlePieces[blankIndexInArray]] =
+                                [puzzlePieces[blankIndexInArray], puzzlePieces[pieceToMoveCurrentIndex]];
+
+                                moves++;
+                                updateMoveCounter();
+                                drawPuzzle();
+                                resolve();
+                            }
+                        );
+                    });
+                    if (solving) { // Only pause if solving is still active
+                        await new Promise(resolve => setTimeout(resolve, currentAutoSolveDelay));
+                    }
+                }
+                if (solving) {
+                    checkWin(); // Final check if solution playback completed
+                }
+            } else { 
+                solveStatusDisplay.textContent = getTranslation('solutionNotFound');
+                showMessageBox(getTranslation('autoSolveFailure'));
+            }
+
+            solving = false;
+            isProcessingClick = false;
+            enableAllButtons();
+            // Timer is handled by checkWin or explicitly stopped on failure/cancellation
+            if (isShuffled && !solving) { // If still shuffled and not in an active solve state
+                startTimer(); // Ensure timer continues if not solved
+            } else if (!isShuffled && !solving) { // If solved, ensure timer is stopped
+                stopTimer();
+                hasMadeFirstMove = false;
+            }
+        }
+        
         // =====================================================================
-        // Replay Moves
+        // Replay Functionality
         // =====================================================================
         replayButton.addEventListener('click', async () => {
-            if (isReplaying || solving || shuffling || !puzzleReady || replayMoves.length === 0) {
-                showMessageBox("Tidak ada gerakan untuk diputar ulang atau sedang dalam mode lain.");
+            if (replayMoves.length === 0 || solving || shuffling || isProcessingClick) {
+                showMessageBox(getTranslation('noMovesToReplay'));
                 return;
             }
 
-            isReplaying = true;
-            showLoading("Memutar ulang gerakan...");
-            disableAllButtons();
-            solveStatusDisplay.textContent = 'Memutar ulang gerakan...';
+            isReplaying = true; // Set replay flag
+            disableAllButtons(); // Disable all buttons
+            stopTimer(); // Stop timer during replay
+            solveStatusDisplay.textContent = getTranslation('replaying'); // Keep this status, but no overlay
 
-            // Reset puzzle to its initial shuffled state for replay
+            // Reset puzzle to the initial shuffled state
             puzzlePieces = initialShuffledStateForReplay.map(p => ({ ...p }));
+            puzzlePieces.forEach((piece, index) => {
+                piece.currentX = (index % gridSize) * pieceWidth;
+                piece.currentY = Math.floor(index / gridSize) * pieceHeight;
+            });
             moves = 0;
             updateMoveCounter();
             drawPuzzle();
-            stopTimer();
-            timerDisplay.textContent = '00:00';
-            hasMadeFirstMove = false;
             puzzleCanvas.classList.remove('puzzle-solved-animation');
-            moveHistory = []; // Clear history for replay
-            renderMoveHistory();
 
-            const replayStepDelay = 200; // 0.2 seconds between replay moves
+            // Play back the moves
+            for (const move of replayMoves) {
+                if (!isReplaying) break; // Allow stopping replay if needed
 
-            for (let i = 0; i < replayMoves.length; i++) {
-                if (!isReplaying) { // Allow stopping replay
-                    break;
-                }
-                const move = replayMoves[i];
                 const pieceToMove = puzzlePieces.find(p => p.id === move.pieceId);
                 const blankPiece = puzzlePieces.find(p => p.isBlank);
 
                 if (!pieceToMove || !blankPiece) {
-                    console.error("Error: Piece or blank not found during replay animation.");
+                    console.error("Error during replay: Piece or blank not found.");
                     break;
                 }
 
-                const targetXForPiece = blankPiece.currentX;
-                const targetYForPiece = blankPiece.currentY;
-                const targetXForBlank = pieceToMove.currentX;
-                const targetYForBlank = pieceToMove.currentY;
+                // Find current positions of pieceToMove and blankPiece in the array
+                const pieceToMoveCurrentIndex = puzzlePieces.indexOf(pieceToMove);
+                const blankPieceCurrentIndex = puzzlePieces.indexOf(blankPiece);
 
-                // Temporarily update piece positions for animation
-                const originalPieceToMoveX = pieceToMove.currentX;
-                const originalPieceToMoveY = pieceToMove.currentY;
-                const originalBlankPieceX = blankPiece.currentX;
-                const originalBlankPieceY = blankPiece.currentY;
+                // Calculate target positions based on the recorded move (fromIndex of the piece moved into blank)
+                // The blank piece moves to the pieceToMove's original spot
+                // The pieceToMove moves to the blank's original spot
+                const targetXForMovedPiece = (move.toIndex % gridSize) * pieceWidth;
+                const targetYForMovedPiece = Math.floor(move.toIndex / gridSize) * pieceHeight;
+                const targetXForBlank = (move.fromIndex % gridSize) * pieceWidth;
+                const targetYForBlank = Math.floor(move.fromIndex / gridSize) * pieceHeight;
 
                 await new Promise(resolve => {
                     animatePieceMove(
-                        pieceToMove, targetXForPiece, targetYForPiece,
+                        pieceToMove, targetXForMovedPiece, targetYForMovedPiece,
                         blankPiece, targetXForBlank, targetYForBlank,
                         () => {
-                            // After animation, apply the actual swap in the array
-                            pieceToMove.currentX = targetXForPiece;
-                            pieceToMove.currentY = targetYForPiece;
+                            // Update actual positions after animation
+                            pieceToMove.currentX = targetXForMovedPiece;
+                            pieceToMove.currentY = targetYForMovedPiece;
                             blankPiece.currentX = targetXForBlank;
                             blankPiece.currentY = targetYForBlank;
 
-                            const pieceToMoveIndexInArray = puzzlePieces.indexOf(pieceToMove);
-                            const blankIndexInArray = puzzlePieces.indexOf(blankPiece);
-                            [puzzlePieces[pieceToMoveIndexInArray], puzzlePieces[blankIndexInArray]] = 
-                            [puzzlePieces[blankIndexInArray], puzzlePieces[pieceToMoveIndexInArray]];
+                            // Swap their positions in the array
+                            const newPieceToMoveIndex = puzzlePieces.indexOf(pieceToMove); // Should be blankPieceCurrentIndex
+                            const newBlankPieceIndex = puzzlePieces.indexOf(blankPiece); // Should be pieceToMoveCurrentIndex
+                            [puzzlePieces[newPieceToMoveIndex], puzzlePieces[newBlankPieceIndex]] =
+                            [puzzlePieces[newBlankPieceIndex], puzzlePieces[newPieceToMoveIndex]];
 
-                            moves++;
+                            moves++; // Increment moves for replay visual, though not actual game moves
                             updateMoveCounter();
                             drawPuzzle();
                             resolve();
                         }
                     );
                 });
-                await new Promise(resolve => setTimeout(resolve, replayStepDelay));
+                await new Promise(resolve => setTimeout(resolve, 300)); // Delay between replay moves
             }
 
-            isReplaying = false;
-            hideLoading();
-            enableAllButtons();
-            solveStatusDisplay.textContent = 'Pemutaran ulang selesai.';
-            checkWin(); // Check win condition after replay
+            isReplaying = false; // Reset replay flag
+            solveStatusDisplay.textContent = getTranslation('replayFinished');
+            // After replay, the puzzle should be solved
+            checkWin(); // This will re-enable buttons and handle final state
         });
+
 
         // =====================================================================
-        // Cropper Functionality
+        // Handle Window Resize Responsiveness
         // =====================================================================
-        function setupCroppingInterface() {
-            imageCropperContainer.style.display = 'flex';
-            mainContent.classList.add('main-content-hidden');
-            disableAllButtons(); // Disable main buttons while cropping
+        window.addEventListener('resize', async () => {
+            if (!puzzleReady) return; // Don't do anything if puzzle isn't ready
 
-            // Set cropper canvas dimensions to match image aspect ratio, but max out at 90% screen height/width
-            const maxWidth = window.innerWidth * 0.9;
-            const maxHeight = window.innerHeight * 0.6; // Give space for controls
-
-            let displayWidth = originalImage.width;
-            let displayHeight = originalImage.height;
-
-            // Scale image to fit within max dimensions while maintaining aspect ratio
-            if (displayWidth > maxWidth) {
-                displayHeight = displayHeight * (maxWidth / displayWidth);
-                displayWidth = maxWidth;
-            }
-            if (displayHeight > maxHeight) {
-                displayWidth = displayWidth * (maxHeight / displayHeight);
-                displayHeight = maxHeight;
-            }
-
-            cropperCanvas.width = displayWidth;
-            cropperCanvas.height = displayHeight;
-
-            cropperCtx.drawImage(originalImage, 0, 0, cropperCanvas.width, cropperCanvas.height);
-
-            // Initialize cropRect to a square in the center
-            const minDim = Math.min(cropperCanvas.width, cropperCanvas.height);
-            cropRect.size = minDim * 0.8; // Start with 80% of the smaller dimension
-            cropRect.x = (cropperCanvas.width - cropRect.size) / 2;
-            cropRect.y = (cropperCanvas.height - cropRect.size) / 2;
-
-            drawCropper();
-        }
-
-        function drawCropper() {
-            cropperCtx.clearRect(0, 0, cropperCanvas.width, cropperCanvas.height);
-            cropperCtx.drawImage(originalImage, 0, 0, cropperCanvas.width, cropperCanvas.height);
-
-            // Draw overlay
-            cropperCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            cropperCtx.fillRect(0, 0, cropperCanvas.width, cropperCanvas.height);
-
-            // Clear the crop area
-            cropperCtx.clearRect(cropRect.x, cropRect.y, cropRect.size, cropRect.size);
-
-            // Draw crop border
-            cropperCtx.strokeStyle = '#6366f1';
-            cropperCtx.lineWidth = 3;
-            cropperCtx.strokeRect(cropRect.x, cropRect.y, cropRect.size, cropRect.size);
-
-            // Draw resize handles (corners)
-            cropperCtx.fillStyle = '#6366f1';
-            const handles = [
-                { x: cropRect.x, y: cropRect.y }, // Top-left
-                { x: cropRect.x + cropRect.size, y: cropRect.y }, // Top-right
-                { x: cropRect.x, y: cropRect.y + cropRect.size }, // Bottom-left
-                { x: cropRect.x + cropRect.size, y: cropRect.y + cropRect.size } // Bottom-right
-            ];
-            handles.forEach(handle => {
-                cropperCtx.fillRect(handle.x - resizeHandleSize / 2, handle.y - resizeHandleSize / 2, resizeHandleSize, resizeHandleSize);
-            });
-        }
-
-        function getMousePos(canvas, evt) {
-            const rect = canvas.getBoundingClientRect();
-            return {
-                x: evt.clientX - rect.left,
-                y: evt.clientY - rect.top
-            };
-        }
-
-        function isNearHandle(x, y, handleX, handleY) {
-            return Math.abs(x - handleX) < resizeHandleSize && Math.abs(y - handleY) < resizeHandleSize;
-        }
-
-        cropperCanvas.addEventListener('mousedown', (e) => {
-            const mouse = getMousePos(cropperCanvas, e);
-            dragStartX = mouse.x;
-            dragStartY = mouse.y;
-
-            // Check if resizing
-            if (isNearHandle(mouse.x, mouse.y, cropRect.x + cropRect.size, cropRect.y + cropRect.size)) {
-                isResizing = true;
-            } else if (mouse.x > cropRect.x && mouse.x < cropRect.x + cropRect.size &&
-                       mouse.y > cropRect.y && mouse.y < cropRect.y + cropRect.size) {
-                isDragging = true;
-            }
-        });
-
-        cropperCanvas.addEventListener('mousemove', (e) => {
-            const mouse = getMousePos(cropperCanvas, e);
-            if (isDragging) {
-                cropRect.x += (mouse.x - dragStartX);
-                cropRect.y += (mouse.y - dragStartY);
-                
-                // Keep cropRect within canvas bounds
-                cropRect.x = Math.max(0, Math.min(cropRect.x, cropperCanvas.width - cropRect.size));
-                cropRect.y = Math.max(0, Math.min(cropRect.y, cropperCanvas.height - cropRect.size));
-
-                dragStartX = mouse.x;
-                dragStartY = mouse.y;
-                drawCropper();
-            } else if (isResizing) {
-                let newSize = Math.min(
-                    mouse.x - cropRect.x,
-                    mouse.y - cropRect.y
-                );
-                newSize = Math.max(50, newSize); // Minimum size
-                
-                // Ensure new size doesn't go out of bounds
-                newSize = Math.min(newSize, cropperCanvas.width - cropRect.x);
-                newSize = Math.min(newSize, cropperCanvas.height - cropRect.y);
-
-                cropRect.size = newSize;
-                drawCropper();
-            }
-        });
-
-        cropperCanvas.addEventListener('mouseup', () => {
-            isDragging = false;
-            isResizing = false;
-        });
-
-        cropperCanvas.addEventListener('mouseout', () => {
-            isDragging = false;
-            isResizing = false;
-        });
-
-        confirmCropButton.addEventListener('click', () => {
-            // Calculate source dimensions from the original image based on cropperCanvas scaling
-            const scaleFactorX = originalImage.width / cropperCanvas.width;
-            const scaleFactorY = originalImage.height / cropperCanvas.height;
-
-            const finalSrcX = cropRect.x * scaleFactorX;
-            const finalSrcY = cropRect.y * scaleFactorY;
-            const finalSrcWidth = cropRect.size * scaleFactorX;
-            const finalSrcHeight = cropRect.size * scaleFactorY;
-
-            imageCropperContainer.style.display = 'none';
-            mainContent.classList.remove('main-content-hidden');
-            initializePuzzle(finalSrcX, finalSrcY, finalSrcWidth, finalSrcHeight);
-            animateShuffle();
-        });
-
-        cancelCropButton.addEventListener('click', () => {
-            imageCropperContainer.style.display = 'none';
-            mainContent.classList.remove('main-content-hidden');
-            enableAllButtons();
-            // Revert to placeholder or clear puzzle if no image was loaded before cropping attempt
-            if (!puzzleReady) {
-                const placeholderSize = fixedCanvasSize;
-                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=Unggah%20Foto%0A(${gridSize}x${gridSize})`;
-            } else {
-                drawPuzzle(); // Redraw current puzzle state if it was already active
-            }
+            solving = false;
+            isProcessingClick = false;
+            isReplaying = false; // Stop replay on resize
+            
+            enableAllButtons(); // Re-enable in case they were disabled by auto-solve/click animation
             solveStatusDisplay.textContent = '';
+            puzzleCanvas.classList.remove('puzzle-solved-animation');
+
+            recalculatePiecePositionsAndRedraw(); // Always redraw to fit new canvas size, preserving current state
         });
-
         // =====================================================================
-        // Button State Management
-        // =====================================================================
-        function disableAllButtons() {
-            shuffleButton.disabled = true;
-            undoButton.disabled = true;
-            solveButton.disabled = true;
-            resetButton.disabled = true;
-            imageUpload.disabled = true;
-            gridSizeSelect.disabled = true;
-            puzzleModeSelect.disabled = true;
-            viewOriginalImageButton.disabled = true;
-            replayButton.disabled = true;
-            sampleImageContainers.forEach(container => container.style.pointerEvents = 'none');
-            puzzleCanvas.style.pointerEvents = 'none'; // Disable clicks on canvas
-        }
-
-        function enableAllButtons() {
-            shuffleButton.disabled = false;
-            undoButton.disabled = false;
-            solveButton.disabled = false;
-            resetButton.disabled = false;
-            imageUpload.disabled = false;
-            gridSizeSelect.disabled = false;
-            puzzleModeSelect.disabled = false;
-            viewOriginalImageButton.disabled = false;
-            replayButton.disabled = false;
-            sampleImageContainers.forEach(container => container.style.pointerEvents = 'auto');
-            puzzleCanvas.style.pointerEvents = 'auto'; // Enable clicks on canvas
-        }
-
-        // =====================================================================
-        // Move History Management
-        // =====================================================================
-        function addMoveToHistory(pieceNumber, fromIndex, toIndex, currentGridSize) {
-            const fromRow = Math.floor(fromIndex / currentGridSize) + 1;
-            const fromCol = (fromIndex % currentGridSize) + 1;
-            const toRow = Math.floor(toIndex / currentGridSize) + 1;
-            const toCol = (toIndex % currentGridSize) + 1;
-
-            const moveText = `Potongan ${pieceNumber}: (${fromRow},${fromCol}) -> (${toRow},${toCol})`;
-            moveHistory.push(moveText);
-            if (moveHistory.length > maxMoveHistory) {
-                moveHistory.shift(); // Remove oldest move
-            }
-            renderMoveHistory();
-        }
-
-        function renderMoveHistory() {
-            moveHistoryList.innerHTML = '';
-            if (moveHistory.length === 0) {
-                moveHistoryList.innerHTML = '<li class="text-gray-500">Belum ada gerakan.</li>';
-                return;
-            }
-            moveHistory.forEach(move => {
-                const listItem = document.createElement('li');
-                listItem.textContent = move;
-                moveHistoryList.appendChild(listItem);
-            });
-            moveHistoryList.scrollTop = moveHistoryList.scrollHeight; // Scroll to bottom
-        }
-
-        // =====================================================================
-        // Local Storage for Preferences
+        // Local Storage Functions for Preferences
         // =====================================================================
         function savePreferences() {
             localStorage.setItem('puzzleGridSize', gridSizeSelect.value);
             localStorage.setItem('puzzleMode', puzzleModeSelect.value);
+            localStorage.setItem('puzzleLanguage', currentLanguage); // Save language
         }
 
         function loadPreferences() {
             const savedGridSize = localStorage.getItem('puzzleGridSize');
             const savedPuzzleMode = localStorage.getItem('puzzleMode');
+            const savedLanguage = localStorage.getItem('puzzleLanguage');
 
             if (savedGridSize) {
                 gridSizeSelect.value = savedGridSize;
@@ -1815,29 +1743,263 @@
                 puzzleModeSelect.value = savedPuzzleMode;
                 currentPuzzleMode = savedPuzzleMode;
             }
+            if (savedLanguage) {
+                currentLanguage = savedLanguage;
+                languageSelect.value = savedLanguage;
+            }
         }
 
         // =====================================================================
-        // Initial Setup
+        // Handle "View Original Image" Button
         // =====================================================================
-        window.onload = () => {
-            loadPreferences();
-            // Initial placeholder image
-            const placeholderSize = fixedCanvasSize;
-            originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=Unggah%20Foto%0A(${gridSize}x${gridSize})`;
-            originalImage.onload = () => {
-                initializePuzzle(0, 0, originalImage.width, originalImage.height);
-                // No shuffle on initial load, wait for user action
-            };
-            originalImage.onerror = () => {
-                showMessageBox("Gagal memuat gambar placeholder.");
-            };
-            renderMoveHistory(); // Render empty history on load
-            enableAllButtons(); // Ensure buttons are enabled on load
-        };
+        viewOriginalImageButton.addEventListener('click', () => {
+            if (originalImage.src) {
+                mainContent.classList.add('main-content-hidden'); // Hide main puzzle UI
+                originalImageDisplayContainer.classList.add('show'); // Show original image container
+                fullImageDisplay.src = originalImage.src; // Ensure image is displayed
+                // Scroll to the top of the original image container
+                originalImageDisplayContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                showMessageBox(getTranslation('noImageLoaded'));
+            }
+        });
+        backToPuzzleButton.addEventListener('click', () => {
+            originalImageDisplayContainer.classList.remove('show'); // Hide original image container
+            mainContent.classList.remove('main-content-hidden'); // Show main puzzle UI
+            // Scroll to the puzzle canvas for better context
+            puzzleCanvas.scrollIntoView({ behavior: 'smooth', block: 'center' }); // block: 'center' tries to center it
+        });
 
-        // Handle window resize to ensure canvas responsiveness
-        window.addEventListener('resize', recalculatePiecePositionsAndRedraw);
+        // =====================================================================
+        // Image Cropper Logic
+        // =====================================================================
+        function setupCroppingInterface() {
+            mainContent.classList.add('main-content-hidden'); // Hide main puzzle UI
+            imageCropperContainer.style.display = 'flex'; // Show cropper modal
+
+            // Set cropper canvas dimensions to fit the image while maintaining aspect ratio
+            const maxWidth = cropperCanvas.parentElement.clientWidth * 0.9;
+            const maxHeight = window.innerHeight * 0.7; // Max 70% of viewport height for cropper image
+            
+            let imgRatio = originalImage.width / originalImage.height;
+            let canvasWidth = originalImage.width;
+            let canvasHeight = originalImage.height;
+
+            if (canvasWidth > maxWidth) {
+                canvasWidth = maxWidth;
+                canvasHeight = canvasWidth / imgRatio;
+            }
+            if (canvasHeight > maxHeight) {
+                canvasHeight = maxHeight;
+                canvasWidth = canvasHeight * imgRatio;
+            }
+
+            cropperCanvas.width = canvasWidth;
+            cropperCanvas.height = canvasHeight;
+
+            // Initialize cropRect to a default square in the center
+            const minDim = Math.min(cropperCanvas.width, cropperCanvas.height);
+            cropRect.size = minDim * 0.8; // Start with 80% of the smaller dimension
+            cropRect.x = (cropperCanvas.width / 2) - (cropRect.size / 2);
+            cropRect.y = (cropperCanvas.height / 2) - (cropRect.size / 2);
+
+            drawCropper();
+
+            // Enable buttons
+            confirmCropButton.disabled = false;
+            cancelCropButton.disabled = false;
+        }
+
+        function drawCropper() {
+            cropperCtx.clearRect(0, 0, cropperCanvas.width, cropperCanvas.height);
+            cropperCtx.drawImage(originalImage, 0, 0, cropperCanvas.width, cropperCanvas.height);
+
+            // Draw overlay (darkened outside cropRect)
+            cropperCtx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            cropperCtx.fillRect(0, 0, cropperCanvas.width, cropperCanvas.height);
+            // Draw transparent hole for the crop area
+            cropperCtx.globalCompositeOperation = 'destination-out';
+            cropperCtx.fillRect(cropRect.x, cropRect.y, cropRect.size, cropRect.size);
+            cropperCtx.globalCompositeOperation = 'source-over'; // Reset composite operation
+
+            // Draw crop rectangle border
+            cropperCtx.strokeStyle = '#fff';
+            cropperCtx.lineWidth = 2;
+            cropperCtx.strokeRect(cropRect.x, cropRect.y, cropRect.size, cropRect.size);
+
+            // Draw resize handles (corners)
+            cropperCtx.fillStyle = '#6366f1';
+            cropperCtx.fillRect(cropRect.x - resizeHandleSize / 2, cropRect.y - resizeHandleSize / 2, resizeHandleSize, resizeHandleSize); // Top-left
+            cropperCtx.fillRect(cropRect.x + cropRect.size - resizeHandleSize / 2, cropRect.y - resizeHandleSize / 2, resizeHandleSize, resizeHandleSize); // Top-right
+            cropperCtx.fillRect(cropRect.x - resizeHandleSize / 2, cropRect.y + cropRect.size - resizeHandleSize / 2, resizeHandleSize, resizeHandleSize); // Bottom-left
+            cropperCtx.fillRect(cropRect.x + cropRect.size - resizeHandleSize / 2, cropRect.y + cropRect.size - resizeHandleSize / 2, resizeHandleSize, resizeHandleSize); // Bottom-right
+        }
+
+        function getMousePos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: (evt.clientX - rect.left) * (canvas.width / rect.width),
+                y: (evt.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        function getTouchPos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            const touch = evt.touches[0];
+            return {
+                x: (touch.clientX - rect.left) * (canvas.width / rect.width),
+                y: (touch.clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        cropperCanvas.addEventListener('mousedown', handleCropStart);
+        cropperCanvas.addEventListener('mousemove', handleCropMove);
+        cropperCanvas.addEventListener('mouseup', handleCropEnd);
+        cropperCanvas.addEventListener('mouseleave', handleCropEnd); // End drag if mouse leaves canvas
+
+        cropperCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); handleCropStart(e.touches[0]); }, { passive: false });
+        cropperCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleCropMove(e.touches[0]); }, { passive: false });
+        cropperCanvas.addEventListener('touchend', handleCropEnd);
+
+        function handleCropStart(e) {
+            const pos = e.touches ? getTouchPos(cropperCanvas, e) : getMousePos(cropperCanvas, e);
+            dragStartX = pos.x;
+            dragStartY = pos.y;
+
+            // Check if resizing handle is clicked (bottom-right corner)
+            if (pos.x > cropRect.x + cropRect.size - resizeHandleSize && pos.x < cropRect.x + cropRect.size + resizeHandleSize &&
+                pos.y > cropRect.y + cropRect.size - resizeHandleSize && pos.y < cropRect.y + cropRect.size + resizeHandleSize) {
+                isResizing = true;
+            } else if (pos.x > cropRect.x && pos.x < cropRect.x + cropRect.size &&
+                       pos.y > cropRect.y && pos.y < cropRect.y + cropRect.size) {
+                isDragging = true;
+            }
+        }
+
+        function handleCropMove(e) {
+            if (!isDragging && !isResizing) return;
+
+            const pos = e.touches ? getTouchPos(cropperCanvas, e) : getMousePos(cropperCanvas, e);
+            const dx = pos.x - dragStartX;
+            const dy = pos.y - dragStartY;
+
+            if (isDragging) {
+                cropRect.x += dx;
+                cropRect.y += dy;
+
+                // Keep cropRect within canvas bounds
+                cropRect.x = Math.max(0, Math.min(cropRect.x, cropperCanvas.width - cropRect.size));
+                cropRect.y = Math.max(0, Math.min(cropRect.y, cropperCanvas.height - cropRect.size));
+            } else if (isResizing) {
+                let newSize = Math.max(20, cropRect.size + dx); // Minimum size 20px
+                newSize = Math.max(newSize, cropRect.size + dy); // Use larger delta for square resize
+
+                // Ensure cropRect stays within canvas bounds during resize
+                newSize = Math.min(newSize, cropperCanvas.width - cropRect.x);
+                newSize = Math.min(newSize, cropperCanvas.height - cropRect.y);
+
+                cropRect.size = newSize;
+            }
+
+            dragStartX = pos.x;
+            dragStartY = pos.y;
+
+            drawCropper();
+        }
+
+        function handleCropEnd() {
+            isDragging = false;
+            isResizing = false;
+        }
+
+        confirmCropButton.addEventListener('click', () => {
+            // Calculate final source dimensions for the original image
+            const scaleX = originalImage.width / cropperCanvas.width;
+            const scaleY = originalImage.height / cropperCanvas.height;
+
+            finalSourceX = cropRect.x * scaleX;
+            finalSourceY = cropRect.y * scaleY;
+            finalSourceWidth = cropRect.size * scaleX;
+            finalSourceHeight = cropRect.size * scaleY; // Always square, so height = width
+
+            imageCropperContainer.style.display = 'none'; // Hide cropper modal
+            mainContent.classList.remove('main-content-hidden'); // Show main puzzle UI
+            
+            initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
+            animateShuffle(); // Shuffle after cropping and initializing
+            enableAllButtons(); // Re-enable main buttons
+        });
+
+        cancelCropButton.addEventListener('click', () => {
+            imageCropperContainer.style.display = 'none'; // Hide cropper modal
+            mainContent.classList.remove('main-content-hidden'); // Show main puzzle UI
+            showMessageBox(getTranslation('cropCancelled'));
+            // Reset to placeholder if no image was previously loaded, or just enable buttons
+            if (!puzzleReady) {
+                const placeholderSize = fixedCanvasSize;
+                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(getTranslation('uploadPhotoLabel').replace(':', ''))}%0A(${gridSize}x${gridSize})`;
+            }
+            enableAllButtons();
+        });
+
+        // =====================================================================
+        // Move History Functionality
+        // =====================================================================
+        function addMoveToHistory(pieceNumber, fromIndex, toIndex, currentGridSize) {
+            const fromRow = Math.floor(fromIndex / currentGridSize);
+            const fromCol = fromIndex % currentGridSize;
+            const toRow = Math.floor(toIndex / currentGridSize);
+            const toCol = toIndex % currentGridSize;
+
+            let direction = '';
+            if (fromRow === toRow) { // Horizontal move
+                direction = fromCol < toCol ? getTranslation('directionRight') : getTranslation('directionLeft');
+            } else { // Vertical move
+                direction = fromRow < toRow ? getTranslation('directionDown') : getTranslation('directionUp');
+            }
+
+            const moveText = getTranslation('pieceMoved', { pieceNumber: pieceNumber, direction: direction });
+            moveHistory.unshift(moveText); // Add to the beginning
+            if (moveHistory.length > maxMoveHistory) {
+                moveHistory.pop(); // Remove oldest if exceeding limit
+            }
+            renderMoveHistory();
+        }
+
+        function renderMoveHistory() {
+            moveHistoryList.innerHTML = '';
+            if (moveHistory.length === 0) {
+                moveHistoryList.innerHTML = `<li class="text-center text-gray-500">${getTranslation('noMovesYet')}</li>`;
+                return;
+            }
+            moveHistory.forEach(move => {
+                const listItem = document.createElement('li');
+                listItem.textContent = move;
+                moveHistoryList.appendChild(listItem);
+            });
+        }
+
+        // =====================================================================
+        // Initial Page Load Setup (placeholder image)
+        // =====================================================================
+        window.onload = async () => {
+            loadPreferences(); // Load saved preferences first
+            applyTranslations(); // Apply translations after loading preferences
+            languageSelect.value = currentLanguage; // Set language selector to current language
+
+            originalImage.onload = async () => {
+                // If the image is already square, directly initialize and shuffle
+                if (originalImage.width === originalImage.height) {
+                    initializePuzzle(0, 0, originalImage.width, originalImage.height);
+                    await animateShuffle();
+                } else {
+                    // Otherwise, show the cropping interface
+                    setupCroppingInterface();
+                }
+            };
+            const placeholderSize = fixedCanvasSize; 
+            originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(getTranslation('uploadPhotoLabel').replace(':', ''))}%0A(${gridSize}x${gridSize})`; 
+        };
 
     </script>
 </body>
