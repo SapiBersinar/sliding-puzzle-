@@ -23,16 +23,100 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif';
-            /* Latar belakang gradient modern */
-            background-image: linear-gradient(to bottom right, #a78bfa, #818cf8, #6366f1); /* Ungu-biru gradient */
             background-attachment: fixed; /* Memastikan gradient tetap saat scroll */
             overflow-x: hidden; /* Mencegah overflow horizontal */
+            transition: background-color 0.3s ease, color 0.3s ease; /* Transisi tema */
         }
+        /* Tema Terang (Default) */
+        body.light-theme {
+            background-image: linear-gradient(to bottom right, #a78bfa, #818cf8, #6366f1); /* Ungu-biru gradient */
+            color: #1a202c; /* Teks gelap */
+        }
+        body.light-theme .main-container {
+            background-color: #ffffff; /* Latar belakang putih */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        body.light-theme .text-primary {
+            color: #4f46e5; /* Indigo-600 */
+        }
+        body.light-theme .text-secondary {
+            color: #6b7280; /* Gray-500 */
+        }
+        body.light-theme .canvas-border {
+            border-color: #4f46e5; /* Indigo-600 */
+        }
+        body.light-theme .canvas-bg {
+            background-color: #ffffff;
+        }
+        body.light-theme .message-box, body.light-theme .confirmation-box, body.light-theme .cropper-content, body.light-theme #moveHistoryContainer, body.light-theme #playerStatsContainer {
+            background-color: #fff;
+            border-color: #4f46e5;
+        }
+        body.light-theme #moveHistoryContainer, body.light-theme #playerStatsContainer {
+            background-color: #f8fafc;
+        }
+        body.light-theme .sample-image-container:hover {
+            border-color: #6366f1;
+        }
+        body.light-theme .puzzle-solved-animation {
+            border-color: #10b981; /* Green-500 */
+            box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.7), 0 0 30px 10px rgba(16, 185, 129, 0.5);
+        }
+        body.light-theme .moves-time-text {
+            color: #4f46e5; /* Indigo-600 */
+        }
+        body.light-theme .piece-number-color {
+            color: #312e81; /* Darker indigo */
+        }
+
+        /* Tema Gelap */
+        body.dark-theme {
+            background-color: #1a202c; /* Darker background */
+            background-image: none; /* Remove gradient */
+            color: #e2e8f0; /* Light text */
+        }
+        body.dark-theme .main-container {
+            background-color: #2d3748; /* Darker container */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+        }
+        body.dark-theme .text-primary {
+            color: #6366f1; /* Indigo-500, similar to light theme primary */
+        }
+        body.dark-theme .text-secondary {
+            color: #a0aec0; /* Light gray */
+        }
+        body.dark-theme .canvas-border {
+            border-color: #4f46e5; /* Indigo-600, similar to light theme */
+        }
+        body.dark-theme .canvas-bg {
+            background-color: #2d3748; /* Darker canvas background */
+        }
+        body.dark-theme .message-box, body.dark-theme .confirmation-box, body.dark-theme .cropper-content, body.dark-theme #moveHistoryContainer, body.dark-theme #playerStatsContainer {
+            background-color: #2d3748;
+            border-color: #4f46e5; /* Indigo-600 */
+            color: #e2e8f0;
+        }
+        body.dark-theme #moveHistoryContainer, body.dark-theme #playerStatsContainer {
+            background-color: #1a202c;
+        }
+        body.dark-theme .sample-image-container:hover {
+            border-color: #6366f1; /* Indigo-500 */
+        }
+        body.dark-theme .puzzle-solved-animation {
+            border-color: #8b5cf6; /* Violet-500 for solved state */
+            box-shadow: 0 0 20px 5px rgba(139, 92, 246, 0.7), 0 0 30px 10px rgba(139, 92, 246, 0.5); /* Glowing effect */
+        }
+        body.dark-theme .moves-time-text {
+            color: #fff; /* White text for numbers */
+        }
+        body.dark-theme .piece-number-color {
+            color: #a78bfa; /* Violet-400 */
+        }
+
         /* Styling untuk canvas */
         canvas {
             display: block; /* Menghilangkan spasi ekstra di bawah canvas */
-            background-color: #ffffff; /* Latar belakang canvas putih bersih */
-            border: 3px solid #4f46e5; /* Border ungu tua (indigo-600) */
+            border: 3px solid; /* Border */
             border-radius: 0.75rem; /* Sudut membulat */
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             touch-action: manipulation; /* Memungkinkan event sentuhan */
@@ -48,15 +132,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
             padding: 2rem;
             border-radius: 0.75rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             z-index: 1000;
             text-align: center;
-            border: 2px solid #4f46e5; /* Border ungu tua */
+            border: 2px solid; /* Border */
             width: 90%;
             max-width: 400px;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         .overlay {
             position: fixed;
@@ -79,6 +163,18 @@
             background-image: linear-gradient(to right, #3730a3, #5b21b6); /* Lebih gelap lagi saat ditekan */
             transform: scale(0.98);
         }
+        /* Dark Theme Specific Button Gradients for Shuffle/Replay */
+        .dark-theme .btn-primary-gradient {
+            background-image: linear-gradient(to right, #4A90E2, #6A5ACD); /* Vibrant Blue to Medium Purple */
+        }
+        .dark-theme .btn-primary-gradient:hover {
+            background-image: linear-gradient(to right, #3A7CD1, #5A4ABF); /* Darker shades */
+        }
+        .dark-theme .btn-primary-gradient:active {
+            background-image: linear-gradient(to right, #2A6AB0, #4A3A9E); /* Even darker shades */
+            transform: scale(0.98);
+        }
+
 
         .btn-purple {
             background-color: #a855f7; /* Purple-500 */
@@ -91,6 +187,18 @@
             background-color: #7e22ce; /* Purple-700 saat ditekan */
             transform: scale(0.98);
         }
+        /* Dark Theme Specific Button for Undo */
+        .dark-theme .btn-purple {
+            background-color: #9370DB; /* MediumPurple */
+        }
+        .dark-theme .btn-purple:hover {
+            background-color: #7B5ECF; /* Darker MediumPurple */
+        }
+        .dark-theme .btn-purple:active {
+            background-color: #644CA3; /* Even Darker MediumPurple */
+            transform: scale(0.98);
+        }
+
 
         .btn-green-solve {
             background-color: #10b981; /* Green-500 */
@@ -103,6 +211,17 @@
             background-color: #047857;
             transform: scale(0.98);
         }
+        /* Dark Theme Specific Button for Solve/Share */
+        .dark-theme .btn-green-solve {
+            background-image: linear-gradient(to right, #20B2AA, #3CB371); /* LightSeaGreen to MediumSeaGreen */
+        }
+        .dark-theme .btn-green-solve:hover {
+            background-image: linear-gradient(to right, #1A908A, #329A5C); /* Darker shades */
+        }
+        .dark-theme .btn-green-solve:active {
+            background-image: linear-gradient(to right, #146D66, #287A47); /* Even darker shades */
+            transform: scale(0.98);
+        }
 
         .btn-gray { /* General gray button for Reset */
             background-color: #6b7280; /* Gray-500 */
@@ -113,6 +232,16 @@
         }
         .btn-gray:active {
             background-color: #374151; /* Gray-700 saat ditekan */
+            transform: scale(0.98);
+        }
+        .dark-theme .btn-gray {
+            background-color: #4a5568; /* Gray-700 */
+        }
+        .dark-theme .btn-gray:hover {
+            background-color: #2d3748; /* Gray-800 */
+        }
+        .dark-theme .btn-gray:active {
+            background-color: #1a202c; /* Gray-900 */
             transform: scale(0.98);
         }
 
@@ -129,7 +258,6 @@
         }
         .sample-image-container:hover {
             transform: scale(1.05); /* Sedikit membesar saat hover */
-            border-color: #6366f1; /* Warna border saat hover */
         }
         .sample-image-container img {
             width: 100%;
@@ -140,12 +268,6 @@
 
 
         /* Kelas untuk animasi kemenangan */
-        .puzzle-solved-animation {
-            animation: puzzle-bounce 0.5s ease-out forwards;
-            border-color: #10b981; /* Green-500 for solved state */
-            box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.7), 0 0 30px 10px rgba(16, 185, 129, 0.5); /* Glowing effect */
-        }
-
         @keyframes puzzle-bounce {
             0% { transform: scale(1); }
             50% { transform: scale(1.03); }
@@ -164,6 +286,9 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             width: 100%;
             max-width: 3xl; /* Match main container width */
+        }
+        .dark-theme .original-image-display-container {
+            background-color: #2d3748;
         }
         .original-image-display-container.show {
             display: flex;
@@ -200,7 +325,6 @@
             padding: 1rem;
         }
         .cropper-content {
-            background-color: #fff;
             padding: 1.5rem;
             border-radius: 0.75rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -210,13 +334,21 @@
             flex-direction: column;
             align-items: center;
             gap: 1rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
         #cropperCanvas {
-            border: 2px solid #6366f1;
-            background-color: #f0f0f0;
+            border: 2px solid;
             max-width: 100%;
             max-height: 60vh; /* Adjust as needed */
             display: block;
+        }
+        .light-theme #cropperCanvas {
+            border-color: #6366f1;
+            background-color: #f0f0f0;
+        }
+        .dark-theme #cropperCanvas {
+            border-color: #4f46e5; /* Indigo-600 */
+            background-color: #4a5568;
         }
         .cropper-controls {
             display: flex;
@@ -260,23 +392,103 @@
         #moveHistoryContainer {
             max-height: 150px;
             overflow-y: auto;
-            border: 1px solid #e2e8f0;
+            border: 1px solid;
             border-radius: 0.5rem;
             padding: 0.75rem;
-            background-color: #f8fafc;
             font-size: 0.875rem;
             line-height: 1.5;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
         }
+        /* Player Stats Styling */
+        #playerStatsContainer {
+            border: 1px solid;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+        #playerStatsContainer ul {
+            list-style: none;
+            padding: 0;
+        }
+        #playerStatsContainer li {
+            margin-bottom: 0.5rem;
+        }
+        #playerStatsContainer li span {
+            font-weight: 600;
+        }
+
+        /* Share button styling */
+        #shareLinkButton { /* Changed from #shareButton */
+            /* display: none; */ /* Will be controlled by JS based on puzzle state */
+            margin-top: 1rem;
+        }
+
+        /* Progress Indicator Styling */
+        #progressIndicator {
+            width: 100%;
+            background-color: #e0e7ff; /* Light background for progress bar */
+            border-radius: 9999px; /* Full rounded corners */
+            height: 1.5rem; /* Height of the bar */
+            overflow: hidden; /* Ensure inner bar stays within bounds */
+            margin-bottom: 1rem;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .dark-theme #progressIndicator {
+            background-color: #4a5568; /* Darker background for dark theme */
+        }
+
+        #progressBar {
+            height: 100%;
+            width: 0%; /* Initial width */
+            background-image: linear-gradient(to right, #818cf8, #6366f1); /* Blue-purple gradient */
+            border-radius: 9999px;
+            transition: width 0.5s ease-out; /* Smooth transition for width changes */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.875rem; /* text-sm */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .dark-theme #progressBar {
+            background-image: linear-gradient(to right, #4A90E2, #6A5ACD); /* Dark theme gradient */
+        }
+        #progressText {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+
+        /* Confetti Canvas */
+        #confettiCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allow clicks to pass through */
+            z-index: 1001; /* Above puzzle, below modals */
+        }
+
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4 text-gray-900">
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
 
-    <div id="mainContent" class="w-full max-w-3xl bg-white p-6 rounded-xl shadow-lg">
-        <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6" data-key="mainTitle">Sliding Puzzle Interaktif</h1>
+    <div id="mainContent" class="w-full max-w-3xl p-6 rounded-xl main-container">
+        <h1 class="text-3xl font-bold text-center text-primary mb-6" data-key="mainTitle">Sliding Puzzle Interaktif</h1>
 
         <div class="mb-6 text-center">
-            <label for="languageSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectLanguage">Select Language:</label>
-            <select id="languageSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            <label for="themeSelect" class="block text-lg font-medium text-secondary mb-2" data-key="selectTheme">Pilih Tema:</label>
+            <select id="themeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
+                <option value="light" data-key="lightTheme">Terang</option>
+                <option value="dark" data-key="darkTheme">Gelap</option>
+            </select>
+        </div>
+
+        <div class="mb-6 text-center">
+            <label for="languageSelect" class="block text-lg font-medium text-secondary mb-2" data-key="selectLanguage">Pilih Bahasa:</label>
+            <select id="languageSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
                 <option value="en">English</option>
                 <option value="id">Indonesia</option>
                 <option value="es">Español</option>
@@ -285,12 +497,12 @@
         </div>
 
         <div class="mb-6">
-            <label for="imageUpload" class="block text-lg font-medium text-gray-700 mb-2" data-key="uploadPhoto">Unggah Foto Anda:</label>
-            <input type="file" id="imageUpload" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            <label for="imageUpload" class="block text-lg font-medium text-secondary mb-2" data-key="uploadPhoto">Unggah Foto Anda:</label>
+            <input type="file" id="imageUpload" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
         </div>
 
         <div class="mb-6 text-center">
-            <label class="block text-lg font-medium text-gray-700 mb-2" data-key="orSelectSample">Atau Pilih Gambar Contoh:</label>
+            <label class="block text-lg font-medium text-secondary mb-2" data-key="orSelectSample">Atau Pilih Gambar Contoh:</label>
             <div id="sampleImageContainer" class="flex flex-wrap justify-center gap-2">
                 <div class="sample-image-container" data-src="https://raw.githubusercontent.com/SapiBersinar/data/main/gambar/1.png">
                     <img src="https://raw.githubusercontent.com/SapiBersinar/data/main/gambar/1.png" alt="Contoh Gambar 1" onerror="this.onerror=null;this.src='https://placehold.co/80x80/cccccc/333333?text=Error';">
@@ -309,17 +521,19 @@
 
         <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
             <div class="text-center">
-                <label for="gridSizeSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectPuzzleSize">Pilih Ukuran Puzzle:</label>
-                <select id="gridSizeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <label for="gridSizeSelect" class="block text-lg font-medium text-secondary mb-2" data-key="selectPuzzleSize">Pilih Ukuran Puzzle:</label>
+                <select id="gridSizeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
                     <option value="3" selected>3x3</option>
                     <option value="4">4x4</option>
                     <option value="5">5x5</option>
+                    <option value="6">6x6</option> <!-- New -->
+                    <option value="7">7x7</option> <!-- New -->
                 </select>
             </div>
 
             <div class="text-center">
-                <label for="puzzleModeSelect" class="block text-lg font-medium text-gray-700 mb-2" data-key="selectPuzzleMode">Pilih Mode Puzzle:</label>
-                <select id="puzzleModeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <label for="puzzleModeSelect" class="block text-lg font-medium text-secondary mb-2" data-key="selectPuzzleMode">Pilih Mode Puzzle:</label>
+                <select id="puzzleModeSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
                     <option value="sliding" data-key="slidingPuzzle">Sliding Puzzle (Default)</option>
                     <option value="jigsaw" data-key="jigsaw">Jigsaw (Tanpa Nomor)</option>
                 </select>
@@ -327,11 +541,11 @@
         </div>
         
         <div class="flex justify-center gap-8 mb-4 text-center">
-            <div class="text-lg font-semibold text-gray-700">
-                <span data-key="moves">Gerakan</span>: <span id="moveCounter" class="text-indigo-700">0</span>
+            <div class="text-lg font-semibold text-secondary">
+                <span data-key="moves">Gerakan</span>: <span id="moveCounter" class="moves-time-text">0</span>
             </div>
-            <div class="text-lg font-semibold text-gray-700">
-                <span data-key="time">Waktu</span>: <span id="timerDisplay" class="text-indigo-700">00:00</span>
+            <div class="text-lg font-semibold text-secondary">
+                <span data-key="time">Waktu</span>: <span id="timerDisplay" class="moves-time-text">00:00</span>
             </div>
         </div>
 
@@ -351,9 +565,16 @@
         </div>
         <div id="solveStatus" class="text-center text-red-600 font-medium mb-4" style="min-height: 24px;"></div>
 
+        <!-- Progress Indicator -->
+        <div id="progressIndicator">
+            <div id="progressBar">
+                <span id="progressText">0%</span>
+            </div>
+        </div>
 
         <div class="relative w-full max-w-full flex justify-center items-center overflow-hidden mb-6" style="min-height: 250px;">
-            <canvas id="puzzleCanvas" class="w-full h-auto max-w-full"></canvas>
+            <canvas id="puzzleCanvas" class="w-full h-auto max-w-full canvas-border canvas-bg"></canvas>
+            <canvas id="confettiCanvas"></canvas> <!-- Confetti canvas overlay -->
         </div>
 
         <div class="text-center mt-4 flex flex-wrap justify-center gap-4">
@@ -363,17 +584,30 @@
             <button id="replayButton" class="btn-primary-gradient text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" style="display: none;" data-key="replayMoves">
                 Putar Ulang Gerakan
             </button>
+            <button id="shareLinkButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2" data-key="sharePuzzleLink">
+                Bagikan Tautan Puzzle
+            </button>
         </div>
         
-        <p class="text-center text-gray-600 text-sm italic mt-4" data-key="clickHint">Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.</p>
+        <p class="text-center text-secondary text-sm italic mt-4" data-key="clickHint">Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.</p>
 
         <div class="mt-6">
-            <h2 class="text-xl font-semibold text-gray-700 mb-2 text-center" data-key="moveHistoryTitle">Riwayat Gerakan Anda:</h2>
-            <div id="moveHistoryContainer" class="bg-gray-50 p-3 rounded-lg shadow-inner">
-                <ul id="moveHistoryList" class="list-disc list-inside text-gray-700">
+            <h2 class="text-xl font-semibold text-secondary mb-2 text-center" data-key="moveHistoryTitle">Riwayat Gerakan Anda:</h2>
+            <div id="moveHistoryContainer" class="p-3 rounded-lg shadow-inner">
+                <ul id="moveHistoryList" class="list-disc list-inside text-secondary">
                     <!-- Move history items will be appended here -->
                 </ul>
             </div>
+        </div>
+
+        <div id="playerStatsContainer" class="mt-6 p-4 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-secondary mb-3 text-center" data-key="playerStatsTitle">Statistik Pemain:</h2>
+            <ul class="text-secondary">
+                <li><span data-key="totalGamesPlayed">Total Game Dimainkan</span>: <span id="statTotalGames" class="font-bold text-primary">0</span></li>
+                <li><span data-key="totalTimePlayed">Total Waktu Bermain</span>: <span id="statTotalTime" class="font-bold text-primary">00:00:00</span></li>
+                <li><span data-key="bestTime3x3">Waktu Terbaik (3x3)</span>: <span id="statBestTime3x3" class="font-bold text-primary">--:--</span></li>
+                <li><span data-key="bestMoves3x3">Gerakan Terbaik (3x3)</span>: <span id="statBestMoves3x3" class="font-bold text-primary">--</span></li>
+            </ul>
         </div>
         
     </div>
@@ -391,7 +625,7 @@
     <!-- Cropper Modal -->
     <div id="imageCropperContainer" class="cropper-modal" style="display: none;">
         <div class="cropper-content">
-            <h2 class="text-2xl font-bold text-center text-indigo-700 mb-4" data-key="cropAreaTitle">Pilih Area Puzzle</h2>
+            <h2 class="text-2xl font-bold text-center text-primary mb-4" data-key="cropAreaTitle">Pilih Area Puzzle</h2>
             <canvas id="cropperCanvas"></canvas>
             <div class="cropper-controls">
                 <button id="confirmCropButton" class="btn-green-solve text-white font-semibold py-2 px-4 rounded-lg shadow-md" data-key="confirmCrop">
@@ -416,6 +650,7 @@
         const gridSizeSelect = document.getElementById('gridSizeSelect');
         const puzzleModeSelect = document.getElementById('puzzleModeSelect');
         const languageSelect = document.getElementById('languageSelect');
+        const themeSelect = document.getElementById('themeSelect'); // New theme select
         const shuffleButton = document.getElementById('shuffleButton');
         const undoButton = document.getElementById('undoButton');
         const solveButton = document.getElementById('solveButton');
@@ -436,6 +671,17 @@
         const loadingOverlay = document.getElementById('loadingOverlay');
         const loadingMessage = document.getElementById('loadingMessage');
         const moveHistoryList = document.getElementById('moveHistoryList');
+        const shareLinkButton = document.getElementById('shareLinkButton'); // Changed ID
+        const progressBar = document.getElementById('progressBar'); // New progress bar
+        const progressText = document.getElementById('progressText'); // New progress text
+        const confettiCanvas = document.getElementById('confettiCanvas'); // Confetti canvas
+        const confettiCtx = confettiCanvas.getContext('2d'); // Confetti context
+
+        // Player Statistics elements
+        const statTotalGames = document.getElementById('statTotalGames');
+        const statTotalTime = document.getElementById('statTotalTime');
+        const statBestTime3x3 = document.getElementById('statBestTime3x3');
+        const statBestMoves3x3 = document.getElementById('statBestMoves3x3');
 
         // Cropper elements
         const imageCropperContainer = document.getElementById('imageCropperContainer');
@@ -451,6 +697,7 @@
         let gridSize = parseInt(gridSizeSelect.value);
         let currentPuzzleMode = puzzleModeSelect.value;
         let currentLanguage = 'en'; // Default language
+        let currentTheme = 'light'; // Default theme
         const fixedCanvasSize = 1080; // Fixed to 1080x1080
         let pieceWidth;
         let pieceHeight;
@@ -469,20 +716,27 @@
         let hasMadeFirstMove = false; // New flag for timer start
         const animationDuration = 200; // Manual move animation duration (ms)
         
+        let hoveredPieceIndex = -1; // Variable to track currently hovered piece for visual effect
+        let currentBase64Image = ''; // Global variable to store the current puzzle image as Base64
+
         // Dynamic shuffle animation parameters
-        const getShuffleParams = (gridSize) => {
-            switch (gridSize) {
+        const getShuffleParams = (currentGridSize) => {
+            switch (currentGridSize) {
                 case 3: return { numMoves: 220, visualDelay: 16 }; // ~3.5s total (220 * 16ms)
                 case 4: return { numMoves: 240, visualDelay: 17 }; // ~4s total (240 * 17ms)
                 case 5: return { numMoves: 500, visualDelay: 10 }; // ~5s total (500 * 10ms)
+                case 6: return { numMoves: 600, visualDelay: 8 }; // ~4.8s total
+                case 7: return { numMoves: 700, visualDelay: 7 }; // ~4.9s total
                 default: return { numMoves: 220, visualDelay: 16 };
             }
         };
 
         // Delay per gerakan untuk auto-solve, tergantung ukuran grid
-        const getAutoSolveStepDelay = (gridSize) => {
-            if (gridSize === 3 || gridSize === 4) return 150; // 0.15 seconds for smoother auto-solve
-            if (gridSize === 5) return 350; // 0.35 seconds
+        const getAutoSolveStepDelay = (currentGridSize) => {
+            if (currentGridSize <= 4) return 150; // 0.15 seconds for smoother auto-solve
+            if (currentGridSize === 5) return 350; // 0.35 seconds
+            if (currentGridSize === 6) return 500; // 0.5 seconds
+            if (currentGridSize === 7) return 700; // 0.7 seconds
             return 150; // Default
         };
         
@@ -509,6 +763,18 @@
         let moveHistory = [];
         const maxMoveHistory = 10;
 
+        // Player Statistics Object
+        let playerStats = {
+            totalGamesPlayed: 0,
+            totalTimePlayedSeconds: 0,
+            bestTime3x3Seconds: Infinity,
+            bestMoves3x3: Infinity
+        };
+
+        // Confetti particles array
+        let confettiParticles = [];
+        let confettiAnimationId = null;
+
         // =====================================================================
         // Language Translations
         // =====================================================================
@@ -516,6 +782,9 @@
             en: {
                 mainTitle: "Interactive Sliding Puzzle",
                 selectLanguage: "Select Language:",
+                selectTheme: "Select Theme:", // New
+                lightTheme: "Light", // New
+                darkTheme: "Dark", // New
                 uploadPhoto: "Upload Your Photo:",
                 orSelectSample: "Or Select a Sample Image:",
                 selectPuzzleSize: "Select Puzzle Size:",
@@ -530,6 +799,7 @@
                 resetPuzzle: "Reset Puzzle",
                 viewOriginalImage: "View Original Image",
                 replayMoves: "Replay Moves",
+                sharePuzzleLink: "Share Puzzle Link", // Changed from shareResult
                 clickHint: "Click a piece adjacent to the empty space to move it.",
                 moveHistoryTitle: "Your Move History:",
                 noMovesYet: "No moves yet.",
@@ -543,13 +813,15 @@
                 failedLoadImage: "Failed to load image. Please ensure it's a valid image file.",
                 failedLoadSampleImage: "Failed to load sample image. Please try again or upload your own image.",
                 shufflingPuzzle: "Shuffling puzzle...",
-                shuffleSuccess: (numMoves, time) => `Successfully shuffled ${numMoves} moves in ${time} seconds.`,
+                // shuffleSuccess: (numMoves, time) => `Successfully shuffled ${numMoves} moves in ${time} seconds.`, // Removed
                 shuffleFail: (attempts) => `Failed to find a solvable puzzle after ${attempts} attempts. Try shuffling again.`,
                 noUndo: "No moves to undo.",
                 confirmReset: "Are you sure you want to reset the puzzle? Your progress will be lost.",
-                uploadImageFirst: "Please upload an image first.",
+                uploadImageFirst: "Please upload an image first.", // This message is now reused for "puzzle not ready"
                 autoSolveConfirm: "Do you want the puzzle to be solved automatically? This will reset your moves.",
                 autoSolveWarning5x5: "Warning: 5x5 Auto-Solve is Very Slow! Please be patient.",
+                autoSolveWarning6x6: "Warning: 6x6 Auto-Solve is Extremely Slow! Please be patient.",
+                autoSolveWarning7x7: "Warning: 7x7 Auto-Solve is Impractically Slow! Use with caution.",
                 autoSolveSearching: "Searching for auto-solve solution...",
                 solutionFound: (numMoves) => `Solution found! Playing ${numMoves} moves...`,
                 errorPlayingSolution: "An error occurred while playing the solution.",
@@ -564,10 +836,21 @@
                 directionLeft: "Left",
                 directionDown: "Down",
                 directionUp: "Up",
+                shareLinkCopied: "Puzzle link copied to clipboard!", // New message for share link
+                playerStatsTitle: "Player Statistics:", // New
+                totalGamesPlayed: "Total Games Played", // New
+                totalTimePlayed: "Total Time Played", // New
+                bestTime3x3: "Best Time (3x3)", // New
+                bestMoves3x3: "Best Moves (3x3)", // New
+                notApplicable: "--", // New
+                puzzleNotShuffled: "The puzzle is not shuffled yet. Please click 'Shuffle' to begin.", // New message
             },
             id: {
                 mainTitle: "Sliding Puzzle Interaktif",
                 selectLanguage: "Pilih Bahasa:",
+                selectTheme: "Pilih Tema:", // New
+                lightTheme: "Terang", // New
+                darkTheme: "Gelap", // New
                 uploadPhoto: "Unggah Foto Anda:",
                 orSelectSample: "Atau Pilih Gambar Contoh:",
                 selectPuzzleSize: "Pilih Ukuran Puzzle:",
@@ -582,6 +865,7 @@
                 resetPuzzle: "Reset Puzzle",
                 viewOriginalImage: "Lihat Gambar Asli",
                 replayMoves: "Putar Ulang Gerakan",
+                sharePuzzleLink: "Bagikan Tautan Puzzle", // Changed from shareResult
                 clickHint: "Klik potongan yang berdekatan dengan tempat kosong untuk memindahkannya.",
                 moveHistoryTitle: "Riwayat Gerakan Anda:",
                 noMovesYet: "Belum ada gerakan.",
@@ -595,13 +879,15 @@
                 failedLoadImage: "Gagal memuat gambar. Pastikan ini adalah file gambar yang valid.",
                 failedLoadSampleImage: "Gagal memuat gambar contoh. Silakan coba lagi atau unggah gambar Anda sendiri.",
                 shufflingPuzzle: "Mengacak puzzle...",
-                shuffleSuccess: (numMoves, time) => `Berhasil mengacak ${numMoves} gerakan dalam ${time} detik.`,
+                // shuffleSuccess: (numMoves, time) => `Berhasil mengacak ${numMoves} gerakan dalam ${time} detik.`, // Removed
                 shuffleFail: (attempts) => `Gagal menemukan puzzle yang dapat dipecahkan setelah ${attempts} percobaan. Coba acak ulang.`,
                 noUndo: "Tidak ada gerakan untuk di-undo.",
                 confirmReset: "Apakah Anda yakin ingin mereset puzzle? Progres Anda akan hilang.",
-                uploadImageFirst: "Silakan unggah gambar terlebih dahulu.",
+                uploadImageFirst: "Silakan unggah gambar terlebih dahulu.", // This message is now reused for "puzzle not ready"
                 autoSolveConfirm: "Apakah Anda ingin puzzle diselesaikan secara otomatis? Ini akan mereset gerakan Anda.",
                 autoSolveWarning5x5: "Peringatan: 5x5 Otomatis Sangat Lambat! Harap Bersabar.",
+                autoSolveWarning6x6: "Peringatan: 6x6 Otomatis Sangat Lambat! Harap Bersabar.",
+                autoSolveWarning7x7: "Peringatan: 7x7 Otomatis Sangat Tidak Praktis! Gunakan dengan hati-hati.",
                 autoSolveSearching: "Mencari solusi otomatis...",
                 solutionFound: (numMoves) => `Solusi ditemukan! Memainkan ${numMoves} gerakan...`,
                 errorPlayingSolution: "Terjadi kesalahan saat memainkan solusi.",
@@ -616,10 +902,21 @@
                 directionLeft: "Kiri",
                 directionDown: "Bawah",
                 directionUp: "Atas",
+                shareLinkCopied: "Tautan puzzle disalin ke clipboard!", // New message for share link
+                playerStatsTitle: "Statistik Pemain:", // New
+                totalGamesPlayed: "Total Game Dimainkan", // New
+                totalTimePlayed: "Total Waktu Bermain", // New
+                bestTime3x3: "Waktu Terbaik (3x3)", // New
+                bestMoves3x3: "Gerakan Terbaik (3x3)", // New
+                notApplicable: "--", // New
+                puzzleNotShuffled: "Puzzle belum diacak. Silakan klik 'Acak' untuk memulai.", // New message
             },
             es: {
                 mainTitle: "Rompecabezas Deslizante Interactivo",
                 selectLanguage: "Seleccionar Idioma:",
+                selectTheme: "Seleccionar Tema:", // New
+                lightTheme: "Claro", // New
+                darkTheme: "Oscuro", // New
                 uploadPhoto: "Sube tu foto:",
                 orSelectSample: "O Selecciona una Imagen de Ejemplo:",
                 selectPuzzleSize: "Seleccionar Tamaño del Rompecabezas:",
@@ -634,6 +931,7 @@
                 resetPuzzle: "Reiniciar Rompecabezas",
                 viewOriginalImage: "Ver Imagen Original",
                 replayMoves: "Reproducir Movimientos",
+                sharePuzzleLink: "Compartir Enlace del Rompecabezas", // Changed from shareResult
                 clickHint: "Haz clic en una pieza adyacente al espacio vacío para moverla.",
                 moveHistoryTitle: "Tu Historial de Movimientos:",
                 noMovesYet: "Aún no hay movimientos.",
@@ -647,13 +945,15 @@
                 failedLoadImage: "No se pudo cargar la imagen. Asegúrate de que sea un archivo de imagen válido.",
                 failedLoadSampleImage: "No se pudo cargar la imagen de ejemplo. Inténtalo de nuevo o sube tu propia imagen.",
                 shufflingPuzzle: "Barajando rompecabezas...",
-                shuffleSuccess: (numMoves, time) => `Se barajaron ${numMoves} movimientos en ${time} segundos.`,
-                shuffleFail: (attempts) => `No se pudo encontrar un rompecabezas resoluble después de ${attempts} intentos. Intenta barajar de nuevo.`,
+                // shuffleSuccess: (numMoves, time) => `Se barajaron ${numMoves} movimientos en ${time} segundos.`, // Removed
+                shuffleFail: (attempts) => `No se pudo encontrar un rompecabezas resoluble después de ${attempts} intentos. Intenta barajar de nuevo.",`,
                 noUndo: "No hay movimientos para deshacer.",
                 confirmReset: "¿Estás seguro de que quieres reiniciar el rompecabezas? Tu progreso se perderá.",
-                uploadImageFirst: "Por favor, sube una imagen primero.",
+                uploadImageFirst: "Por favor, sube una imagen primero.", // This message is now reused for "puzzle not ready"
                 autoSolveConfirm: "¿Quieres que el rompecabezas se resuelva automáticamente? Esto reiniciará tus movimientos.",
                 autoSolveWarning5x5: "Advertencia: ¡La resolución automática 5x5 es muy lenta! Ten paciencia.",
+                autoSolveWarning6x6: "Advertencia: ¡La resolución automática 6x6 es extremadamente lenta! Ten paciencia.",
+                autoSolveWarning7x7: "Advertencia: ¡La resolución automática 7x7 es imprácticamente lenta! Úsala con precaución.",
                 autoSolveSearching: "Buscando solución automática...",
                 solutionFound: (numMoves) => `¡Solución encontrada! Reproduciendo ${numMoves} movimientos...`,
                 errorPlayingSolution: "Ocurrió un error al reproducir la solución.",
@@ -668,10 +968,21 @@
                 directionLeft: "Izquierda",
                 directionDown: "Abajo",
                 directionUp: "Arriba",
+                shareLinkCopied: "¡Enlace del rompecabezas copiado al portapapeles!", // New message for share link
+                playerStatsTitle: "Estadísticas del Jugador:", // New
+                totalGamesPlayed: "Total de Juegos Jugados", // New
+                totalTimePlayed: "Tiempo Total Jugado", // New
+                bestTime3x3: "Mejor Tiempo (3x3)", // New
+                bestMoves3x3: "Mejores Movimientos (3x3)", // New
+                notApplicable: "--", // New
+                puzzleNotShuffled: "El rompecabezas aún no está barajado. Haz clic en 'Barajar' para empezar.", // New message
             },
             ja: {
                 mainTitle: "インタラクティブスライディングパズル",
                 selectLanguage: "言語を選択:",
+                selectTheme: "テーマを選択:", // New
+                lightTheme: "ライト", // New
+                darkTheme: "ダーク", // New
                 uploadPhoto: "写真をアップロード:",
                 orSelectSample: "またはサンプル画像を選択:",
                 selectPuzzleSize: "パズルサイズを選択:",
@@ -686,6 +997,7 @@
                 resetPuzzle: "パズルをリセット",
                 viewOriginalImage: "元の画像を見る",
                 replayMoves: "動きを再生",
+                sharePuzzleLink: "パズルリンクを共有", // Changed from shareResult
                 clickHint: "空のスペースに隣接するピースをクリックして移動します。",
                 moveHistoryTitle: "あなたの移動履歴:",
                 noMovesYet: "まだ動きはありません。",
@@ -699,17 +1011,19 @@
                 failedLoadImage: "画像の読み込みに失敗しました。有効な画像ファイルであることを確認してください。",
                 failedLoadSampleImage: "サンプル画像の読み込みに失敗しました。もう一度試すか、ご自身の画像をアップロードしてください。",
                 shufflingPuzzle: "パズルをシャッフル中...",
-                shuffleSuccess: (numMoves, time) => `${numMoves}回の移動を${time}秒で正常にシャッフルしました。`,
+                // shuffleSuccess: (numMoves, time) => `${numMoves}回の移動を${time}秒で正常にシャッフルしました。`, // Removed
                 shuffleFail: (attempts) => `${attempts}回の試行後も解けるパズルが見つかりませんでした。もう一度シャッフルしてみてください。`,
                 noUndo: "元に戻す動きはありません。",
                 confirmReset: "パズルをリセットしてもよろしいですか？進行状況は失われます。",
-                uploadImageFirst: "まず画像をアップロードしてください。",
+                uploadImageFirst: "まず画像をアップロードしてください。", // This message is now reused for "puzzle not ready"
                 autoSolveConfirm: "パズルを自動的に解決しますか？これにより、あなたの移動がリセットされます。",
                 autoSolveWarning5x5: "警告：5x5の自動解決は非常に遅いです！しばらくお待ちください。",
+                autoSolveWarning6x6: "警告：6x6の自動解決は非常に遅いです！しばらくお待ちください。",
+                autoSolveWarning7x7: "警告：7x7の自動解決は実用的に遅いです！注意して使用してください。",
                 autoSolveSearching: "自動解決策を検索中...",
                 solutionFound: (numMoves) => `解決策が見つかりました！${numMoves}回の移動を再生中...`,
                 errorPlayingSolution: "解決策の再生中にエラーが発生しました。",
-                solutionNotFound: "時間/計算制限内で解決策が見つかりませんでした。もう一度シャッフルしてみてください。",
+                solutionNotFound: "時間/計算制限内で解決策が見つかりませんでした。もう一度シャッフルしてください。",
                 noReplayMoves: "再生する動きはありません。",
                 replayFinished: "再生が終了しました。",
                 puzzleSolved: (moves, time) => `おめでとうございます！${moves}回の移動と${time}でパズルが解決しました！`,
@@ -720,6 +1034,14 @@
                 directionLeft: "左",
                 directionDown: "下",
                 directionUp: "上",
+                shareLinkCopied: "パズルリンクがクリップボードにコピーされました！", // New message for share link
+                playerStatsTitle: "プレイヤー統計:", // New
+                totalGamesPlayed: "総プレイ回数", // New
+                totalTimePlayed: "総プレイ時間", // New
+                bestTime3x3: "ベストタイム (3x3)", // New
+                bestMoves3x3: "ベストムーブ (3x3)", // New
+                notApplicable: "--", // New
+                puzzleNotShuffled: "パズルはまだシャッフルされていません。開始するには「シャッフル」をクリックしてください。", // New message
             }
         };
 
@@ -731,7 +1053,14 @@
             elements.forEach(element => {
                 const key = element.getAttribute('data-key');
                 if (translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
+                    // Check if the translation is a function (like for shareMessage)
+                    if (typeof translations[currentLanguage][key] === 'function') {
+                        // For data-key elements, we just set the text content to the key itself
+                        // The actual formatted message will be generated when needed (e.g., share button click)
+                        element.textContent = translations[currentLanguage][key].name ? key : translations[currentLanguage][key]; // Fallback to key if it's a function without a name for display
+                    } else {
+                        element.textContent = translations[currentLanguage][key];
+                    }
                 }
             });
 
@@ -739,12 +1068,17 @@
             document.getElementById('puzzleModeSelect').querySelector('option[value="sliding"]').textContent = translations[currentLanguage].slidingPuzzle;
             document.getElementById('puzzleModeSelect').querySelector('option[value="jigsaw"]').textContent = translations[currentLanguage].jigsaw;
             
+            // Update theme options text
+            document.getElementById('themeSelect').querySelector('option[value="light"]').textContent = translations[currentLanguage].lightTheme;
+            document.getElementById('themeSelect').querySelector('option[value="dark"]').textContent = translations[currentLanguage].darkTheme;
+
             // Update placeholder text for image upload
             const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
             const placeholderSize = fixedCanvasSize;
             originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
             
             renderMoveHistory(); // Re-render move history with updated language
+            updatePlayerStatisticsDisplay(); // Re-render player stats with updated language
         }
 
         // =====================================================================
@@ -755,6 +1089,27 @@
             savePreferences(); // Save preference
             updateTextContent();
         });
+
+        // =====================================================================
+        // Handle Theme Selection Change (with Local Storage)
+        // =====================================================================
+        themeSelect.addEventListener('change', (event) => {
+            currentTheme = event.target.value;
+            applyTheme(currentTheme);
+            savePreferences(); // Save preference
+            // Redraw puzzle to apply new number colors/strokes
+            if (puzzleReady) {
+                drawPuzzle();
+            }
+        });
+
+        // =====================================================================
+        // Apply Theme to Body
+        // =====================================================================
+        function applyTheme(themeName) {
+            document.body.classList.remove('light-theme', 'dark-theme');
+            document.body.classList.add(`${themeName}-theme`);
+        }
 
         // =====================================================================
         // Utility function for notifications (replaces alert())
@@ -875,12 +1230,12 @@
                 showLoading("loadingImage");
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    originalImage.onload = () => {
+                    originalImage.onload = async () => { // Added async here
                         hideLoading();
                         // Check if image is already 1:1 aspect ratio
                         if (originalImage.width === originalImage.height) {
                             initializePuzzle(0, 0, originalImage.width, originalImage.height); // Use full image
-                            animateShuffle();
+                            await animateShuffle(); // Auto-shuffle after image load
                         } else {
                             setupCroppingInterface(); // Show cropper for non-square images
                         }
@@ -899,7 +1254,7 @@
         // Handle Sample Image Selection
         // =====================================================================
         sampleImageContainers.forEach(container => {
-            container.addEventListener('click', async (event) => {
+            container.addEventListener('click', async (event) => { // Added async here
                 const imageUrl = container.dataset.src;
                 if (!imageUrl) return;
 
@@ -908,12 +1263,12 @@
                 showLoading("loadingSampleImage");
                 disableAllButtons(); // Disable main buttons while loading/cropping
 
-                originalImage.onload = () => {
+                originalImage.onload = async () => { // Added async here
                     hideLoading();
                     // Check if image is already 1:1 aspect ratio
                     if (originalImage.width === originalImage.height) {
                         initializePuzzle(0, 0, originalImage.width, originalImage.height); // Use full image
-                        animateShuffle();
+                        await animateShuffle(); // Auto-shuffle after image load
                     } else {
                         setupCroppingInterface(); // Show cropper for non-square images
                     }
@@ -935,6 +1290,7 @@
             gridSize = parseInt(event.target.value);
             savePreferences(); // Save preference
             if (puzzleReady) {
+                // When grid size changes, re-initialize to solved state and then auto-shuffle
                 initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
                 await animateShuffle();
             } else {
@@ -948,10 +1304,11 @@
             currentPuzzleMode = event.target.value;
             savePreferences(); // Save preference
             if (puzzleReady) {
+                // When mode changes, re-initialize to solved state and then auto-shuffle
                 initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
                 await animateShuffle();
             } else {
-                drawPuzzle();
+                drawPuzzle(); // Just redraw if no image is loaded yet
             }
         });
 
@@ -966,6 +1323,8 @@
 
             puzzleCanvas.width = fixedCanvasSize;
             puzzleCanvas.height = fixedCanvasSize;
+            confettiCanvas.width = fixedCanvasSize; // Set confetti canvas size
+            confettiCanvas.height = fixedCanvasSize;
 
             pieceWidth = puzzleCanvas.width / gridSize;
             pieceHeight = puzzleCanvas.height / gridSize;
@@ -987,12 +1346,13 @@
             }
             blankPieceIndex = totalPieces - 1;
             puzzlePieces[blankPieceIndex].isBlank = true;
-            isShuffled = false; 
+            isShuffled = false; // Puzzle is in solved state by default
             moves = 0;
             undoStack = [];
             replayMoves = []; // Reset replay moves
             initialShuffledStateForReplay = []; // Reset initial state for replay
             replayButton.style.display = 'none'; // Hide replay button
+            shareLinkButton.style.display = 'inline-block'; // Show share link button
             moveHistory = []; // Reset move history
             renderMoveHistory(); // Update UI
             updateMoveCounter();
@@ -1000,10 +1360,17 @@
             timerDisplay.textContent = '00:00';
             hasMadeFirstMove = false; // Reset first move flag for timer
             drawPuzzle(); // Draw in solved state
+            updateProgressIndicator(); // Update progress to 0%
+            hoveredPieceIndex = -1; // Reset hover state
 
             puzzleCanvas.classList.remove('puzzle-solved-animation');
             solveStatusDisplay.textContent = '';
             puzzleReady = true;
+            enableAllButtons(); // Ensure buttons are enabled after puzzle initialization
+            stopConfetti(); // Clear any existing confetti
+
+            // After drawing the initial solved puzzle, capture its Base64 for sharing
+            currentBase64Image = puzzleCanvas.toDataURL('image/png');
         }
 
         // =====================================================================
@@ -1014,6 +1381,9 @@
 
             puzzleCanvas.width = fixedCanvasSize;
             puzzleCanvas.height = fixedCanvasSize;
+            confettiCanvas.width = fixedCanvasSize; // Set confetti canvas size
+            confettiCanvas.height = fixedCanvasSize;
+
             pieceWidth = puzzleCanvas.width / gridSize;
             pieceHeight = puzzleCanvas.height / gridSize;
 
@@ -1025,6 +1395,7 @@
             });
 
             drawPuzzle();
+            updateProgressIndicator(); // Update progress on redraw
         }
 
         // =====================================================================
@@ -1043,16 +1414,20 @@
                     );
 
                     // Draw border around pieces
-                    ctx.strokeStyle = '#6366f1';
+                    const borderColor = currentTheme === 'dark' ? '#4f46e5' : '#6366f1'; // Indigo-600 for dark theme
+                    ctx.strokeStyle = borderColor;
                     ctx.lineWidth = 2;
                     ctx.strokeRect(piece.currentX, piece.currentY, pieceWidth, pieceHeight);
 
                     // Draw numbers only if not in Jigsaw mode
                     if (currentPuzzleMode === 'sliding') {
-                        ctx.fillStyle = '#312e81';
-                        ctx.font = `${Math.min(pieceWidth, pieceHeight) * 0.3}px Inter, sans-serif`;
+                        const fontSize = Math.min(pieceWidth, pieceHeight) * 0.3;
+                        ctx.font = `${fontSize}px Inter, sans-serif`;
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'middle';
+
+                        // Fill text (always black for numbers)
+                        ctx.fillStyle = '#000000'; // Black text for numbers
                         ctx.fillText(
                             piece.id + 1,
                             piece.currentX + pieceWidth / 2,
@@ -1061,13 +1436,42 @@
                     }
                 } else {
                     // Blank piece styling
-                    ctx.fillStyle = '#e0e7ff';
+                    const blankBgColor = currentTheme === 'dark' ? '#4a5568' : '#e0e7ff';
+                    const blankBorderColor = currentTheme === 'dark' ? '#4f46e5' : '#6366f1'; // Indigo-600 for dark theme
+                    ctx.fillStyle = blankBgColor;
                     ctx.fillRect(piece.currentX, piece.currentY, pieceWidth, pieceHeight);
-                    ctx.strokeStyle = '#6366f1';
+                    ctx.strokeStyle = blankBorderColor;
                     ctx.lineWidth = 2;
                     ctx.strokeRect(piece.currentX, piece.currentY, pieceWidth, pieceHeight);
                 }
             });
+
+            // Draw hover effect
+            if (hoveredPieceIndex !== -1 && !isProcessingClick && !solving && !shuffling && !isReplaying) {
+                const hoveredPiece = puzzlePieces.find(p => p.id === hoveredPieceIndex);
+                if (hoveredPiece && !hoveredPiece.isBlank) {
+                    const blankPiece = puzzlePieces.find(p => p.isBlank);
+                    const hoveredPieceCol = Math.round(hoveredPiece.currentX / pieceWidth);
+                    const hoveredPieceRow = Math.round(hoveredPiece.currentY / pieceHeight);
+                    const blankPieceCol = Math.round(blankPiece.currentX / pieceWidth);
+                    const blankPieceRow = Math.round(blankPiece.currentY / pieceHeight);
+
+                    const isAdjacent = (
+                        (Math.abs(hoveredPieceCol - blankPieceCol) === 1 && hoveredPieceRow === blankPieceRow) ||
+                        (Math.abs(hoveredPieceRow - blankPieceRow) === 1 && hoveredPieceCol === blankPieceCol)
+                    );
+
+                    if (isAdjacent) {
+                        ctx.strokeStyle = currentTheme === 'dark' ? '#9370DB' : '#a855f7'; // Purple for hover
+                        ctx.lineWidth = 4; // Thicker border on hover
+                        ctx.shadowColor = currentTheme === 'dark' ? 'rgba(147, 112, 219, 0.7)' : 'rgba(168, 85, 247, 0.7)'; // Matching shadow
+                        ctx.shadowBlur = 10;
+                        ctx.strokeRect(hoveredPiece.currentX, hoveredPiece.currentY, pieceWidth, pieceHeight);
+                        ctx.shadowColor = 'transparent'; // Reset shadow
+                        ctx.shadowBlur = 0; // Reset shadow
+                    }
+                }
+            }
         }
 
         // =====================================================================
@@ -1178,24 +1582,28 @@
                 puzzlePieces = correctedPuzzlePieces;
                 drawPuzzle(); // Final draw to the guaranteed solvable state
 
-                const shuffleEndTime = Date.now();
-                const elapsedTimeSeconds = ((shuffleEndTime - shuffleStartTime) / 1000).toFixed(2);
+                // const shuffleEndTime = Date.now(); // Removed this message
+                // const elapsedTimeSeconds = ((shuffleEndTime - shuffleStartTime) / 1000).toFixed(2); // Removed this message
 
-                isShuffled = true;
+                isShuffled = true; // Set to true after successful shuffle
                 moves = 0;
                 undoStack = [];
                 replayMoves = []; // Clear replay moves for a fresh game
                 initialShuffledStateForReplay = puzzlePieces.map(p => ({ ...p })); // Store initial state for replay
                 replayButton.style.display = 'none'; // Hide replay button
+                shareLinkButton.style.display = 'inline-block'; // Show share link button
                 moveHistory = []; // Reset move history
                 renderMoveHistory(); // Update UI
                 updateMoveCounter();
                 hasMadeFirstMove = false; // Reset for timer to start on first user move
+                updateProgressIndicator(); // Update progress after shuffle
+                hoveredPieceIndex = -1; // Reset hover state
                 
                 shuffling = false;
                 enableAllButtons();
 
-                solveStatusDisplay.textContent = translations[currentLanguage].shuffleSuccess(numMoves, elapsedTimeSeconds);
+                // solveStatusDisplay.textContent = translations[currentLanguage].shuffleSuccess(numMoves, elapsedTimeSeconds); // Removed this line
+                solveStatusDisplay.textContent = ''; // Clear status after shuffle
                 
             } else {
                 shuffling = false;
@@ -1244,7 +1652,9 @@
 
                 updateMoveCounter();
                 drawPuzzle();
+                updateProgressIndicator(); // Update progress after undo
                 puzzleModeSelect.value = currentPuzzleMode;
+                hoveredPieceIndex = -1; // Reset hover state
             } else {
                 showMessageBox("noUndo");
             }
@@ -1280,6 +1690,7 @@
                 replayMoves = []; // Reset replay moves
                 initialShuffledStateForReplay = []; // Reset initial state for replay
                 replayButton.style.display = 'none'; // Hide replay button
+                shareLinkButton.style.display = 'inline-block'; // Show share link button
                 moveHistory = []; // Reset move history
                 renderMoveHistory(); // Update UI
                 updateMoveCounter();
@@ -1287,8 +1698,11 @@
                 timerDisplay.textContent = '00:00';
                 hasMadeFirstMove = false; // Reset first move flag
                 drawPuzzle();
+                updateProgressIndicator(); // Update progress to 0%
                 puzzleCanvas.classList.remove('puzzle-solved-animation');
                 solveStatusDisplay.textContent = '';
+                stopConfetti(); // Stop any active confetti
+                hoveredPieceIndex = -1; // Reset hover state
 
                 enableAllButtons();
             });
@@ -1299,7 +1713,11 @@
         // Handle Puzzle Click/Touch (to move pieces)
         // =====================================================================
         puzzleCanvas.addEventListener('click', (event) => {
-            if (!puzzleReady || !isShuffled || isProcessingClick || solving || shuffling || isReplaying) { // Disable during replay
+            // Only allow moves if puzzle is ready AND shuffled
+            if (!puzzleReady || !isShuffled || isProcessingClick || solving || shuffling || isReplaying) {
+                if (puzzleReady && !isShuffled) {
+                    showMessageBox("puzzleNotShuffled"); // Use the new, more accurate message
+                }
                 return;
             }
             isProcessingClick = true;
@@ -1374,12 +1792,70 @@
                         moves++;
                         updateMoveCounter();
                         drawPuzzle();
+                        updateProgressIndicator(); // Update progress after move
                         checkWin();
                         isProcessingClick = false;
                     }
                 );
             } else {
                 isProcessingClick = false;
+            }
+        });
+
+        // =====================================================================
+        // Handle mouse/touch events for hover effect
+        // =====================================================================
+        puzzleCanvas.addEventListener('mousemove', (event) => {
+            if (!puzzleReady || !isShuffled || isProcessingClick || solving || shuffling || isReplaying) {
+                if (hoveredPieceIndex !== -1) { // If a piece was hovered but interaction is now blocked
+                    hoveredPieceIndex = -1;
+                    drawPuzzle(); // Redraw to remove hover effect
+                }
+                return;
+            }
+
+            const rect = puzzleCanvas.getBoundingClientRect();
+            const scaleX = puzzleCanvas.width / rect.width;
+            const scaleY = puzzleCanvas.height / rect.height;
+
+            const mouseX = (event.clientX - rect.left) * scaleX;
+            const mouseY = (event.clientY - rect.top) * scaleY;
+
+            const currentHoveredCol = Math.floor(mouseX / pieceWidth);
+            const currentHoveredRow = Math.floor(mouseY / pieceHeight);
+            
+            const currentHoveredPiece = puzzlePieces.find(p => 
+                Math.abs(p.currentX - (currentHoveredCol * pieceWidth)) < 1 && 
+                Math.abs(p.currentY - (currentHoveredRow * pieceHeight)) < 1
+            );
+
+            let newHoveredIndex = -1;
+            if (currentHoveredPiece && !currentHoveredPiece.isBlank) {
+                const blankPiece = puzzlePieces.find(p => p.isBlank);
+                const hoveredPieceCol = Math.round(currentHoveredPiece.currentX / pieceWidth);
+                const hoveredPieceRow = Math.round(currentHoveredPiece.currentY / pieceHeight);
+                const blankPieceCol = Math.round(blankPiece.currentX / pieceWidth);
+                const blankPieceRow = Math.round(blankPiece.currentY / pieceHeight);
+
+                const isAdjacent = (
+                    (Math.abs(hoveredPieceCol - blankPieceCol) === 1 && hoveredPieceRow === blankPieceRow) ||
+                    (Math.abs(hoveredPieceRow - blankPieceRow) === 1 && hoveredPieceCol === blankPieceCol)
+                );
+                if (isAdjacent) {
+                    newHoveredIndex = currentHoveredPiece.id;
+                }
+            }
+
+            if (newHoveredIndex !== hoveredPieceIndex) {
+                hoveredPieceIndex = newHoveredIndex;
+                drawPuzzle(); // Redraw only if hover state changes
+            }
+        });
+
+        puzzleCanvas.addEventListener('mouseout', () => {
+            if (hoveredPieceIndex !== -1) {
+                hoveredPieceIndex = -1;
+                drawPuzzle(); // Redraw to remove hover effect
             }
         });
 
@@ -1483,6 +1959,7 @@
                 
                 drawPuzzle();
                 puzzleCanvas.classList.add('puzzle-solved-animation'); // Apply bounce animation
+                startConfetti(); // Start confetti animation
                 
                 showMessageBox("puzzleSolved", moves, timerDisplay.textContent);
                 
@@ -1490,11 +1967,17 @@
                 solving = false;
                 shuffling = false;
                 isProcessingClick = false;
-                
+                hoveredPieceIndex = -1; // Reset hover state
+
                 // Show replay button if there are moves to replay
                 if (replayMoves.length > 0) {
                     replayButton.style.display = 'inline-block';
                 }
+                shareLinkButton.style.display = 'inline-block'; // Show share link button
+
+                // Update player statistics
+                updatePlayerStatistics(moves, Math.floor((Date.now() - startTime) / 1000));
+                updateProgressIndicator(); // Update progress to 100%
             }
         }
 
@@ -1511,9 +1994,11 @@
             puzzleModeSelect.disabled = true;
             viewOriginalImageButton.disabled = true;
             replayButton.disabled = true; // Disable replay button during operations
+            shareLinkButton.disabled = true; // Disable share link button during operations
             sampleImageContainers.forEach(container => container.style.pointerEvents = 'none');
             sampleImageContainers.forEach(container => container.style.opacity = '0.5');
             languageSelect.disabled = true; // Disable language select during operations
+            themeSelect.disabled = true; // Disable theme select during operations
         }
 
         // =====================================================================
@@ -1529,9 +2014,11 @@
             puzzleModeSelect.disabled = false;
             viewOriginalImageButton.disabled = false;
             replayButton.disabled = false; // Enable replay button
+            shareLinkButton.disabled = false; // Enable share link button
             sampleImageContainers.forEach(container => container.style.pointerEvents = 'auto');
             sampleImageContainers.forEach(container => container.style.opacity = '1');
             languageSelect.disabled = false; // Enable language select
+            themeSelect.disabled = false; // Enable theme select
         }
 
         // =====================================================================
@@ -1552,7 +2039,11 @@
             isProcessingClick = true;
             hasMadeFirstMove = true; // Auto-solve implies moves are being made, so start timer
             startTimer();
-            if (gridSize === 5) {
+            if (gridSize === 7) {
+                showLoading("autoSolveWarning7x7");
+            } else if (gridSize === 6) {
+                showLoading("autoSolveWarning6x6");
+            } else if (gridSize === 5) {
                 showLoading("autoSolveWarning5x5");
             } else {
                 showLoading("autoSolveSearching");
@@ -1644,6 +2135,7 @@
                 replayMoves = [];
                 initialShuffledStateForReplay = []; // Clear initial state for auto-solve replay
                 replayButton.style.display = 'none'; // Hide replay button
+                shareLinkButton.style.display = 'inline-block'; // Show share link button
                 moveHistory = []; // Reset move history
                 renderMoveHistory(); // Update UI
 
@@ -1694,6 +2186,7 @@
                                 moves++;
                                 updateMoveCounter();
                                 drawPuzzle();
+                                updateProgressIndicator(); // Update progress during auto-solve
                                 resolve();
                             }
                         );
@@ -1745,7 +2238,10 @@
             moves = 0;
             updateMoveCounter();
             drawPuzzle();
+            updateProgressIndicator(); // Update progress for replay start
             puzzleCanvas.classList.remove('puzzle-solved-animation');
+            stopConfetti(); // Stop any active confetti
+            hoveredPieceIndex = -1; // Reset hover state
 
             // Play back the moves
             for (const move of replayMoves) {
@@ -1791,6 +2287,7 @@
                             moves++; // Increment moves for replay visual, though not actual game moves
                             updateMoveCounter();
                             drawPuzzle();
+                            updateProgressIndicator(); // Update progress during replay
                             resolve();
                         }
                     );
@@ -1802,6 +2299,8 @@
             solveStatusDisplay.textContent = translations[currentLanguage].replayFinished;
             // After replay, the puzzle should be solved
             checkWin(); // This will re-enable buttons and handle final state
+            // Ensure buttons are re-enabled after replay finishes
+            enableAllButtons();
         });
 
 
@@ -1818,22 +2317,26 @@
             enableAllButtons(); // Re-enable in case they were disabled by auto-solve/click animation
             solveStatusDisplay.textContent = '';
             puzzleCanvas.classList.remove('puzzle-solved-animation');
+            stopConfetti(); // Stop any active confetti
+            hoveredPieceIndex = -1; // Reset hover state
 
             recalculatePiecePositionsAndRedraw(); // Always redraw to fit new canvas size, preserving current state
         });
         // =====================================================================
-        // Local Storage Functions for Preferences
+        // Local Storage Functions for Preferences and Player Stats
         // =====================================================================
         function savePreferences() {
             localStorage.setItem('puzzleGridSize', gridSizeSelect.value);
             localStorage.setItem('puzzleMode', puzzleModeSelect.value);
             localStorage.setItem('puzzleLanguage', currentLanguage);
+            localStorage.setItem('puzzleTheme', currentTheme); // Save theme
         }
 
         function loadPreferences() {
             const savedGridSize = localStorage.getItem('puzzleGridSize');
             const savedPuzzleMode = localStorage.getItem('puzzleMode');
             const savedLanguage = localStorage.getItem('puzzleLanguage');
+            const savedTheme = localStorage.getItem('puzzleTheme'); // Load theme
 
             if (savedGridSize) {
                 gridSizeSelect.value = savedGridSize;
@@ -1850,7 +2353,80 @@
                 currentLanguage = 'en'; // Default to English if no saved language or invalid
                 languageSelect.value = 'en';
             }
+            if (savedTheme) {
+                currentTheme = savedTheme;
+                themeSelect.value = savedTheme;
+            } else {
+                currentTheme = 'light'; // Default to light theme
+                themeSelect.value = 'light';
+            }
+            applyTheme(currentTheme); // Apply the loaded theme immediately
         }
+
+        function loadPlayerStatistics() {
+            const savedStats = localStorage.getItem('playerStats');
+            if (savedStats) {
+                playerStats = JSON.parse(savedStats);
+                // Ensure Infinity values are correctly parsed back if they were stringified as null/0
+                if (playerStats.bestTime3x3Seconds === null || playerStats.bestTime3x3Seconds === 0) {
+                    playerStats.bestTime3x3Seconds = Infinity;
+                }
+                if (playerStats.bestMoves3x3 === null || playerStats.bestMoves3x3 === 0) {
+                    playerStats.bestMoves3x3 = Infinity;
+                }
+            }
+        }
+
+        function savePlayerStatistics() {
+            // Convert Infinity to null or a large number for JSON stringify if needed,
+            // but JSON.stringify handles Infinity as "null" by default for numbers.
+            // When parsing back, we convert null/0 back to Infinity.
+            localStorage.setItem('playerStats', JSON.stringify(playerStats));
+        }
+
+        function updatePlayerStatistics(currentMoves, currentTimeSeconds) {
+            playerStats.totalGamesPlayed++;
+            playerStats.totalTimePlayedSeconds += currentTimeSeconds;
+
+            if (gridSize === 3) {
+                if (currentTimeSeconds < playerStats.bestTime3x3Seconds) {
+                    playerStats.bestTime3x3Seconds = currentTimeSeconds;
+                }
+                if (currentMoves < playerStats.bestMoves3x3) {
+                    playerStats.bestMoves3x3 = currentMoves;
+                }
+            }
+            savePlayerStatistics();
+            updatePlayerStatisticsDisplay();
+        }
+
+        function formatTime(totalSeconds) {
+            if (totalSeconds === Infinity) return translations[currentLanguage].notApplicable;
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            const formattedHours = String(hours).padStart(2, '0');
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(seconds).padStart(2, '0');
+            return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+        }
+
+        function formatTimeShort(totalSeconds) {
+            if (totalSeconds === Infinity) return translations[currentLanguage].notApplicable;
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(seconds).padStart(2, '0');
+            return `${formattedMinutes}:${formattedSeconds}`;
+        }
+
+        function updatePlayerStatisticsDisplay() {
+            statTotalGames.textContent = playerStats.totalGamesPlayed;
+            statTotalTime.textContent = formatTime(playerStats.totalTimePlayedSeconds);
+            statBestTime3x3.textContent = formatTimeShort(playerStats.bestTime3x3Seconds);
+            statBestMoves3x3.textContent = playerStats.bestMoves3x3 === Infinity ? translations[currentLanguage].notApplicable : playerStats.bestMoves3x3;
+        }
+
 
         // =====================================================================
         // Handle "View Original Image" Button
@@ -1931,7 +2507,8 @@
             cropperCtx.strokeRect(cropRect.x, cropRect.y, cropRect.size, cropRect.size);
 
             // Draw resize handles (corners)
-            cropperCtx.fillStyle = '#6366f1';
+            const handleColor = currentTheme === 'dark' ? '#a78bfa' : '#6366f1'; // Violet-400 for dark theme
+            cropperCtx.fillStyle = handleColor;
             cropperCtx.fillRect(cropRect.x - resizeHandleSize / 2, cropRect.y - resizeHandleSize / 2, resizeHandleSize, resizeHandleSize); // Top-left
             cropperCtx.fillRect(cropRect.x + cropRect.size - resizeHandleSize / 2, cropRect.y - resizeHandleSize / 2, resizeHandleSize, resizeHandleSize); // Top-right
             cropperCtx.fillRect(cropRect.x - resizeHandleSize / 2, cropRect.y + cropRect.size - resizeHandleSize / 2, resizeHandleSize, resizeHandleSize); // Bottom-left
@@ -2015,7 +2592,7 @@
             isResizing = false;
         }
 
-        confirmCropButton.addEventListener('click', () => {
+        confirmCropButton.addEventListener('click', async () => { // Added async here
             // Calculate final source dimensions for the original image
             const scaleX = originalImage.width / cropperCanvas.width;
             const scaleY = originalImage.height / cropperCanvas.height;
@@ -2029,7 +2606,7 @@
             mainContent.classList.remove('main-content-hidden'); // Show main puzzle UI
             
             initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
-            animateShuffle(); // Shuffle after cropping and initializing
+            await animateShuffle(); // Auto-shuffle after cropping
             enableAllButtons(); // Re-enable main buttons
         });
 
@@ -2073,7 +2650,7 @@
         function renderMoveHistory() {
             moveHistoryList.innerHTML = '';
             if (moveHistory.length === 0) {
-                moveHistoryList.innerHTML = `<li class="text-center text-gray-500">${translations[currentLanguage].noMovesYet}</li>`;
+                moveHistoryList.innerHTML = `<li class="text-center text-secondary">${translations[currentLanguage].noMovesYet}</li>`;
                 return;
             }
             moveHistory.forEach(move => {
@@ -2084,28 +2661,220 @@
         }
 
         // =====================================================================
-        // Initial Page Load Setup (placeholder image)
+        // Share Link Functionality (using Base64)
+        // =====================================================================
+        shareLinkButton.addEventListener('click', () => {
+            if (!puzzleReady || !currentBase64Image) {
+                showMessageBox("noImageLoaded"); // Or a more specific message like "Please load an image first."
+                return;
+            }
+
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?img=${encodeURIComponent(currentBase64Image)}&grid=${gridSize}&mode=${currentPuzzleMode}`;
+
+            // Use Clipboard API if available, fallback to execCommand
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(shareUrl)
+                    .then(() => {
+                        showMessageBox("shareLinkCopied");
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        // Fallback for browsers that don't support Web Share API or if clipboard.writeText fails
+                        const tempInput = document.createElement('textarea');
+                        tempInput.value = shareUrl;
+                        document.body.appendChild(tempInput);
+                        tempInput.select();
+                        document.execCommand('copy');
+                        document.body.removeChild(tempInput);
+                        showMessageBox("shareLinkCopied");
+                    });
+            } else {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = shareUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showMessageBox("shareLinkCopied");
+            }
+        });
+
+        // =====================================================================
+        // Progress Indicator Functions
+        // =====================================================================
+        function updateProgressIndicator() {
+            let correctPieces = 0;
+            const totalPieces = gridSize * gridSize;
+            for (let i = 0; i < puzzlePieces.length; i++) {
+                const piece = puzzlePieces[i];
+                const currentPieceCol = Math.round(piece.currentX / pieceWidth);
+                const currentPieceRow = Math.round(piece.currentY / pieceHeight);
+                const currentPieceIndex = currentPieceRow * gridSize + currentPieceCol;
+                if (piece.id === currentPieceIndex) {
+                    correctPieces++;
+                }
+            }
+            const progressPercentage = Math.floor((correctPieces / totalPieces) * 100);
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `${progressPercentage}%`;
+        }
+
+        // =====================================================================
+        // Confetti Animation Functions
+        // =====================================================================
+        function randomColor() {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722', '#795548', '#9e9e9e', '#607d8b'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        class ConfettiParticle {
+            constructor(x, y, radius, color) {
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.color = color;
+                this.velocity = {
+                    x: (Math.random() - 0.5) * 10,
+                    y: (Math.random() - 0.5) * 10 - 5 // Upwards initial velocity
+                };
+                this.alpha = 1;
+                this.gravity = 0.3;
+                this.friction = 0.99;
+            }
+
+            update() {
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.velocity.y += this.gravity;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= 0.01; // Fade out
+            }
+
+            draw() {
+                confettiCtx.save();
+                confettiCtx.globalAlpha = this.alpha;
+                confettiCtx.beginPath();
+                confettiCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                confettiCtx.fillStyle = this.color;
+                confettiCtx.fill();
+                confettiCtx.restore();
+            }
+        }
+
+        function startConfetti() {
+            stopConfetti(); // Ensure no previous animation is running
+            confettiParticles = [];
+            const numberOfParticles = 100; // Adjust as needed
+            const centerX = confettiCanvas.width / 2;
+            const centerY = confettiCanvas.height / 2;
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                confettiParticles.push(new ConfettiParticle(
+                    centerX + (Math.random() - 0.5) * 100, // Spread around center
+                    centerY + (Math.random() - 0.5) * 100,
+                    Math.random() * 5 + 2, // Radius between 2 and 7
+                    randomColor()
+                ));
+            }
+
+            function animateConfetti() {
+                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                for (let i = confettiParticles.length - 1; i >= 0; i--) {
+                    const particle = confettiParticles[i];
+                    particle.update();
+                    particle.draw();
+
+                    if (particle.alpha <= 0.1 || particle.y > confettiCanvas.height) {
+                        confettiParticles.splice(i, 1); // Remove faded or off-screen particles
+                    }
+                }
+
+                if (confettiParticles.length > 0) {
+                    confettiAnimationId = requestAnimationFrame(animateConfetti);
+                } else {
+                    stopConfetti(); // Stop animation when all particles are gone
+                }
+            }
+            animateConfetti();
+        }
+
+        function stopConfetti() {
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+                confettiAnimationId = null;
+            }
+            confettiParticles = [];
+            confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+        }
+
+
+        // =====================================================================
+        // Initial Page Load Setup (placeholder image or shared link)
         // =====================================================================
         window.onload = async () => {
-            loadPreferences(); // Load saved preferences first
-            updateTextContent(); // Update text based on loaded language
+            loadPreferences(); // Load saved preferences (language and theme)
+            loadPlayerStatistics(); // Load saved player stats
+            updateTextContent(); // Update text based on loaded language and theme
+            updatePlayerStatisticsDisplay(); // Display loaded stats
 
-            originalImage.onload = async () => {
-                // If the image is already square, directly initialize and shuffle
-                if (originalImage.width === originalImage.height) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const imgParam = urlParams.get('img');
+            const gridParam = urlParams.get('grid');
+            const modeParam = urlParams.get('mode');
+
+            if (imgParam && gridParam && modeParam) {
+                showLoading("loadingImage");
+                originalImage.onload = async () => {
+                    hideLoading();
+                    // For shared links, assume the Base64 image is already square (1080x1080)
+                    // so we can directly initialize without cropping.
                     initializePuzzle(0, 0, originalImage.width, originalImage.height);
-                    await animateShuffle();
-                } else {
-                    // Otherwise, show the cropping interface
-                    setupCroppingInterface();
+                    await animateShuffle(); // Auto-shuffle after loading from link
+                };
+                originalImage.onerror = () => {
+                    hideLoading();
+                    showMessageBox("failedLoadImage");
+                    // Fallback to placeholder if shared image fails to load
+                    const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
+                    const placeholderSize = fixedCanvasSize;
+                    originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
+                    enableAllButtons();
+                };
+
+                try {
+                    gridSize = parseInt(gridParam);
+                    currentPuzzleMode = modeParam;
+                    // Update selects to reflect loaded parameters
+                    gridSizeSelect.value = gridSize;
+                    puzzleModeSelect.value = currentPuzzleMode;
+                    originalImage.src = decodeURIComponent(imgParam);
+                } catch (e) {
+                    console.error("Error parsing URL parameters or Base64 image:", e);
+                    showMessageBox("failedLoadImage");
+                    // Fallback to placeholder if parsing fails
+                    const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
+                    const placeholderSize = fixedCanvasSize;
+                    originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
+                    enableAllButtons();
                 }
-            };
-            const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
-            const placeholderSize = fixedCanvasSize; 
-            originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`; 
+            } else {
+                originalImage.onload = async () => {
+                    // If the image is already square, directly initialize
+                    if (originalImage.width === originalImage.height) {
+                        initializePuzzle(0, 0, originalImage.width, originalImage.height);
+                    } else {
+                        // Otherwise, show the cropping interface
+                        setupCroppingInterface();
+                    }
+                };
+                const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
+                const placeholderSize = fixedCanvasSize; 
+                originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`; 
+            }
         };
 
     </script>
 </body>
 </html>
-
