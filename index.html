@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sliding Puzzle Interaktif - Mainkan Puzzle Foto Anda!</title>
+    <title>Sliding Puzzle Interaktif</title>
     
     <!-- SEO Meta Tags -->
     <meta name="description" content="Mainkan game sliding puzzle interaktif dengan foto Anda sendiri atau gambar contoh. Potong gambar sesuai keinginan Anda dan tantang diri Anda dengan berbagai ukuran grid.">
@@ -13,7 +13,7 @@
     <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://hanzercopy.cloud">
-    <meta property="og:title" content="Sliding Puzzle Interaktif - Mainkan Puzzle Foto Anda!">
+    <meta property="og:title" content="Sliding Puzzle Interaktif">
     <meta property="og:description" content="Mainkan game sliding puzzle interaktif dengan foto Anda sendiri atau gambar contoh. Potong gambar sesuai keinginan Anda dan tantang diri Anda dengan berbagai ukuran grid.">
     <meta property="og:image" content="https://placehold.co/1200x630/e0e7ff/4f46e5?text=Sliding%20Puzzle"> <!-- Ganti dengan URL gambar pratinjau Anda -->
 
@@ -48,11 +48,11 @@
         body.light-theme .canvas-bg {
             background-color: #ffffff;
         }
-        body.light-theme .message-box, body.light-theme .confirmation-box, body.light-theme .cropper-content, body.light-theme #moveHistoryContainer, body.light-theme #playerStatsContainer, body.light-theme #movesPerTimeGraphContainer {
+        body.light-theme .message-box, body.light-theme .confirmation-box, body.light-theme .cropper-content, body.light-theme #moveHistoryContainer, body.light-theme #playerStatsContainer, body.light-theme #movesPerTimeGraphContainer, body.light-theme #directionalMovesGraphContainer {
             background-color: #fff;
             border-color: #4f46e5;
         }
-        body.light-theme #moveHistoryContainer, body.light-theme #playerStatsContainer, body.light-theme #movesPerTimeGraphContainer {
+        body.light-theme #moveHistoryContainer, body.light-theme #playerStatsContainer, body.light-theme #movesPerTimeGraphContainer, body.light-theme #directionalMovesGraphContainer {
             background-color: #f8fafc;
         }
         body.light-theme .sample-image-container:hover {
@@ -91,12 +91,12 @@
         body.dark-theme .canvas-bg {
             background-color: #2d3748; /* Darker canvas background */
         }
-        body.dark-theme .message-box, body.dark-theme .confirmation-box, body.dark-theme .cropper-content, body.dark-theme #moveHistoryContainer, body.dark-theme #playerStatsContainer, body.dark-theme #movesPerTimeGraphContainer {
+        body.dark-theme .message-box, body.dark-theme .confirmation-box, body.dark-theme .cropper-content, body.dark-theme #moveHistoryContainer, body.dark-theme #playerStatsContainer, body.dark-theme #movesPerTimeGraphContainer, body.dark-theme #directionalMovesGraphContainer {
             background-color: #2d3748;
             border-color: #4f46e5; /* Indigo-600 */
             color: #e2e8f0;
         }
-        body.dark-theme #moveHistoryContainer, body.dark-theme #playerStatsContainer, body.dark-theme #movesPerTimeGraphContainer {
+        body.dark-theme #moveHistoryContainer, body.dark-theme #playerStatsContainer, body.dark-theme #movesPerTimeGraphContainer, body.dark-theme #directionalMovesGraphContainer {
             background-color: #1a202c;
         }
         body.dark-theme .sample-image-container:hover {
@@ -200,7 +200,7 @@
         }
 
 
-        .btn-green-solve {
+        .btn-green-solve { /* This button is now removed from HTML, but keeping style for consistency if needed elsewhere */
             background-color: #10b981; /* Green-500 */
             transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
         }
@@ -510,6 +510,35 @@
             stroke: #4f46e5;
         }
 
+        /* Directional Moves Graph Styling */
+        #directionalMovesGraphContainer {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            border: 1px solid;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+            text-align: center;
+        }
+        #directionalMovesGraphSVG {
+            width: 100%;
+            height: 150px; /* Fixed height for the graph */
+            background-color: transparent;
+        }
+        .bar-chart-bar {
+            fill: #818cf8; /* Default bar color */
+            transition: fill 0.3s ease;
+        }
+        .dark-theme .bar-chart-bar {
+            fill: #6366f1; /* Dark theme bar color */
+        }
+        .bar-chart-label {
+            font-size: 12px;
+            fill: #6b7280; /* Default label color */
+        }
+        .dark-theme .bar-chart-label {
+            fill: #a0aec0; /* Dark theme label color */
+        }
     </style>
 </head>
 <body class="flex flex-col items-center justify-center min-h-screen p-4">
@@ -530,8 +559,7 @@
             <select id="languageSelect" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
                 <option value="en">English</option>
                 <option value="id">Indonesia</option>
-                <option value="es">Español</option>
-                <option value="ja">日本語</option>
+                <option value="zh">简体中文</option>
             </select>
         </div>
 
@@ -565,8 +593,11 @@
                     <option value="3" selected>3x3</option>
                     <option value="4">4x4</option>
                     <option value="5">5x5</option>
-                    <option value="6">6x6</option> <!-- New -->
-                    <option value="7">7x7</option> <!-- New -->
+                    <option value="6">6x6</option>
+                    <option value="7">7x7</option>
+                    <option value="8">8x8</option>
+                    <option value="9">9x9</option>
+                    <option value="10">10x10</option>
                 </select>
             </div>
 
@@ -577,14 +608,6 @@
                     <option value="jigsaw" data-key="jigsaw">Jigsaw (Tanpa Nomor)</option>
                 </select>
             </div>
-        </div>
-
-        <!-- New: Shuffle Strength Setting -->
-        <div class="mb-6 text-center">
-            <label for="shuffleStrengthInput" class="block text-lg font-medium text-secondary mb-2" data-key="shuffleStrength">Kekuatan Pengacakan (Gerakan):</label>
-            <input type="number" id="shuffleStrengthInput" min="10" max="1000" value="220" 
-                   class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600 w-32 text-center">
-            <p class="text-sm text-secondary mt-1" data-key="shuffleStrengthHint">Jumlah gerakan acak untuk mengacak puzzle.</p>
         </div>
 
         <!-- New: Number Color Picker -->
@@ -610,9 +633,6 @@
             </button>
             <button id="undoButton" class="btn-purple text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2" data-key="undo">
                 Urungkan
-            </button>
-            <button id="solveButton" class="btn-green-solve text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2" data-key="autoSolve">
-                Selesaikan Otomatis
             </button>
             <button id="resetButton" class="btn-gray text-white font-semibold py-3 px-6 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" data-key="resetPuzzle">
                 Reset Puzzle
@@ -652,19 +672,82 @@
             </div>
         </div>
 
-        <!-- New: Moves Per Time Graph -->
+        <!-- Moves Per Time Graph -->
         <div id="movesPerTimeGraphContainer">
             <h2 class="text-xl font-semibold text-secondary mb-2" data-key="movesPerTimeGraphTitle">Gerakan per Interval Waktu:</h2>
             <svg id="movesPerTimeGraphSVG"></svg>
         </div>
 
+        <!-- New: Directional Moves Graph -->
+        <div id="directionalMovesGraphContainer">
+            <h2 class="text-xl font-semibold text-secondary mb-2" data-key="directionalMovesGraphTitle">Distribusi Arah Gerakan:</h2>
+            <svg id="directionalMovesGraphSVG"></svg>
+        </div>
+
         <div id="playerStatsContainer" class="mt-6 p-4 rounded-lg shadow-md">
             <h2 class="text-xl font-semibold text-secondary mb-3 text-center" data-key="playerStatsTitle">Statistik Pemain:</h2>
+            
             <ul class="text-secondary">
                 <li><span data-key="totalGamesPlayed">Total Game Dimainkan</span>: <span id="statTotalGames" class="font-bold text-primary">0</span></li>
                 <li><span data-key="totalTimePlayed">Total Waktu Bermain</span>: <span id="statTotalTime" class="font-bold text-primary">00:00:00</span></li>
-                <li><span data-key="bestTime3x3">Waktu Terbaik (3x3)</span>: <span id="statBestTime3x3" class="font-bold text-primary">--:--</span></li>
-                <li><span data-key="bestMoves3x3">Gerakan Terbaik (3x3)</span>: <span id="statBestMoves3x3" class="font-bold text-primary">--</span></li>
+                <li><span data-key="totalPiecesMoved">Total Potongan Dipindahkan</span>: <span id="statTotalPiecesMoved" class="font-bold text-primary">0</span></li>
+            </ul>
+
+            <div class="mb-4 text-center mt-4">
+                <label for="statsGridSizeFilter" class="block text-lg font-medium text-secondary mb-2" data-key="viewStatsFor">Lihat Statistik Untuk:</label>
+                <select id="statsGridSizeFilter" class="px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100 dark:border-gray-600">
+                    <option value="3" data-key="size3x3">3x3</option>
+                    <option value="4" data-key="size4x4">4x4</option>
+                    <option value="5" data-key="size5x5">5x5</option>
+                    <option value="6">6x6</option>
+                    <option value="7">7x7</option>
+                    <option value="8">8x8</option>
+                    <option value="9">9x9</option>
+                    <option value="10">10x10</option>
+                    <option value="all" data-key="allSizes">Tampilkan Semua</option>
+                </select>
+            </div>
+
+            <ul class="text-secondary">
+                <li class="mt-2 text-lg font-semibold text-primary stat-header" data-key="bestStats">Statistik Terbaik:</li>
+                <div id="detailedStatsList">
+                    <li class="ml-4 stat-item" data-grid-size="3"><span data-key="bestTime3x3">Waktu Terbaik (3x3)</span>: <span id="statBestTime3x3" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="3"><span data-key="bestMoves3x3">Gerakan Terbaik (3x3)</span>: <span id="statBestMoves3x3" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="4"><span data-key="bestTime4x4">Waktu Terbaik (4x4)</span>: <span id="statBestTime4x4" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="4"><span data-key="bestMoves4x4">Gerakan Terbaik (4x4)</span>: <span id="statBestMoves4x4" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="5"><span data-key="bestTime5x5">Waktu Terbaik (5x5)</span>: <span id="statBestTime5x5" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="5"><span data-key="bestMoves5x5">Gerakan Terbaik (5x5)</span>: <span id="statBestMoves5x5" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="6"><span data-key="bestTime6x6">Waktu Terbaik (6x6)</span>: <span id="statBestTime6x6" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="6"><span data-key="bestMoves6x6">Gerakan Terbaik (6x6)</span>: <span id="statBestMoves6x6" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="7"><span data-key="bestTime7x7">Waktu Terbaik (7x7)</span>: <span id="statBestTime7x7" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="7"><span data-key="bestMoves7x7">Gerakan Terbaik (7x7)</span>: <span id="statBestMoves7x7" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="8"><span data-key="bestTime8x8">Waktu Terbaik (8x8)</span>: <span id="statBestTime8x8" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="8"><span data-key="bestMoves8x8">Gerakan Terbaik (8x8)</span>: <span id="statBestMoves8x8" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="9"><span data-key="bestTime9x9">Waktu Terbaik (9x9)</span>: <span id="statBestTime9x9" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="9"><span data-key="bestMoves9x9">Gerakan Terbaik (9x9)</span>: <span id="statBestMoves9x9" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="10"><span data-key="bestTime10x10">Waktu Terbaik (10x10)</span>: <span id="statBestTime10x10" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="10"><span data-key="bestMoves10x10">Gerakan Terbaik (10x10)</span>: <span id="statBestMoves10x10" class="font-bold text-primary">--</span></li>
+                </div>
+
+                <li class="mt-2 text-lg font-semibold text-primary stat-header" data-key="worstStats">Statistik Terlama:</li>
+                <div id="detailedStatsListWorst"> <!-- New container for worst stats -->
+                    <li class="ml-4 stat-item" data-grid-size="3"><span data-key="worstTime3x3">Waktu Terlama (3x3)</span>: <span id="statWorstTime3x3" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="3"><span data-key="worstMoves3x3">Gerakan Terlama (3x3)</span>: <span id="statWorstMoves3x3" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="4"><span data-key="worstTime4x4">Waktu Terlama (4x4)</span>: <span id="statWorstTime4x4" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="4"><span data-key="worstMoves4x4">Gerakan Terlama (4x4)</span>: <span id="statWorstMoves4x4" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="5"><span data-key="worstTime5x5">Waktu Terlama (5x5)</span>: <span id="statWorstTime5x5" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="5"><span data-key="worstMoves5x5">Gerakan Terlama (5x5)</span>: <span id="statWorstMoves5x5" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="6"><span data-key="worstTime6x6">Waktu Terlama (6x6)</span>: <span id="statWorstTime6x6" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="6"><span data-key="worstMoves6x6">Gerakan Terlama (6x6)</span>: <span id="statWorstMoves6x6" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="7"><span data-key="worstTime7x7">Waktu Terlama (7x7)</span>: <span id="statWorstTime7x7" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="7"><span data-key="worstMoves7x7">Gerakan Terlama (7x7)</span>: <span id="statWorstMoves7x7" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="8"><span data-key="worstTime8x8">Waktu Terlama (8x8)</span>: <span id="statWorstTime8x8" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="8"><span data-key="worstMoves8x8">Gerakan Terlama (8x8)</span>: <span id="statWorstMoves8x8" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="9"><span data-key="worstTime9x9">Waktu Terlama (9x9)</span>: <span id="statWorstTime9x9" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="9"><span data-key="worstMoves9x9">Gerakan Terlama (9x9)</span>: <span id="statWorstMoves9x9" class="font-bold text-primary">--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="10"><span data-key="worstTime10x10">Waktu Terlama (10x10)</span>: <span id="statWorstTime10x10" class="font-bold text-primary">--:--</span></li>
+                    <li class="ml-4 stat-item" data-grid-size="10"><span data-key="worstMoves10x10">Gerakan Terlama (10x10)</span>: <span id="statWorstMoves10x10" class="font-bold text-primary">--</span></li>
+                </div>
             </ul>
         </div>
         
@@ -702,18 +785,15 @@
         <p id="loadingMessage" data-key="loading">Memuat...</p>
     </div>
 
-
     <script type="module">
         const imageUpload = document.getElementById('imageUpload');
         const gridSizeSelect = document.getElementById('gridSizeSelect');
         const puzzleModeSelect = document.getElementById('puzzleModeSelect');
         const languageSelect = document.getElementById('languageSelect');
         const themeSelect = document.getElementById('themeSelect');
-        const shuffleStrengthInput = document.getElementById('shuffleStrengthInput');
-        const numberColorPicker = document.getElementById('numberColorPicker'); // New
+        const numberColorPicker = document.getElementById('numberColorPicker');
         const shuffleButton = document.getElementById('shuffleButton');
         const undoButton = document.getElementById('undoButton');
-        const solveButton = document.getElementById('solveButton');
         const resetButton = document.getElementById('resetButton');
         const puzzleCanvas = document.getElementById('puzzleCanvas');
         const ctx = puzzleCanvas.getContext('2d');
@@ -739,8 +819,46 @@
         // Player Statistics elements
         const statTotalGames = document.getElementById('statTotalGames');
         const statTotalTime = document.getElementById('statTotalTime');
+        const statTotalPiecesMoved = document.getElementById('statTotalPiecesMoved');
+
         const statBestTime3x3 = document.getElementById('statBestTime3x3');
         const statBestMoves3x3 = document.getElementById('statBestMoves3x3');
+        const statBestTime4x4 = document.getElementById('statBestTime4x4');
+        const statBestMoves4x4 = document.getElementById('statBestMoves4x4');
+        const statBestTime5x5 = document.getElementById('statBestTime5x5');
+        const statBestMoves5x5 = document.getElementById('statBestMoves5x5');
+        const statBestTime6x6 = document.getElementById('statBestTime6x6');
+        const statBestMoves6x6 = document.getElementById('statBestMoves6x6');
+        const statBestTime7x7 = document.getElementById('statBestTime7x7');
+        const statBestMoves7x7 = document.getElementById('statBestMoves7x7');
+        const statBestTime8x8 = document.getElementById('statBestTime8x8');
+        const statBestMoves8x8 = document.getElementById('statBestMoves8x8');
+        const statBestTime9x9 = document.getElementById('statBestTime9x9');
+        const statBestMoves9x9 = document.getElementById('statBestMoves9x9');
+        const statBestTime10x10 = document.getElementById('statBestTime10x10');
+        const statBestMoves10x10 = document.getElementById('statBestMoves10x10');
+
+        const statWorstTime3x3 = document.getElementById('statWorstTime3x3');
+        const statWorstMoves3x3 = document.getElementById('statWorstMoves3x3');
+        const statWorstTime4x4 = document.getElementById('statWorstTime4x4');
+        const statWorstMoves4x4 = document.getElementById('statWorstMoves4x4');
+        const statWorstTime5x5 = document.getElementById('statWorstTime5x5');
+        const statWorstMoves5x5 = document.getElementById('statWorstMoves5x5');
+        const statWorstTime6x6 = document.getElementById('statWorstTime6x6');
+        const statWorstMoves6x6 = document.getElementById('statWorstMoves6x6');
+        const statWorstTime7x7 = document.getElementById('statWorstTime7x7');
+        const statWorstMoves7x7 = document.getElementById('statWorstMoves7x7');
+        const statWorstTime8x8 = document.getElementById('statWorstTime8x8');
+        const statWorstMoves8x8 = document.getElementById('statWorstMoves8x8');
+        const statWorstTime9x9 = document.getElementById('statWorstTime9x9');
+        const statWorstMoves9x9 = document.getElementById('statWorstMoves9x9');
+        const statWorstTime10x10 = document.getElementById('statWorstTime10x10');
+        const statWorstMoves10x10 = document.getElementById('statWorstMoves10x10');
+
+        // New elements for stats filtering
+        const statsGridSizeFilter = document.getElementById('statsGridSizeFilter');
+        const detailedStatsList = document.getElementById('detailedStatsList');
+        const detailedStatsListWorst = document.getElementById('detailedStatsListWorst'); // New container for worst stats
 
         // Cropper elements
         const imageCropperContainer = document.getElementById('imageCropperContainer');
@@ -753,16 +871,21 @@
         const movesPerTimeGraphSVG = document.getElementById('movesPerTimeGraphSVG');
         const movesPerTimeGraphContainer = document.getElementById('movesPerTimeGraphContainer');
 
+        // Directional Moves Graph elements
+        const directionalMovesGraphSVG = document.getElementById('directionalMovesGraphSVG');
+        const directionalMovesGraphContainer = document.getElementById('directionalMovesGraphContainer');
+
         // Sample image elements
         const sampleImageContainers = document.querySelectorAll('.sample-image-container');
         let originalImage = new Image();
+        // Set crossOrigin for the originalImage object to handle CORS for images from external sources
+        originalImage.crossOrigin = 'Anonymous'; 
         let puzzlePieces = [];
         let gridSize = parseInt(gridSizeSelect.value);
         let currentPuzzleMode = puzzleModeSelect.value;
-        let currentLanguage = 'en';
+        let currentLanguage = 'id'; // Default to Indonesia
         let currentTheme = 'light';
-        let shuffleStrength = parseInt(shuffleStrengthInput.value);
-        let numberColor = numberColorPicker.value; // New: Default number color
+        let numberColor = numberColorPicker.value;
         const fixedCanvasSize = 1080;
         let pieceWidth;
         let pieceHeight;
@@ -771,7 +894,7 @@
         let puzzleReady = false;
         let moves = 0;
         let isProcessingClick = false;
-        let solving = false;
+        let solving = false; 
         let shuffling = false;
         let undoStack = [];
         const maxUndoStates = 50;
@@ -783,16 +906,6 @@
         
         let hoveredPieceIndex = -1;
         let currentBase64Image = '';
-
-        const getAutoSolveStepDelay = (currentGridSize) => {
-            if (currentGridSize <= 4) return 150;
-            if (currentGridSize === 5) return 350;
-            if (currentGridSize === 6) return 500;
-            if (currentGridSize === 7) return 700;
-            return 150;
-        };
-        
-        const maxStatesToExploreForBFS = 1000000;
 
         // Cropping variables
         let cropRect = { x: 0, y: 0, size: 0 };
@@ -812,23 +925,35 @@
         let initialShuffledStateForReplay = [];
         let isReplaying = false;
 
-        let moveHistory = []; // Stores { text: "...", direction: "..." }
+        let moveHistory = []; // Stores { text: "...", direction: "...", timestamp: "00:00" }
         const maxMoveHistory = 10;
 
         // Moves per time graph data
-        let movesPerIntervalData = []; // Stores { time: seconds, moves: count_in_interval }
+        let movesPerIntervalData = [];
         const graphUpdateInterval = 5; // seconds
         let lastRecordedTotalMoves = 0;
         let lastGraphUpdateTime = 0;
 
+        // Directional Moves Count
+        let directionalMovesCount = {
+            'Up': 0,
+            'Down': 0,
+            'Left': 0,
+            'Right': 0
+        };
+        const directions = ['Up', 'Down', 'Left', 'Right']; // For easy iteration
 
         // Player Statistics Object
         let playerStats = {
             totalGamesPlayed: 0,
             totalTimePlayedSeconds: 0,
-            bestTime3x3Seconds: Infinity,
-            bestMoves3x3: Infinity
+            totalPiecesMoved: 0,
+            bestTimes: { '3': Infinity, '4': Infinity, '5': Infinity, '6': Infinity, '7': Infinity, '8': Infinity, '9': Infinity, '10': Infinity },
+            bestMoves: { '3': Infinity, '4': Infinity, '5': Infinity, '6': Infinity, '7': Infinity, '8': Infinity, '9': Infinity, '10': Infinity },
+            worstTimes: { '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0 },
+            worstMoves: { '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '9': 0, '10': 0 }
         };
+        let currentStatsView = '3'; // Default to 3x3 for stats view filter
 
         // Confetti particles array
         let confettiParticles = [];
@@ -848,17 +973,14 @@
                 orSelectSample: "Or Select a Sample Image:",
                 selectPuzzleSize: "Select Puzzle Size:",
                 selectPuzzleMode: "Select Puzzle Mode:",
-                shuffleStrength: "Shuffle Strength (Moves):",
-                shuffleStrengthHint: "Number of random moves to shuffle the puzzle.",
-                numberColor: "Number Color:", // New
-                numberColorHint: "Choose a color for the numbers on puzzle pieces.", // New
+                numberColor: "Number Color:",
+                numberColorHint: "Choose a color for the numbers on puzzle pieces.",
                 slidingPuzzle: "Sliding Puzzle (Default)",
                 jigsaw: "Jigsaw (No Numbers)",
                 moves: "Moves",
                 time: "Time",
                 shuffle: "Shuffle",
                 undo: "Undo",
-                autoSolve: "Auto Solve",
                 resetPuzzle: "Reset Puzzle",
                 viewOriginalImage: "View Original Image",
                 replayMoves: "Replay Moves",
@@ -879,20 +1001,12 @@
                 noUndo: "No moves to undo.",
                 confirmReset: "Are you sure you want to reset the puzzle? Your progress will be lost.",
                 uploadImageFirst: "Please upload an image first.",
-                autoSolveConfirm: "Do you want the puzzle to be solved automatically? This will reset your moves.",
-                autoSolveWarning5x5: "Warning: 5x5 Auto-Solve is Very Slow! Please be patient.",
-                autoSolveWarning6x6: "Warning: 6x6 Auto-Solve is Extremely Slow! Please be patient.",
-                autoSolveWarning7x7: "Warning: 7x7 Auto-Solve is Impractically Slow! Use with caution.",
-                autoSolveSearching: "Searching for auto-solve solution...",
-                solutionFound: (numMoves) => `Solution found! Playing ${numMoves} moves...`,
-                errorPlayingSolution: "An error occurred while playing the solution.",
-                solutionNotFound: "Solution not found within time/computation limits. Try shuffling again.",
                 noReplayMoves: "No moves to replay.",
                 replayFinished: "Replay finished.",
                 puzzleSolved: (moves, time) => `Congratulations! Puzzle solved in ${moves} moves and ${time}!`,
                 cropCancelled: "Cropping cancelled. Please upload or select another image.",
                 noImageLoaded: "No image loaded to display.",
-                pieceMoved: (pieceNumber, direction) => `Piece ${pieceNumber} moved ${direction}`,
+                pieceMoved: (pieceNumber, direction, timestamp) => `Piece ${pieceNumber} moved ${direction} (${timestamp})`,
                 directionRight: "Right",
                 directionLeft: "Left",
                 directionDown: "Down",
@@ -900,11 +1014,55 @@
                 playerStatsTitle: "Player Statistics:",
                 totalGamesPlayed: "Total Games Played",
                 totalTimePlayed: "Total Time Played",
+                totalPiecesMoved: "Total Pieces Moved",
+                bestStats: "Best Statistics:",
                 bestTime3x3: "Best Time (3x3)",
                 bestMoves3x3: "Best Moves (3x3)",
-                movesPerTimeGraphTitle: "Moves Per Time Interval:", // New
+                bestTime4x4: "Best Time (4x4)",
+                bestMoves4x4: "Best Moves (4x4)",
+                bestTime5x5: "Best Time (5x5)",
+                bestMoves5x5: "Best Moves (5x5)",
+                bestTime6x6: "Best Time (6x6)",
+                bestMoves6x6: "Best Moves (6x6)",
+                bestTime7x7: "Best Time (7x7)",
+                bestMoves7x7: "Best Moves (7x7)",
+                bestTime8x8: "Best Time (8x8)",
+                bestMoves8x8: "Best Moves (8x8)",
+                bestTime9x9: "Best Time (9x9)",
+                bestMoves9x9: "Best Moves (9x9)",
+                bestTime10x10: "Best Time (10x10)",
+                bestMoves10x10: "Best Moves (10x10)",
+                worstStats: "Worst Statistics:",
+                worstTime3x3: "Worst Time (3x3)",
+                worstMoves3x3: "Worst Moves (3x3)",
+                worstTime4x4: "Worst Time (4x4)",
+                worstMoves4x4: "Worst Moves (4x4)",
+                worstTime5x5: "Worst Time (5x5)",
+                worstMoves5x5: "Worst Moves (5x5)",
+                worstTime6x6: "Worst Time (6x6)",
+                worstMoves6x6: "Worst Moves (6x6)",
+                worstTime7x7: "Worst Time (7x7)",
+                worstMoves7x7: "Worst Moves (7x7)",
+                worstTime8x8: "Worst Time (8x8)",
+                worstMoves8x8: "Worst Moves (8x8)",
+                worstTime9x9: "Worst Time (9x9)",
+                worstMoves9x9: "Worst Moves (9x9)",
+                worstTime10x10: "Worst Time (10x10)",
+                worstMoves10x10: "Worst Moves (10x10)",
+                movesPerTimeGraphTitle: "Moves Per Time Interval:",
+                directionalMovesGraphTitle: "Directional Moves Distribution:",
                 notApplicable: "--",
                 puzzleNotShuffled: "The puzzle is not shuffled yet. Please click 'Shuffle' to begin.",
+                viewStatsFor: "View Stats For:",
+                allSizes: "Show All",
+                size3x3: "3x3",
+                size4x4: "4x4",
+                size5x5: "5x5",
+                size6x6: "6x6",
+                size7x7: "7x7",
+                size8x8: "8x8",
+                size9x9: "9x9",
+                size10x10: "10x10",
             },
             id: {
                 mainTitle: "Sliding Puzzle Interaktif",
@@ -916,17 +1074,14 @@
                 orSelectSample: "Atau Pilih Gambar Contoh:",
                 selectPuzzleSize: "Pilih Ukuran Puzzle:",
                 selectPuzzleMode: "Pilih Mode Puzzle:",
-                shuffleStrength: "Kekuatan Pengacakan (Gerakan):",
-                shuffleStrengthHint: "Jumlah gerakan acak untuk mengacak puzzle.",
-                numberColor: "Warna Angka:", // New
-                numberColorHint: "Pilih warna untuk angka pada potongan puzzle.", // New
+                numberColor: "Warna Angka:",
+                numberColorHint: "Pilih warna untuk angka pada potongan puzzle.",
                 slidingPuzzle: "Sliding Puzzle (Default)",
                 jigsaw: "Jigsaw (Tanpa Nomor)",
                 moves: "Gerakan",
                 time: "Waktu",
                 shuffle: "Acak",
                 undo: "Urungkan",
-                autoSolve: "Selesaikan Otomatis",
                 resetPuzzle: "Reset Puzzle",
                 viewOriginalImage: "Lihat Gambar Asli",
                 replayMoves: "Putar Ulang Gerakan",
@@ -947,20 +1102,12 @@
                 noUndo: "Tidak ada gerakan untuk di-undo.",
                 confirmReset: "Apakah Anda yakin ingin mereset puzzle? Progres Anda akan hilang.",
                 uploadImageFirst: "Silakan unggah gambar terlebih dahulu.",
-                autoSolveConfirm: "Apakah Anda ingin puzzle diselesaikan secara otomatis? Ini akan mereset gerakan Anda.",
-                autoSolveWarning5x5: "Peringatan: 5x5 Otomatis Sangat Lambat! Harap Bersabar.",
-                autoSolveWarning6x6: "Peringatan: 6x6 Otomatis Sangat Lambat! Harap Bersabar.",
-                autoSolveWarning7x7: "Peringatan: 7x7 Otomatis Sangat Tidak Praktis! Gunakan dengan hati-hati.",
-                autoSolveSearching: "Mencari solusi otomatis...",
-                solutionFound: (numMoves) => `Solusi ditemukan! Memainkan ${numMoves} gerakan...`,
-                errorPlayingSolution: "Terjadi kesalahan saat memainkan solusi.",
-                solutionNotFound: "Solusi tidak ditemukan dalam batas waktu/komputasi. Coba acak ulang.",
                 noReplayMoves: "Tidak ada gerakan untuk diputar ulang.",
                 replayFinished: "Pemutaran ulang selesai.",
                 puzzleSolved: (moves, time) => `Selamat! Puzzle telah selesai dalam ${moves} gerakan dan waktu ${time}!`,
                 cropCancelled: "Pemotongan dibatalkan. Silakan unggah atau pilih gambar lain.",
                 noImageLoaded: "Tidak ada gambar yang dimuat untuk ditampilkan.",
-                pieceMoved: (pieceNumber, direction) => `Potongan ${pieceNumber} bergerak ${direction}`,
+                pieceMoved: (pieceNumber, direction, timestamp) => `Potongan ${pieceNumber} bergerak ${direction} (${timestamp})`,
                 directionRight: "Kanan",
                 directionLeft: "Kiri",
                 directionDown: "Bawah",
@@ -968,147 +1115,156 @@
                 playerStatsTitle: "Statistik Pemain:",
                 totalGamesPlayed: "Total Game Dimainkan",
                 totalTimePlayed: "Total Waktu Bermain",
+                totalPiecesMoved: "Total Potongan Dipindahkan",
+                bestStats: "Statistik Terbaik:",
                 bestTime3x3: "Waktu Terbaik (3x3)",
                 bestMoves3x3: "Gerakan Terbaik (3x3)",
-                movesPerTimeGraphTitle: "Gerakan per Interval Waktu:", // New
+                bestTime4x4: "Waktu Terbaik (4x4)",
+                bestMoves4x4: "Gerakan Terbaik (4x4)",
+                bestTime5x5: "Waktu Terbaik (5x5)",
+                bestMoves5x5: "Gerakan Terbaik (5x5)",
+                bestTime6x6: "Waktu Terbaik (6x6)",
+                bestMoves6x6: "Gerakan Terbaik (6x6)",
+                bestTime7x7: "Waktu Terbaik (7x7)",
+                bestMoves7x7: "Gerakan Terbaik (7x7)",
+                bestTime8x8: "Waktu Terbaik (8x8)",
+                bestMoves8x8: "Gerakan Terbaik (8x8)",
+                bestTime9x9: "Waktu Terbaik (9x9)",
+                bestMoves9x9: "Gerakan Terbaik (9x9)",
+                bestTime10x10: "Waktu Terbaik (10x10)",
+                bestMoves10x10: "Gerakan Terbaik (10x10)",
+                worstStats: "Statistik Terlama:",
+                worstTime3x3: "Waktu Terlama (3x3)",
+                worstMoves3x3: "Gerakan Terlama (3x3)",
+                worstTime4x4: "Waktu Terlama (4x4)",
+                worstMoves4x4: "Gerakan Terlama (4x4)",
+                worstTime5x5: "Waktu Terlama (5x5)",
+                worstMoves5x5: "Gerakan Terlama (5x5)",
+                worstTime6x6: "Waktu Terlama (6x6)",
+                worstMoves6x6: "Gerakan Terlama (6x6)",
+                worstTime7x7: "Waktu Terlama (7x7)",
+                worstMoves7x7: "Gerakan Terlama (7x7)",
+                worstTime8x8: "Waktu Terlama (8x8)",
+                worstMoves8x8: "Gerakan Terlama (8x8)",
+                worstTime9x9: "Waktu Terlama (9x9)",
+                worstMoves9x9: "Gerakan Terlama (9x9)",
+                worstTime10x10: "Waktu Terlama (10x10)",
+                worstMoves10x10: "Gerakan Terlama (10x10)",
+                movesPerTimeGraphTitle: "Gerakan per Interval Waktu:",
+                directionalMovesGraphTitle: "Distribusi Arah Gerakan:",
                 notApplicable: "--",
                 puzzleNotShuffled: "Puzzle belum diacak. Silakan klik 'Acak' untuk memulai.",
+                viewStatsFor: "Lihat Statistik Untuk:",
+                allSizes: "Tampilkan Semua",
+                size3x3: "3x3",
+                size4x4: "4x4",
+                size5x5: "5x5",
+                size6x6: "6x6",
+                size7x7: "7x7",
+                size8x8: "8x8",
+                size9x9: "9x9",
+                size10x10: "10x10",
             },
-            es: {
-                mainTitle: "Rompecabezas Deslizante Interactivo",
-                selectLanguage: "Seleccionar Idioma:",
-                selectTheme: "Seleccionar Tema:",
-                lightTheme: "Claro",
-                darkTheme: "Oscuro",
-                uploadPhoto: "Sube tu foto:",
-                orSelectSample: "O Selecciona una Imagen de Ejemplo:",
-                selectPuzzleSize: "Seleccionar Tamaño del Rompecabezas:",
-                selectPuzzleMode: "Seleccionar Modo de Rompecabezas:",
-                shuffleStrength: "Fuerza de Barajado (Movimientos):",
-                shuffleStrengthHint: "Número de movimientos aleatorios para barajar el rompecabezas.",
-                numberColor: "Color del Número:", // New
-                numberColorHint: "Elige un color para los números en las piezas del rompecabezas.", // New
-                slidingPuzzle: "Rompecabezas Deslizante (Predeterminado)",
-                jigsaw: "Rompecabezas (Sin Números)",
-                moves: "Movimientos",
-                time: "Tiempo",
-                shuffle: "Barajar",
-                undo: "Deshacer",
-                autoSolve: "Resolver Automáticamente",
-                resetPuzzle: "Reiniciar Rompecabezas",
-                viewOriginalImage: "Ver Imagen Original",
-                replayMoves: "Reproducir Movimientos",
-                clickHint: "Haz clic en una pieza adyacente al espacio vacío para moverla.",
-                moveHistoryTitle: "Tu Historial de Movimientos:",
-                noMovesYet: "Aún no hay movimientos.",
-                backToPuzzle: "Volver al Rompecabezas",
-                cropAreaTitle: "Seleccionar Área del Rompecabezas",
-                confirmCrop: "Confirmar Recorte",
-                cancel: "Cancelar",
-                loading: "Cargando...",
-                loadingImage: "Cargando imagen...",
-                loadingSampleImage: "Cargando imagen de ejemplo...",
-                failedLoadImage: "No se pudo cargar la imagen. Asegúrate de que sea un archivo de imagen válido.",
-                failedLoadSampleImage: "No se pudo cargar la imagen de ejemplo. Inténtalo de nuevo o sube tu propia imagen.",
-                shufflingPuzzle: "Barajando rompecabezas...",
-                shuffleFail: (attempts) => `No se pudo encontrar un rompecabezas resoluble después de ${attempts} intentos. Intenta barajar de nuevo.",`,
-                noUndo: "No hay movimientos para deshacer.",
-                confirmReset: "¿Estás seguro de que quieres reiniciar el rompecabezas? Tu progreso se perderá.",
-                uploadImageFirst: "Por favor, sube una imagen primero.",
-                autoSolveConfirm: "¿Quieres que el rompecabezas se resuelva automáticamente? Esto reiniciará tus movimientos.",
-                autoSolveWarning5x5: "Advertencia: ¡La resolución automática 5x5 es muy lenta! Ten paciencia.",
-                autoSolveWarning6x6: "Advertencia: ¡La resolución automática 6x6 es extremadamente lenta! Ten paciencia.",
-                autoSolveWarning7x7: "Advertencia: ¡La resolución automática 7x7 es imprácticamente lenta! Úsala con precaución.",
-                autoSolveSearching: "Buscando solución automática...",
-                solutionFound: (numMoves) => `¡Solución encontrada! Reproduciendo ${numMoves} movimientos...`,
-                errorPlayingSolution: "Ocurrió un error al reproducir la solución.",
-                solutionNotFound: "Solución no encontrada dentro de los límites de tiempo/cálculo. Intenta barajar de nuevo.",
-                noReplayMoves: "No hay movimientos para reproducir.",
-                replayFinished: "Reproducción finalizada.",
-                puzzleSolved: (moves, time) => `¡Felicidades! Rompecabezas resuelto en ${moves} movimientos y ${time}!`,
-                cropCancelled: "Recorte cancelado. Por favor, sube o selecciona otra imagen.",
-                noImageLoaded: "No hay imagen cargada para mostrar.",
-                pieceMoved: (pieceNumber, direction) => `Pieza ${pieceNumber} movida ${direction}`,
-                directionRight: "Derecha",
-                directionLeft: "Izquierda",
-                directionDown: "Abajo",
-                directionUp: "Arriba",
-                playerStatsTitle: "Estadísticas del Jugador:",
-                totalGamesPlayed: "Total de Juegos Jugados",
-                totalTimePlayed: "Tiempo Total Jugado",
-                bestTime3x3: "Mejor Tiempo (3x3)",
-                bestMoves3x3: "Mejores Movimientos (3x3)",
-                movesPerTimeGraphTitle: "Movimientos por Intervalo de Tiempo:", // New
-                notApplicable: "--",
-                puzzleNotShuffled: "El rompecabezas aún no está barajado. Haz clic en 'Barajar' para empezar.",
-            },
-            ja: {
-                mainTitle: "インタラクティブスライディングパズル",
-                selectLanguage: "言語を選択:",
-                selectTheme: "テーマを選択:",
-                lightTheme: "ライト",
-                darkTheme: "ダーク",
-                uploadPhoto: "写真をアップロード:",
-                orSelectSample: "またはサンプル画像を選択:",
-                selectPuzzleSize: "パズルサイズを選択:",
-                selectPuzzleMode: "パズルモードを選択:",
-                shuffleStrength: "シャッフル強度（移動回数）:",
-                shuffleStrengthHint: "パズルをシャッフルするランダムな移動の数。",
-                numberColor: "数字の色:", // New
-                numberColorHint: "パズルピースの数字の色を選択します。", // New
-                slidingPuzzle: "スライディングパズル（デフォルト）",
-                jigsaw: "ジグソー（数字なし）",
-                moves: "移動",
-                time: "時間",
-                shuffle: "シャッフル",
-                undo: "元に戻す",
-                autoSolve: "自動解決",
-                resetPuzzle: "パズルをリセット",
-                viewOriginalImage: "元の画像を見る",
-                replayMoves: "動きを再生",
-                clickHint: "空のスペースに隣接するピースをクリックして移動します。",
-                moveHistoryTitle: "あなたの移動履歴:",
-                noMovesYet: "まだ動きはありません。",
-                backToPuzzle: "パズルに戻る",
-                cropAreaTitle: "パズル領域を選択",
-                confirmCrop: "トリミングを確定",
-                cancel: "キャンセル",
-                loading: "読み込み中...",
-                loadingImage: "画像を読み込み中...",
-                loadingSampleImage: "サンプル画像を読み込み中...",
-                failedLoadImage: "画像の読み込みに失敗しました。有効な画像ファイルであることを確認してください。",
-                failedLoadSampleImage: "サンプル画像の読み込みに失敗しました。もう一度試すか、ご自身の画像をアップロードしてください。",
-                shufflingPuzzle: "パズルをシャッフル中...",
-                shuffleFail: (attempts) => `${attempts}回の試行後も解けるパズルが見つかりませんでした。もう一度シャッフルしてみてください。`,
-                noUndo: "元に戻す動きはありません。",
-                confirmReset: "パズルをリセットしてもよろしいですか？進行状況は失われます。",
-                uploadImageFirst: "まず画像をアップロードしてください。",
-                autoSolveConfirm: "パズルを自動的に解決しますか？これにより、あなたの移動がリセットされます。",
-                autoSolveWarning5x5: "警告：5x5の自動解決は非常に遅いです！しばらくお待ちください。",
-                autoSolveWarning6x6: "警告：6x6の自動解決は非常に遅いです！しばらくお待ちください。",
-                autoSolveWarning7x7: "警告：7x7の自動解決は実用的に遅いです！注意して使用してください。",
-                autoSolveSearching: "自動解決策を検索中...",
-                solutionFound: (numMoves) => `解決策が見つかりました！${numMoves}回の移動を再生中...`,
-                errorPlayingSolution: "解決策の再生中にエラーが発生しました。",
-                solutionNotFound: "時間/計算制限内で解決策が見つかりませんでした。もう一度シャッフルしてください。",
-                noReplayMoves: "再生する動きはありません。",
-                replayFinished: "再生が終了しました。",
-                puzzleSolved: (moves, time) => `おめでとうございます！${moves}回の移動と${time}でパズルが解決しました！`,
-                cropCancelled: "トリミングがキャンセルされました。別の画像をアップロードまたは選択してください。",
-                noImageLoaded: "表示する画像が読み込まれていません。",
-                pieceMoved: (pieceNumber, direction) => `ピース${pieceNumber}が${direction}に移動しました`,
+            zh: {
+                mainTitle: "互动滑块拼图",
+                selectLanguage: "选择语言:",
+                selectTheme: "选择主题:",
+                lightTheme: "明亮",
+                darkTheme: "黑暗",
+                uploadPhoto: "上传您的照片:",
+                orSelectSample: "或选择示例图片:",
+                selectPuzzleSize: "选择拼图大小:",
+                selectPuzzleMode: "选择拼图模式:",
+                numberColor: "数字颜色:",
+                numberColorHint: "选择拼图块上数字的颜色。",
+                slidingPuzzle: "滑块拼图（默认）",
+                jigsaw: "拼图（无数字）",
+                moves: "步数",
+                time: "时间",
+                shuffle: "打乱",
+                undo: "撤销",
+                resetPuzzle: "重置拼图",
+                viewOriginalImage: "查看原始图片",
+                replayMoves: "重放步数",
+                clickHint: "点击空白区域旁边的方块来移动它。",
+                moveHistoryTitle: "您的移动历史:",
+                noMovesYet: "暂无移动。",
+                backToPuzzle: "返回拼图",
+                cropAreaTitle: "选择拼图区域",
+                confirmCrop: "确认裁剪",
+                cancel: "取消",
+                loading: "加载中...",
+                loadingImage: "正在加载图片...",
+                loadingSampleImage: "正在加载示例图片...",
+                failedLoadImage: "加载图片失败。请确保它是有效的图片文件。",
+                failedLoadSampleImage: "加载示例图片失败。请重试或上传您自己的图片。",
+                shufflingPuzzle: "正在打乱拼图...",
+                shuffleFail: (attempts) => `尝试 ${attempts} 次后未能找到可解的拼图。请再试一次打乱。`,
+                noUndo: "没有可撤销的移动。",
+                confirmReset: "您确定要重置拼图吗？您的进度将丢失。",
+                uploadImageFirst: "请先上传一张图片。",
+                noReplayMoves: "没有可重放的移动。",
+                replayFinished: "重放完成。",
+                puzzleSolved: (moves, time) => `恭喜！拼图在 ${moves} 步和 ${time} 内解决！`,
+                cropCancelled: "裁剪已取消。请上传或选择其他图片。",
+                noImageLoaded: "未加载图片以显示。",
+                pieceMoved: (pieceNumber, direction, timestamp) => `方块 ${pieceNumber} 向 ${direction} 移动 (${timestamp})`,
                 directionRight: "右",
                 directionLeft: "左",
                 directionDown: "下",
                 directionUp: "上",
-                playerStatsTitle: "プレイヤー統計:",
-                totalGamesPlayed: "総プレイ回数",
-                totalTimePlayed: "総プレイ時間",
-                bestTime3x3: "ベストタイム (3x3)",
-                bestMoves3x3: "ベストムーブ (3x3)",
-                movesPerTimeGraphTitle: "時間間隔あたりの移動数:", // New
+                playerStatsTitle: "玩家统计:",
+                totalGamesPlayed: "总游戏次数",
+                totalTimePlayed: "总游戏时间",
+                totalPiecesMoved: "总移动方块数",
+                bestStats: "最佳统计:",
+                bestTime3x3: "最佳时间 (3x3)",
+                bestMoves3x3: "最佳步数 (3x3)",
+                bestTime4x4: "最佳时间 (4x4)",
+                bestMoves4x4: "最佳步数 (4x4)",
+                bestTime5x5: "最佳时间 (5x5)",
+                bestMoves5x5: "最佳步数 (5x5)",
+                bestTime6x6: "最佳时间 (6x6)",
+                bestMoves6x6: "最佳步数 (6x6)",
+                bestTime7x7: "最佳时间 (7x7)",
+                bestMoves7x7: "最佳步数 (7x7)",
+                bestTime8x8: "最佳时间 (8x8)",
+                bestMoves8x8: "最佳步数 (8x8)",
+                bestTime9x9: "最佳时间 (9x9)",
+                bestMoves9x9: "最佳步数 (9x9)",
+                bestTime10x10: "最佳时间 (10x10)",
+                bestMoves10x10: "最佳步数 (10x10)",
+                worstStats: "最差统计:",
+                worstTime3x3: "最差时间 (3x3)",
+                worstMoves3x3: "最差步数 (3x3)",
+                worstTime4x4: "最差时间 (4x4)",
+                worstMoves4x4: "最差步数 (4x4)",
+                worstTime5x5: "最差时间 (5x5)",
+                worstMoves5x5: "最差步数 (5x5)",
+                worstTime6x6: "最差时间 (6x6)",
+                worstMoves6x6: "最差步数 (6x6)",
+                worstTime7x7: "最差时间 (7x7)",
+                worstMoves7x7: "最差步数 (7x7)",
+                worstTime8x8: "最差时间 (8x8)",
+                worstMoves8x8: "最差步数 (8x8)",
+                worstTime9x9: "最差时间 (9x9)",
+                worstMoves9x9: "最差步数 (9x9)",
+                worstTime10x10: "最差时间 (10x10)",
+                worstMoves10x10: "最差步数 (10x10)",
+                movesPerTimeGraphTitle: "每时间间隔移动次数:",
+                directionalMovesGraphTitle: "方向移动分布:",
                 notApplicable: "--",
-                puzzleNotShuffled: "パズルはまだシャッフルされていません。開始するには「シャッフル」をクリックしてください。",
+                puzzleNotShuffled: "拼图尚未打乱。请点击“打乱”开始。",
+                viewStatsFor: "查看统计:",
+                allSizes: "显示所有",
+                size3x3: "3x3",
+                size4x4: "4x4",
+                size5x5: "5x5",
+                size6x6: "6x6",
+                size7x7: "7x7",
+                size8x8: "8x8",
+                size9x9: "9x9",
+                size10x10: "10x10",
             }
         };
 
@@ -1121,26 +1277,41 @@
                 const key = element.getAttribute('data-key');
                 if (translations[currentLanguage][key]) {
                     if (typeof translations[currentLanguage][key] === 'function') {
-                        element.textContent = translations[currentLanguage][key].name ? key : translations[currentLanguage][key];
+                        element.textContent = key; 
                     } else {
                         element.textContent = translations[currentLanguage][key];
                     }
                 }
             });
 
+            // Specific updates for select options
             document.getElementById('puzzleModeSelect').querySelector('option[value="sliding"]').textContent = translations[currentLanguage].slidingPuzzle;
             document.getElementById('puzzleModeSelect').querySelector('option[value="jigsaw"]').textContent = translations[currentLanguage].jigsaw;
             
             document.getElementById('themeSelect').querySelector('option[value="light"]').textContent = translations[currentLanguage].lightTheme;
             document.getElementById('themeSelect').querySelector('option[value="dark"]').textContent = translations[currentLanguage].darkTheme;
 
+            // Update stats filter options
+            document.getElementById('statsGridSizeFilter').querySelector('option[value="all"]').textContent = translations[currentLanguage].allSizes;
+            for (let i = 3; i <= 10; i++) {
+                const option = document.getElementById('statsGridSizeFilter').querySelector(`option[value="${i}"]`);
+                if (option) {
+                    option.textContent = translations[currentLanguage][`size${i}x${i}`];
+                }
+            }
+
+
+            // Update placeholder text for image upload
             const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
             const placeholderSize = fixedCanvasSize;
+            // Ensure crossOrigin is set for placeholder image as well
+            originalImage.crossOrigin = 'Anonymous'; 
             originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
             
             renderMoveHistory();
             updatePlayerStatisticsDisplay();
-            drawMovesPerTimeGraph(); // Update graph on language change
+            drawMovesPerTimeGraph();
+            drawDirectionalMovesGraph(); 
         }
 
         // =====================================================================
@@ -1162,8 +1333,15 @@
             if (puzzleReady) {
                 drawPuzzle();
             }
-            drawMovesPerTimeGraph(); // Update graph on theme change
+            drawMovesPerTimeGraph();
+            drawDirectionalMovesGraph(); 
         });
+
+        // Function to apply theme to the body
+        function applyTheme(theme) {
+            document.body.classList.remove('light-theme', 'dark-theme');
+            document.body.classList.add(`${theme}-theme`);
+        }
 
         // =====================================================================
         // Handle Number Color Picker Change (with Local Storage)
@@ -1291,11 +1469,13 @@
                 showLoading("loadingImage");
                 const reader = new FileReader();
                 reader.onload = (e) => {
+                    // Set crossOrigin before setting src for uploaded images too
+                    originalImage.crossOrigin = 'Anonymous'; 
                     originalImage.onload = async () => {
                         hideLoading();
                         if (originalImage.width === originalImage.height) {
                             initializePuzzle(0, 0, originalImage.width, originalImage.height);
-                            await animateShuffle();
+                            await instantShuffle(); 
                         } else {
                             setupCroppingInterface();
                         }
@@ -1318,16 +1498,18 @@
                 const imageUrl = container.dataset.src;
                 if (!imageUrl) return;
 
-                if (shuffling || solving || isProcessingClick || isReplaying) return;
+                if (shuffling || isProcessingClick || isReplaying) return; 
 
                 showLoading("loadingSampleImage");
                 disableAllButtons();
 
+                // Set crossOrigin before setting src for sample images
+                originalImage.crossOrigin = 'Anonymous'; 
                 originalImage.onload = async () => {
                     hideLoading();
                     if (originalImage.width === originalImage.height) {
                         initializePuzzle(0, 0, originalImage.width, originalImage.height);
-                        await animateShuffle();
+                        await instantShuffle(); 
                     } else {
                         setupCroppingInterface();
                     }
@@ -1350,10 +1532,12 @@
             savePreferences();
             if (puzzleReady) {
                 initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
-                await animateShuffle();
+                await instantShuffle(); 
             } else {
                 const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
                 const placeholderSize = fixedCanvasSize;
+                // Ensure crossOrigin is set for placeholder image as well
+                originalImage.crossOrigin = 'Anonymous'; 
                 originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
             }
         });
@@ -1363,25 +1547,10 @@
             savePreferences();
             if (puzzleReady) {
                 initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
-                await animateShuffle();
+                await instantShuffle(); 
             } else {
                 drawPuzzle();
             }
-        });
-
-        // =====================================================================
-        // Handle Shuffle Strength Input Change (with Local Storage)
-        // =====================================================================
-        shuffleStrengthInput.addEventListener('change', (event) => {
-            let value = parseInt(event.target.value);
-            if (isNaN(value) || value < 10) {
-                value = 10;
-            } else if (value > 1000) {
-                value = 1000;
-            }
-            shuffleStrength = value;
-            event.target.value = value;
-            savePreferences();
         });
 
         // =====================================================================
@@ -1425,9 +1594,10 @@
             initialShuffledStateForReplay = [];
             replayButton.style.display = 'none';
             moveHistory = [];
-            movesPerIntervalData = []; // Reset moves per interval data
-            lastRecordedTotalMoves = 0; // Reset for new game
-            lastGraphUpdateTime = 0; // Reset for new game
+            movesPerIntervalData = [];
+            lastRecordedTotalMoves = 0;
+            lastGraphUpdateTime = 0;
+            directionalMovesCount = { 'Up': 0, 'Down': 0, 'Left': 0, 'Right': 0 }; // Reset directional moves
             renderMoveHistory();
             updateMoveCounter();
             stopTimer();
@@ -1443,10 +1613,13 @@
             enableAllButtons();
             stopConfetti();
 
-            updatePlayerStatisticsDisplay(); // No Manhattan stats to reset here
+            updatePlayerStatisticsDisplay();
 
-            currentBase64Image = puzzleCanvas.toDataURL('image/png');
-            drawMovesPerTimeGraph(); // Initialize graph
+            // The toDataURL call that was causing the error. 
+            // It should now work because originalImage.crossOrigin is set.
+            currentBase64Image = puzzleCanvas.toDataURL('image/png'); 
+            drawMovesPerTimeGraph();
+            drawDirectionalMovesGraph(); // Initialize new graph
         }
 
         // =====================================================================
@@ -1470,7 +1643,8 @@
 
             drawPuzzle();
             updateProgressIndicator();
-            drawMovesPerTimeGraph(); // Redraw graph on resize
+            drawMovesPerTimeGraph();
+            drawDirectionalMovesGraph(); // Redraw new graph on resize
         }
 
         // =====================================================================
@@ -1545,10 +1719,10 @@
         }
 
         // =====================================================================
-        // Shuffle Puzzle with visual animation and ensure solvability
+        // Instant Shuffle Puzzle (no animation)
         // =====================================================================
-        async function animateShuffle() {
-            if (!puzzleReady || shuffling || solving || isReplaying) {
+        async function instantShuffle() {
+            if (!puzzleReady || shuffling || isReplaying) {
                 return;
             }
             shuffling = true;
@@ -1557,39 +1731,40 @@
             solveStatusDisplay.textContent = translations[currentLanguage].shufflingPuzzle;
             const originalBlankId = gridSize * gridSize - 1;
             
-            const numMoves = shuffleStrength;
-            const visualDelay = 10;
-
+            // Calculate numMoves dynamically based on grid size
+            // For a 3x3 grid, 9 * 50 = 450 moves. For 10x10, 100 * 50 = 5000 moves.
+            const numMoves = gridSize * gridSize * 50; 
+            
             let currentSolvable = false;
             let shuffleAttempts = 0;
             const maxShuffleAttempts = 10;
 
             let finalPuzzleOrder = null;
+            let tempPieces = []; 
 
             while (!currentSolvable && shuffleAttempts < maxShuffleAttempts) {
-                puzzlePieces.sort((a, b) => a.originalIndex - b.originalIndex);
-                puzzlePieces.forEach((piece, index) => {
-                    piece.currentX = (index % gridSize) * pieceWidth;
-                    piece.currentY = Math.floor(index / gridSize) * pieceHeight;
-                    piece.isBlank = (piece.id === originalBlankId);
-                });
-                drawPuzzle();
+                tempPieces = [];
+                for (let i = 0; i < gridSize * gridSize; i++) {
+                    tempPieces.push({
+                        id: i,
+                        originalIndex: i,
+                        currentX: (i % gridSize) * pieceWidth,
+                        currentY: Math.floor(i / gridSize) * pieceHeight,
+                        isBlank: (i === originalBlankId)
+                    });
+                }
 
-                let currentVisualPieces = puzzlePieces.map(p => ({ ...p }));
-                let currentVisualBlankPiece = currentVisualPieces.find(p => p.isBlank);
+                let currentTempBlankPiece = tempPieces.find(p => p.isBlank);
+
                 for (let i = 0; i < numMoves; i++) {
-                    if (!shuffling) {
-                        break;
-                    }
-
-                    const blankCol = Math.round(currentVisualBlankPiece.currentX / pieceWidth);
-                    const blankRow = Math.round(currentVisualBlankPiece.currentY / pieceHeight);
+                    const blankCol = Math.round(currentTempBlankPiece.currentX / pieceWidth);
+                    const blankRow = Math.round(currentTempBlankPiece.currentY / pieceHeight);
 
                     const possibleMoves = [];
-                    if (blankRow > 0) possibleMoves.push(currentVisualPieces.find(p => Math.round(p.currentX / pieceWidth) === blankCol && Math.round(p.currentY / pieceHeight) === blankRow - 1));
-                    if (blankRow < gridSize - 1) possibleMoves.push(currentVisualPieces.find(p => Math.round(p.currentX / pieceWidth) === blankCol && Math.round(p.currentY / pieceHeight) === blankRow + 1));
-                    if (blankCol > 0) possibleMoves.push(currentVisualPieces.find(p => Math.round(p.currentX / pieceWidth) === blankCol - 1 && Math.round(p.currentY / pieceHeight) === blankRow));
-                    if (blankCol < gridSize - 1) possibleMoves.push(currentVisualPieces.find(p => Math.round(p.currentX / pieceWidth) === blankCol + 1 && Math.round(p.currentY / pieceHeight) === blankRow));
+                    if (blankRow > 0) possibleMoves.push(tempPieces.find(p => Math.round(p.currentX / pieceWidth) === blankCol && Math.round(p.currentY / pieceHeight) === blankRow - 1));
+                    if (blankRow < gridSize - 1) possibleMoves.push(tempPieces.find(p => Math.round(p.currentX / pieceWidth) === blankCol && Math.round(p.currentY / pieceHeight) === blankRow + 1));
+                    if (blankCol > 0) possibleMoves.push(tempPieces.find(p => Math.round(p.currentX / pieceWidth) === blankCol - 1 && Math.round(p.currentY / pieceHeight) === blankRow));
+                    if (blankCol < gridSize - 1) possibleMoves.push(tempPieces.find(p => Math.round(p.currentX / pieceWidth) === blankCol + 1 && Math.round(p.currentY / pieceHeight) === blankRow));
                     const validMoves = possibleMoves.filter(p => p && !p.isBlank);
 
                     if (validMoves.length === 0) continue;
@@ -1598,23 +1773,21 @@
                     const tempX = pieceToMove.currentX;
                     const tempY = pieceToMove.currentY;
 
-                    pieceToMove.currentX = currentVisualBlankPiece.currentX;
-                    pieceToMove.currentY = currentVisualBlankPiece.currentY;
+                    pieceToMove.currentX = currentTempBlankPiece.currentX;
+                    pieceToMove.currentY = currentTempBlankPiece.currentY;
 
-                    currentVisualBlankPiece.currentX = tempX;
-                    currentVisualBlankPiece.currentY = tempY;
-                    const pieceToMoveIndexInArray = currentVisualPieces.indexOf(pieceToMove);
-                    const blankIndexInArray = currentVisualPieces.indexOf(currentVisualBlankPiece);
-                    [currentVisualPieces[pieceToMoveIndexInArray], currentVisualPieces[blankIndexInArray]] = 
-                    [currentVisualPieces[blankIndexInArray], currentVisualPieces[pieceToMoveIndexInArray]];
-                    puzzlePieces = currentVisualPieces;
-                    drawPuzzle();
-                    await new Promise(resolve => setTimeout(resolve, visualDelay));
+                    currentTempBlankPiece.currentX = tempX;
+                    currentTempBlankPiece.currentY = tempY;
+                    
+                    const pieceToMoveIndexInArray = tempPieces.indexOf(pieceToMove);
+                    const blankIndexInArray = tempPieces.indexOf(currentTempBlankPiece);
+                    [tempPieces[pieceToMoveIndexInArray], tempPieces[blankIndexInArray]] = 
+                    [tempPieces[blankIndexInArray], tempPieces[pieceToMoveIndexInArray]];
                 }
 
-                if (isPuzzleSolvable(puzzlePieces, gridSize)) {
+                if (isPuzzleSolvable(tempPieces, gridSize)) {
                     currentSolvable = true;
-                    finalPuzzleOrder = puzzlePieces.map(p => p.id);
+                    finalPuzzleOrder = tempPieces.map(p => p.id); 
                 } else {
                     shuffleAttempts++;
                     console.warn(`Attempt ${shuffleAttempts}: Shuffled puzzle is not solvable. Retrying...`);
@@ -1623,7 +1796,7 @@
 
             hideLoading();
 
-            if (!shuffling) {
+            if (!shuffling) { 
                 solveStatusDisplay.textContent = '';
                 stopTimer();
                 hasMadeFirstMove = false;
@@ -1635,7 +1808,7 @@
                 let correctedPuzzlePieces = [];
                 for (let i = 0; i < finalPuzzleOrder.length; i++) {
                     const pieceId = finalPuzzleOrder[i];
-                    const originalPieceData = puzzlePieces.find(p => p.id === pieceId);
+                    const originalPieceData = puzzlePieces.find(p => p.id === pieceId); 
                     correctedPuzzlePieces.push({
                         ...originalPieceData,
                         currentX: (i % gridSize) * pieceWidth,
@@ -1653,9 +1826,10 @@
                 initialShuffledStateForReplay = puzzlePieces.map(p => ({ ...p }));
                 replayButton.style.display = 'none';
                 moveHistory = [];
-                movesPerIntervalData = []; // Reset moves per interval data
-                lastRecordedTotalMoves = 0; // Reset for new game
-                lastGraphUpdateTime = 0; // Reset for new game
+                movesPerIntervalData = [];
+                lastRecordedTotalMoves = 0;
+                lastGraphUpdateTime = 0;
+                directionalMovesCount = { 'Up': 0, 'Down': 0, 'Left': 0, 'Right': 0 }; 
                 renderMoveHistory();
                 updateMoveCounter();
                 hasMadeFirstMove = false;
@@ -1666,7 +1840,8 @@
                 enableAllButtons();
 
                 solveStatusDisplay.textContent = '';
-                drawMovesPerTimeGraph(); // Update graph after shuffle
+                drawMovesPerTimeGraph();
+                drawDirectionalMovesGraph(); 
             } else {
                 shuffling = false;
                 enableAllButtons();
@@ -1677,18 +1852,20 @@
                 } else {
                     const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
                     const placeholderSize = fixedCanvasSize;
+                    // Ensure crossOrigin is set for placeholder image as well
+                    originalImage.crossOrigin = 'Anonymous'; 
                     originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
                 }
             }
         }
 
 
-        shuffleButton.addEventListener('click', animateShuffle);
+        shuffleButton.addEventListener('click', instantShuffle);
         // =====================================================================
         // Undo Puzzle Move
         // =====================================================================
         undoButton.addEventListener('click', () => {
-            if (isProcessingClick || solving || shuffling || isReplaying) return;
+            if (isProcessingClick || shuffling || isReplaying) return; 
 
             if (undoStack.length > 0) {
                 const prevState = undoStack.pop();
@@ -1705,7 +1882,35 @@
                 if (replayMoves.length > 0) {
                     replayMoves.pop();
                 }
-                moveHistory.shift();
+                
+                // Decrement total pieces moved
+                if (playerStats.totalPiecesMoved > 0) {
+                    playerStats.totalPiecesMoved--;
+                }
+                
+                // Adjust directional moves count (this is a simplification; full undo would require storing directional change in undoStack)
+                if (moveHistory.length > 0) {
+                    const lastMove = moveHistory[0];
+                    const directionMatch = lastMove.text.match(/moved (Right|Left|Down|Up|Kanan|Kiri|Bawah|Atas|右|左|下|上)/); 
+                    if (directionMatch) {
+                        let matchedDirection = '';
+                        if (directionMatch[1] === translations.en.directionRight || directionMatch[1] === translations.id.directionRight || directionMatch[1] === translations.zh.directionRight) {
+                            matchedDirection = 'Right';
+                        } else if (directionMatch[1] === translations.en.directionLeft || directionMatch[1] === translations.id.directionLeft || directionMatch[1] === translations.zh.directionLeft) {
+                            matchedDirection = 'Left';
+                        } else if (directionMatch[1] === translations.en.directionDown || directionMatch[1] === translations.id.directionDown || directionMatch[1] === translations.zh.directionDown) {
+                            matchedDirection = 'Down';
+                        } else if (directionMatch[1] === translations.en.directionUp || directionMatch[1] === translations.id.directionUp || directionMatch[1] === translations.zh.directionUp) {
+                            matchedDirection = 'Up';
+                        }
+
+                        if (directionalMovesCount[matchedDirection]) {
+                            directionalMovesCount[matchedDirection]--;
+                        }
+                    }
+                    moveHistory.shift();
+                }
+
                 renderMoveHistory();
 
                 updateMoveCounter();
@@ -1713,11 +1918,11 @@
                 updateProgressIndicator();
                 puzzleModeSelect.value = currentPuzzleMode;
                 hoveredPieceIndex = -1;
-                // Re-calculate lastRecordedTotalMoves for graph if undoing past a graph point
+                
                 if (movesPerIntervalData.length > 0) {
                     const lastDataPoint = movesPerIntervalData[movesPerIntervalData.length - 1];
-                    if (moves < lastDataPoint.totalMovesAtTime) { // If undoing past a recorded point
-                        movesPerIntervalData.pop(); // Remove the last point
+                    if (moves < lastDataPoint.totalMovesAtTime) {
+                        movesPerIntervalData.pop();
                         if (movesPerIntervalData.length > 0) {
                             lastRecordedTotalMoves = movesPerIntervalData[movesPerIntervalData.length - 1].totalMovesAtTime;
                             lastGraphUpdateTime = movesPerIntervalData[movesPerIntervalData.length - 1].time;
@@ -1727,7 +1932,10 @@
                         }
                     }
                 }
-                drawMovesPerTimeGraph(); // Update graph after undo
+                drawMovesPerTimeGraph();
+                drawDirectionalMovesGraph(); 
+                updatePlayerStatisticsDisplay(); 
+                savePlayerStatistics();
             } else {
                 showMessageBox("noUndo");
             }
@@ -1745,7 +1953,7 @@
                     return;
                 }
 
-                solving = false;
+                solving = false; 
                 shuffling = false;
 
                 puzzlePieces.sort((a, b) => a.originalIndex - b.originalIndex);
@@ -1764,9 +1972,10 @@
                 initialShuffledStateForReplay = [];
                 replayButton.style.display = 'none';
                 moveHistory = [];
-                movesPerIntervalData = []; // Reset moves per interval data
-                lastRecordedTotalMoves = 0; // Reset for new game
-                lastGraphUpdateTime = 0; // Reset for new game
+                movesPerIntervalData = [];
+                lastRecordedTotalMoves = 0;
+                lastGraphUpdateTime = 0;
+                directionalMovesCount = { 'Up': 0, 'Down': 0, 'Left': 0, 'Right': 0 }; 
                 renderMoveHistory();
                 updateMoveCounter();
                 stopTimer();
@@ -1779,8 +1988,9 @@
                 stopConfetti();
                 hoveredPieceIndex = -1;
 
-                updatePlayerStatisticsDisplay(); // No Manhattan stats to reset here
-                drawMovesPerTimeGraph(); // Reset graph on reset
+                updatePlayerStatisticsDisplay();
+                drawMovesPerTimeGraph();
+                drawDirectionalMovesGraph(); 
 
                 enableAllButtons();
             });
@@ -1864,15 +2074,26 @@
                         [puzzlePieces[blankIndexInArray], puzzlePieces[clickedIndexInArray]];
 
                         moves++;
+                        playerStats.totalPiecesMoved++; 
                         updateMoveCounter();
                         drawPuzzle();
                         updateProgressIndicator();
 
-                        addMoveToHistory(clickedPiece.id + 1, fromIndex, toIndex, gridSize); // Add to move history
-                        // Graph update is now handled by the timer
+                        let direction = '';
+                        if (clickedPieceCol === blankPieceCol) { 
+                            direction = clickedPieceRow < blankPieceRow ? 'Down' : 'Up';
+                        } else { 
+                            direction = clickedPieceCol < blankPieceCol ? 'Right' : 'Left';
+                        }
+                        directionalMovesCount[direction]++; 
+                        drawDirectionalMovesGraph(); 
+
+                        addMoveToHistory(clickedPiece.id + 1, fromIndex, toIndex, gridSize);
 
                         checkWin();
                         isProcessingClick = false;
+                        updatePlayerStatisticsDisplay(); 
+                        savePlayerStatistics();
                     }
                 );
             } else {
@@ -1996,7 +2217,6 @@
 
             timerDisplay.textContent = `${formattedMinutes}:${formattedSeconds}`;
 
-            // Update moves per time graph data
             if (totalSeconds >= lastGraphUpdateTime + graphUpdateInterval || (totalSeconds === 0 && moves > 0 && movesPerIntervalData.length === 0)) {
                 const movesInInterval = moves - lastRecordedTotalMoves;
                 movesPerIntervalData.push({ time: totalSeconds, moves: movesInInterval, totalMovesAtTime: moves });
@@ -2060,7 +2280,6 @@
 
                 updatePlayerStatistics(moves, Math.floor((Date.now() - startTime) / 1000));
                 updateProgressIndicator();
-                // No Manhattan analysis here anymore
             }
         }
 
@@ -2070,19 +2289,18 @@
         function disableAllButtons() {
             shuffleButton.disabled = true;
             undoButton.disabled = true;
-            solveButton.disabled = true;
             resetButton.disabled = false;
             imageUpload.disabled = true;
             gridSizeSelect.disabled = true;
             puzzleModeSelect.disabled = true;
-            shuffleStrengthInput.disabled = true;
-            numberColorPicker.disabled = true; // Disable color picker
+            numberColorPicker.disabled = true;
             viewOriginalImageButton.disabled = true;
             replayButton.disabled = true;
             sampleImageContainers.forEach(container => container.style.pointerEvents = 'none');
             sampleImageContainers.forEach(container => container.style.opacity = '0.5');
             languageSelect.disabled = true;
             themeSelect.disabled = true;
+            statsGridSizeFilter.disabled = true; 
         }
 
         // =====================================================================
@@ -2091,217 +2309,25 @@
         function enableAllButtons() {
             shuffleButton.disabled = false;
             undoButton.disabled = false;
-            solveButton.disabled = false; 
             resetButton.disabled = false;
             imageUpload.disabled = false;
             gridSizeSelect.disabled = false;
             puzzleModeSelect.disabled = false;
-            shuffleStrengthInput.disabled = false;
-            numberColorPicker.disabled = false; // Enable color picker
+            numberColorPicker.disabled = false;
             viewOriginalImageButton.disabled = false;
             replayButton.disabled = false;
             sampleImageContainers.forEach(container => container.style.pointerEvents = 'auto');
             sampleImageContainers.forEach(container => container.style.opacity = '1');
             languageSelect.disabled = false;
             themeSelect.disabled = false;
-        }
-
-        // =====================================================================
-        // Function to auto-solve puzzle using BFS (Breadth-First Search)
-        // =====================================================================
-        solveButton.addEventListener('click', () => {
-            showConfirmationBox("autoSolveConfirm", async () => {
-                await solvePuzzleAutomatically();
-            });
-        });
-
-        async function solvePuzzleAutomatically() {
-            if (!puzzleReady || !isShuffled || solving || shuffling || isProcessingClick) {
-                return;
-            }
-
-            solving = true;
-            isProcessingClick = true;
-            hasMadeFirstMove = true;
-            startTimer();
-            if (gridSize === 7) {
-                showLoading("autoSolveWarning7x7");
-            } else if (gridSize === 6) {
-                showLoading("autoSolveWarning6x6");
-            } else if (gridSize === 5) {
-                showLoading("autoSolveWarning5x5");
-            } else {
-                showLoading("autoSolveSearching");
-            }
-            
-            disableAllButtons();
-            resetButton.disabled = false;
-
-            stopTimer();
-
-            const queue = [];
-            const visited = new Set();
-
-            const initialPiecesState = puzzlePieces.map(p => {
-                const col = Math.round(p.currentX / pieceWidth);
-                const row = Math.round(p.currentY / pieceHeight);
-                return { id: p.id, currentPos: row * gridSize + col };
-            });
-            initialPiecesState.sort((a, b) => a.currentPos - b.currentPos);
-
-            const initialOrderedIds = initialPiecesState.map(p => p.id);
-            const blankId = puzzlePieces.find(p => p.isBlank).id;
-            const initialBlankPos = initialOrderedIds.indexOf(blankId);
-
-            queue.push({ state: initialOrderedIds, path: [], blankPos: initialBlankPos });
-            visited.add(JSON.stringify(initialOrderedIds));
-            let solutionPath = null;
-            let count = 0; 
-
-            while (queue.length > 0 && solving && count < maxStatesToExploreForBFS) {
-                const { state, path, blankPos } = queue.shift();
-                count++;
-
-                const isSolved = state.every((id, index) => id === index);
-                if (isSolved) {
-                    solutionPath = path;
-                    break;
-                }
-
-                const blankRow = Math.floor(blankPos / gridSize);
-                const blankCol = blankPos % gridSize;
-
-                const possibleSwapPositions = [];
-                if (blankRow > 0) possibleSwapPositions.push(blankPos - gridSize);
-                if (blankRow < gridSize - 1) possibleSwapPositions.push(blankPos + gridSize); 
-                if (blankCol > 0) possibleSwapPositions.push(blankPos - 1);
-                if (blankCol < gridSize - 1) possibleSwapPositions.push(blankPos + 1); 
-
-                for (const pieceToSwapIndex of possibleSwapPositions) {
-                    const nextState = [...state];
-                    const tempId = nextState[blankPos];
-                    nextState[blankPos] = nextState[pieceToSwapIndex];
-                    nextState[pieceToSwapIndex] = tempId;
-
-                    const nextStateStr = JSON.stringify(nextState);
-                    if (!visited.has(nextStateStr)) {
-                        visited.add(nextStateStr);
-                        queue.push({
-                            state: nextState,
-                            path: [...path, state[pieceToSwapIndex]],
-                            blankPos: pieceToSwapIndex 
-                        });
-                    }
-                }
-                if (count % 1000 === 0) { 
-                    await new Promise(resolve => setTimeout(resolve, 0));
-                    if (!solving) break; 
-                }
-            }
-
-            hideLoading();
-
-            if (!solving) {
-                solveStatusDisplay.textContent = '';
-                stopTimer();
-                hasMadeFirstMove = false;
-                enableAllButtons();
-                return;
-            }
-
-            if (solutionPath) {
-                solveStatusDisplay.textContent = translations[currentLanguage].solutionFound(solutionPath.length);
-                const currentAutoSolveDelay = getAutoSolveStepDelay(gridSize);
-                
-                moves = 0;
-                replayMoves = [];
-                initialShuffledStateForReplay = [];
-                replayButton.style.display = 'none';
-                moveHistory = [];
-                movesPerIntervalData = []; // Reset moves per interval data
-                lastRecordedTotalMoves = 0; // Reset for new game
-                lastGraphUpdateTime = 0; // Reset for new game
-                renderMoveHistory();
-
-                startTimer();
-                for (const pieceIdToMove of solutionPath) {
-                    if (!solving) break;
-
-                    const pieceToMove = puzzlePieces.find(p => p.id === pieceIdToMove);
-                    const blankPiece = puzzlePieces.find(p => p.isBlank);
-
-                    if (!pieceToMove || !blankPiece) { 
-                        console.error(translations[currentLanguage].errorPlayingSolution);
-                        solving = false;
-                        isProcessingClick = false;
-                        enableAllButtons();
-                        solveStatusDisplay.textContent = translations[currentLanguage].errorPlayingSolution;
-                        stopTimer();
-                        hasMadeFirstMove = false;
-                        return;
-                    }
-                    
-                    const startX1 = pieceToMove.currentX;
-                    const startY1 = pieceToMove.currentY;
-                    const startX2 = blankPiece.currentX;
-                    const startY2 = blankPiece.currentY;
-
-                    const targetX1 = startX2; 
-                    const targetY1 = startY2;
-                    const targetX2 = startX1; 
-                    const targetY2 = startY1; 
-
-                    await new Promise(resolve => {
-                        animatePieceMove(
-                            pieceToMove, targetX1, targetY1,
-                            blankPiece, targetX2, targetY2,
-                            () => {
-                                pieceToMove.currentX = targetX1;
-                                pieceToMove.currentY = targetY1;
-                                blankPiece.currentX = targetX2;
-                                blankPiece.currentY = targetY2;
-
-                                const pieceToMoveCurrentIndex = puzzlePieces.indexOf(pieceToMove);
-                                const blankIndexInArray = puzzlePieces.indexOf(blankPiece);
-                                [puzzlePieces[pieceToMoveCurrentIndex], puzzlePieces[blankIndexInArray]] =
-                                [puzzlePieces[blankIndexInArray], puzzlePieces[pieceToMoveCurrentIndex]];
-
-                                moves++;
-                                updateMoveCounter();
-                                drawPuzzle();
-                                updateProgressIndicator();
-                                resolve();
-                            }
-                        );
-                    });
-                    if (solving) {
-                        await new Promise(resolve => setTimeout(resolve, currentAutoSolveDelay));
-                    }
-                }
-                if (solving) {
-                    checkWin();
-                }
-            } else { 
-                solveStatusDisplay.textContent = translations[currentLanguage].solutionNotFound;
-                showMessageBox('solutionNotFound');
-            }
-
-            solving = false;
-            isProcessingClick = false;
-            enableAllButtons();
-            if (isShuffled && !solving) {
-                startTimer();
-            } else if (!isShuffled && !solving) {
-                stopTimer();
-                hasMadeFirstMove = false;
-            }
+            statsGridSizeFilter.disabled = false; 
         }
         
         // =====================================================================
         // Replay Functionality
         // =====================================================================
         replayButton.addEventListener('click', async () => {
-            if (replayMoves.length === 0 || solving || shuffling || isProcessingClick) {
+            if (replayMoves.length === 0 || shuffling || isProcessingClick) { 
                 showMessageBox("noReplayMoves");
                 return;
             }
@@ -2317,6 +2343,7 @@
                 piece.currentY = Math.floor(index / gridSize) * pieceHeight;
             });
             moves = 0;
+            playerStats.totalPiecesMoved = 0; 
             updateMoveCounter();
             drawPuzzle();
             updateProgressIndicator();
@@ -2324,11 +2351,13 @@
             stopConfetti();
             hoveredPieceIndex = -1;
             moveHistory = [];
-            movesPerIntervalData = []; // Clear moves per interval data for replay
+            movesPerIntervalData = [];
             lastRecordedTotalMoves = 0;
             lastGraphUpdateTime = 0;
+            directionalMovesCount = { 'Up': 0, 'Down': 0, 'Left': 0, 'Right': 0 }; 
             renderMoveHistory();
             drawMovesPerTimeGraph();
+            drawDirectionalMovesGraph(); 
 
             for (const move of replayMoves) {
                 if (!isReplaying) break;
@@ -2365,6 +2394,7 @@
                             [puzzlePieces[newBlankPieceIndex], puzzlePieces[newPieceToMoveIndex]];
 
                             moves++;
+                            playerStats.totalPiecesMoved++; 
                             updateMoveCounter();
                             drawPuzzle();
                             updateProgressIndicator();
@@ -2408,8 +2438,8 @@
             localStorage.setItem('puzzleMode', puzzleModeSelect.value);
             localStorage.setItem('puzzleLanguage', currentLanguage);
             localStorage.setItem('puzzleTheme', currentTheme);
-            localStorage.setItem('shuffleStrength', shuffleStrengthInput.value);
-            localStorage.setItem('numberColor', numberColorPicker.value); // Save number color
+            localStorage.setItem('numberColor', numberColorPicker.value);
+            localStorage.setItem('currentStatsView', currentStatsView); 
         }
 
         function loadPreferences() {
@@ -2417,8 +2447,8 @@
             const savedPuzzleMode = localStorage.getItem('puzzleMode');
             const savedLanguage = localStorage.getItem('puzzleLanguage');
             const savedTheme = localStorage.getItem('puzzleTheme');
-            const savedShuffleStrength = localStorage.getItem('shuffleStrength');
-            const savedNumberColor = localStorage.getItem('numberColor'); // Load number color
+            const savedNumberColor = localStorage.getItem('numberColor');
+            const savedStatsView = localStorage.getItem('currentStatsView'); 
 
             if (savedGridSize) {
                 gridSizeSelect.value = savedGridSize;
@@ -2432,8 +2462,8 @@
                 currentLanguage = savedLanguage;
                 languageSelect.value = savedLanguage;
             } else {
-                currentLanguage = 'en';
-                languageSelect.value = 'en';
+                currentLanguage = 'id'; 
+                languageSelect.value = 'id';
             }
             if (savedTheme) {
                 currentTheme = savedTheme;
@@ -2442,19 +2472,19 @@
                 currentTheme = 'light';
                 themeSelect.value = 'light';
             }
-            if (savedShuffleStrength) {
-                shuffleStrengthInput.value = savedShuffleStrength;
-                shuffleStrength = parseInt(savedShuffleStrength);
-            } else {
-                shuffleStrengthInput.value = 220;
-                shuffleStrength = 220;
-            }
             if (savedNumberColor) {
                 numberColor = savedNumberColor;
                 numberColorPicker.value = savedNumberColor;
             } else {
-                numberColor = '#000000'; // Default black
+                numberColor = '#000000';
                 numberColorPicker.value = '#000000';
+            }
+            if (savedStatsView) {
+                currentStatsView = savedStatsView;
+                statsGridSizeFilter.value = savedStatsView; 
+            } else {
+                currentStatsView = '3'; 
+                statsGridSizeFilter.value = '3';
             }
             applyTheme(currentTheme);
         }
@@ -2462,14 +2492,26 @@
         function loadPlayerStatistics() {
             const savedStats = localStorage.getItem('playerStats');
             if (savedStats) {
-                playerStats = JSON.parse(savedStats);
-                if (playerStats.bestTime3x3Seconds === null || playerStats.bestTime3x3Seconds === 0) {
-                    playerStats.bestTime3x3Seconds = Infinity;
+                const parsedStats = JSON.parse(savedStats);
+                playerStats = {
+                    ...playerStats, 
+                    ...parsedStats,
+                    bestTimes: { ...playerStats.bestTimes, ...parsedStats.bestTimes },
+                    bestMoves: { ...playerStats.bestMoves, ...parsedStats.bestMoves },
+                    worstTimes: { ...playerStats.worstTimes, ...parsedStats.worstTimes },
+                    worstMoves: { ...playerStats.worstMoves, ...parsedStats.worstMoves }
+                };
+
+                for (const key in playerStats.bestTimes) {
+                    if (playerStats.bestTimes[key] === null || playerStats.bestTimes[key] === 0) {
+                        playerStats.bestTimes[key] = Infinity;
+                    }
                 }
-                if (playerStats.bestMoves3x3 === null || playerStats.bestMoves3x3 === 0) {
-                    playerStats.bestMoves3x3 = Infinity;
+                for (const key in playerStats.bestMoves) {
+                    if (playerStats.bestMoves[key] === null || playerStats.bestMoves[key] === 0) {
+                        playerStats.bestMoves[key] = Infinity;
+                    }
                 }
-                // No Manhattan stats to load here
             }
         }
 
@@ -2481,14 +2523,22 @@
             playerStats.totalGamesPlayed++;
             playerStats.totalTimePlayedSeconds += currentTimeSeconds;
 
-            if (gridSize === 3) {
-                if (currentTimeSeconds < playerStats.bestTime3x3Seconds) {
-                    playerStats.bestTime3x3Seconds = currentTimeSeconds;
-                }
-                if (currentMoves < playerStats.bestMoves3x3) {
-                    playerStats.bestMoves3x3 = currentMoves;
-                }
+            const currentGridSizeStr = String(gridSize);
+
+            if (currentTimeSeconds < playerStats.bestTimes[currentGridSizeStr]) {
+                playerStats.bestTimes[currentGridSizeStr] = currentTimeSeconds;
             }
+            if (currentMoves < playerStats.bestMoves[currentGridSizeStr]) {
+                playerStats.bestMoves[currentGridSizeStr] = currentMoves;
+            }
+
+            if (currentTimeSeconds > playerStats.worstTimes[currentGridSizeStr]) {
+                playerStats.worstTimes[currentGridSizeStr] = currentTimeSeconds;
+            }
+            if (currentMoves > playerStats.worstMoves[currentGridSizeStr]) {
+                playerStats.worstMoves[currentGridSizeStr] = currentMoves;
+            }
+            
             savePlayerStatistics();
             updatePlayerStatisticsDisplay();
         }
@@ -2516,10 +2566,39 @@
         function updatePlayerStatisticsDisplay() {
             statTotalGames.textContent = playerStats.totalGamesPlayed;
             statTotalTime.textContent = formatTime(playerStats.totalTimePlayedSeconds);
-            statBestTime3x3.textContent = formatTimeShort(playerStats.bestTime3x3Seconds);
-            statBestMoves3x3.textContent = playerStats.bestMoves3x3 === Infinity ? translations[currentLanguage].notApplicable : playerStats.bestMoves3x3;
-            // No Manhattan stats to update here
+            statTotalPiecesMoved.textContent = playerStats.totalPiecesMoved;
+
+            const statItems = document.querySelectorAll('.stat-item');
+            const statHeaders = document.querySelectorAll('.stat-header');
+
+            statHeaders.forEach(header => header.style.display = 'block'); 
+
+            statItems.forEach(item => {
+                const itemGridSize = item.getAttribute('data-grid-size');
+                if (currentStatsView === 'all' || itemGridSize === currentStatsView) {
+                    item.style.display = 'list-item';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            for (let i = 3; i <= 10; i++) { 
+                const size = String(i);
+                document.getElementById(`statBestTime${size}x${size}`).textContent = formatTimeShort(playerStats.bestTimes[size]);
+                document.getElementById(`statBestMoves${size}x${size}`).textContent = playerStats.bestMoves[size] === Infinity ? translations[currentLanguage].notApplicable : playerStats.bestMoves[size];
+                document.getElementById(`statWorstTime${size}x${size}`).textContent = formatTimeShort(playerStats.worstTimes[size]);
+                document.getElementById(`statWorstMoves${size}x${size}`).textContent = playerStats.worstMoves[size] === 0 ? translations[currentLanguage].notApplicable : playerStats.worstMoves[size];
+            }
         }
+
+        // =====================================================================
+        // Handle Stats Grid Size Filter Change
+        // =====================================================================
+        statsGridSizeFilter.addEventListener('change', (event) => {
+            currentStatsView = event.target.value;
+            savePreferences();
+            updatePlayerStatisticsDisplay();
+        });
 
 
         // =====================================================================
@@ -2687,7 +2766,7 @@
             mainContent.classList.remove('main-content-hidden');
             
             initializePuzzle(finalSourceX, finalSourceY, finalSourceWidth, finalSourceHeight);
-            await animateShuffle();
+            await instantShuffle(); 
             enableAllButtons();
         });
 
@@ -2698,13 +2777,15 @@
             if (!puzzleReady) {
                 const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
                 const placeholderSize = fixedCanvasSize;
+                // Ensure crossOrigin is set for placeholder image as well
+                originalImage.crossOrigin = 'Anonymous'; 
                 originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
             }
             enableAllButtons();
         });
 
         // =====================================================================
-        // Move History Functionality
+        // Move History Functionality (Updated to include Timestamp)
         // =====================================================================
         function getDirectionSVG(direction) {
             const color = currentTheme === 'dark' ? '#8b5cf6' : '#6366f1';
@@ -2712,10 +2793,10 @@
             let transform = '';
 
             switch (direction) {
-                case 'Right': transform = 'rotate(90)'; break;
-                case 'Left': transform = 'rotate(-90)'; break;
-                case 'Down': transform = 'rotate(180)'; break;
-                case 'Up': transform = 'rotate(0)'; break;
+                case translations[currentLanguage].directionRight: transform = 'rotate(90)'; break;
+                case translations[currentLanguage].directionLeft: transform = 'rotate(-90)'; break;
+                case translations[currentLanguage].directionDown: transform = 'rotate(180)'; break;
+                case translations[currentLanguage].directionUp: transform = 'rotate(0)'; break;
                 default: return '';
             }
 
@@ -2740,10 +2821,12 @@
                 directionKey = fromRow < toRow ? 'directionDown' : 'directionUp';
             }
 
-            const moveText = translations[currentLanguage].pieceMoved(pieceNumber, translations[currentLanguage][directionKey]);
+            const timestamp = timerDisplay.textContent; 
+            const moveText = translations[currentLanguage].pieceMoved(pieceNumber, translations[currentLanguage][directionKey], timestamp);
             const moveObject = { 
                 text: moveText, 
-                direction: translations[currentLanguage][directionKey]
+                direction: translations[currentLanguage][directionKey],
+                timestamp: timestamp
             };
             
             moveHistory.unshift(moveObject);
@@ -2771,7 +2854,7 @@
         // =====================================================================
         function drawMovesPerTimeGraph() {
             movesPerTimeGraphSVG.innerHTML = '';
-            if (movesPerIntervalData.length < 1) { // Need at least one data point to show something
+            if (movesPerIntervalData.length < 1) {
                 return;
             }
 
@@ -2786,21 +2869,17 @@
             const maxMoves = Math.max(...movesInIntervals);
             const minMoves = Math.min(...movesInIntervals);
 
-            // If only one data point, or all moves are 0, prevent division by zero
             const xScale = (svgWidth - 2 * padding) / (maxTime || 1);
             const yScale = (svgHeight - 2 * padding) / (maxMoves - minMoves || 1);
 
             let pathData = '';
             if (movesPerIntervalData.length > 0) {
-                // Map data points to SVG coordinates
                 const points = movesPerIntervalData.map(d => {
                     const x = padding + d.time * xScale;
-                    // Invert Y-axis for "trading bar" effect: higher moves means higher on graph
                     const y = svgHeight - padding - (d.moves - minMoves) * yScale;
                     return { x, y };
                 });
 
-                // Create path data for the line
                 pathData = `M ${points[0].x} ${points[0].y}`;
                 for (let i = 1; i < points.length; i++) {
                     pathData += ` L ${points[i].x} ${points[i].y}`;
@@ -2811,7 +2890,6 @@
                 path.setAttribute("class", "moves-graph-line");
                 movesPerTimeGraphSVG.appendChild(path);
 
-                // Draw points
                 points.forEach(point => {
                     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
                     circle.setAttribute("cx", point.x);
@@ -2821,6 +2899,65 @@
                 });
             }
         }
+
+        // =====================================================================
+        // Draw Directional Moves Graph (Bar Chart)
+        // =====================================================================
+        function drawDirectionalMovesGraph() {
+            directionalMovesGraphSVG.innerHTML = ''; 
+            const svgWidth = directionalMovesGraphSVG.clientWidth;
+            const svgHeight = directionalMovesGraphSVG.clientHeight;
+            const padding = 20;
+
+            const totalMoves = directionalMovesCount.Up + directionalMovesCount.Down + directionalMovesCount.Left + directionalMovesCount.Right;
+
+            if (totalMoves === 0) {
+                return; 
+            }
+
+            const maxMovesInAnyDirection = Math.max(...Object.values(directionalMovesCount));
+
+            const barWidth = (svgWidth - 2 * padding) / directions.length / 1.5; 
+            const gap = (svgWidth - 2 * padding - (barWidth * directions.length)) / (directions.length + 1); 
+
+            const yScale = (svgHeight - 2 * padding) / (maxMovesInAnyDirection || 1); 
+
+            directions.forEach((dir, index) => {
+                const count = directionalMovesCount[dir];
+                const barHeight = count * yScale;
+                const x = padding + (index * (barWidth + gap)) + gap;
+                const y = svgHeight - padding - barHeight;
+
+                const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                rect.setAttribute("x", x);
+                rect.setAttribute("y", y);
+                rect.setAttribute("width", barWidth);
+                rect.setAttribute("height", barHeight);
+                rect.setAttribute("class", "bar-chart-bar");
+                rect.setAttribute("rx", "4"); 
+                rect.setAttribute("ry", "4");
+                directionalMovesGraphSVG.appendChild(rect);
+
+                const labelText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                labelText.setAttribute("x", x + barWidth / 2);
+                labelText.setAttribute("y", svgHeight - padding + 15); 
+                labelText.setAttribute("text-anchor", "middle");
+                labelText.setAttribute("class", "bar-chart-label");
+                labelText.textContent = translations[currentLanguage][`direction${dir}`];
+                directionalMovesGraphSVG.appendChild(labelText);
+
+                if (count > 0) {
+                    const countText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                    countText.setAttribute("x", x + barWidth / 2);
+                    countText.setAttribute("y", y - 5); 
+                    countText.setAttribute("text-anchor", "middle");
+                    countText.setAttribute("class", "bar-chart-label");
+                    countText.textContent = count;
+                    directionalMovesGraphSVG.appendChild(countText);
+                }
+            });
+        }
+
 
         // =====================================================================
         // Progress Indicator Functions
@@ -2931,7 +3068,6 @@
             confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
         }
 
-
         // =====================================================================
         // Initial Page Load Setup
         // =====================================================================
@@ -2952,11 +3088,15 @@
                 showMessageBox("failedLoadImage");
                 const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
                 const placeholderSize = fixedCanvasSize;
+                // Ensure crossOrigin is set for placeholder image as well
+                originalImage.crossOrigin = 'Anonymous'; 
                 originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`;
                 enableAllButtons();
             };
             const placeholderText = translations[currentLanguage].uploadPhoto.replace(':', '') + `\n(${gridSize}x${gridSize})`;
             const placeholderSize = fixedCanvasSize; 
+            // Ensure crossOrigin is set for placeholder image as well
+            originalImage.crossOrigin = 'Anonymous'; 
             originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`; 
         };
 
