@@ -61,6 +61,8 @@
             </div>
         </div>
 
+        <!-- Debugging/Info Message Area -->
+        <div id="uiMessage" class="hidden bg-blue-700 text-white p-3 rounded-md mb-6 text-center transition-opacity duration-500 opacity-0"></div>
 
         <!-- Bagian Input Peserta -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -167,6 +169,7 @@
         const numParticipantsToRemoveInput = document.getElementById('numParticipantsToRemove');
         const numParticipantsToRemoveError = document.getElementById('numParticipantsToRemoveError');
         const languageSelect = document.getElementById('languageSelect');
+        const uiMessageDiv = document.getElementById('uiMessage'); // New UI message div
 
         // Modal elements
         const customModal = document.getElementById('customModal');
@@ -174,6 +177,8 @@
         const modalConfirmBtn = document.getElementById('modalConfirmBtn');
         const modalCancelBtn = document.getElementById('modalCancelBtn');
         const modalOkBtn = document.getElementById('modalOkBtn');
+
+        let uiMessageTimeout; // To clear the timeout for UI messages
 
         // --- Translations Object ---
         const translations = {
@@ -220,7 +225,17 @@
                 drawingText: "Memilih...",
                 alertNumToRemoveExceeds: "Jumlah peserta yang akan dihapus ({numToRemove}) melebihi jumlah peserta yang ada ({currentParticipants}).",
                 alertPleaseFill: "Mohon isi bidang ini.",
-                alertUnsupportedFile: "File sepertinya tidak mendukung atau kosong."
+                alertUnsupportedFile: "File sepertinya tidak mendukung atau kosong.",
+                debugMessageSaved: "Data berhasil disimpan ke penyimpanan lokal. Jumlah peserta saat ini: {count}",
+                debugMessageLoaded: "Data berhasil dimuat dari penyimpanan lokal. Jumlah peserta dimuat: {count}",
+                debugMessageManualAdd: "Peserta ditambahkan secara manual. Jumlah baru: {count}",
+                debugMessageFileUploaded: "Peserta diunggah dari file. Jumlah baru: {count}",
+                debugMessageRemoved: "Peserta dihapus. Jumlah baru: {count}",
+                debugMessageCleared: "Semua peserta dihapus. Jumlah baru: {count}",
+                debugMessageFiltered: "Duplikat difilter. Jumlah baru: {count}",
+                debugMessageShuffled: "Peserta diacak. Jumlah baru: {count}",
+                debugMessageDrawn: "Peserta dipilih. Jumlah baru: {count}",
+                debugMessageInvalidIndex: "Indeks tidak valid untuk penghapusan: {index}"
             },
             en: {
                 mainTitle: "Participant Selection Site",
@@ -265,11 +280,43 @@
                 drawingText: "Selecting...",
                 alertNumToRemoveExceeds: "The number of participants to remove ({numToRemove}) exceeds the current number of participants ({currentParticipants}).",
                 alertPleaseFill: "Please fill in this field.",
-                alertUnsupportedFile: "File seems unsupported or empty."
+                alertUnsupportedFile: "File seems unsupported or empty.",
+                debugMessageSaved: "Data saved to local storage. Current participants count: {count}",
+                debugMessageLoaded: "Data loaded from local storage. Loaded participants count: {count}",
+                debugMessageManualAdd: "Participants added manually. New count: {count}",
+                debugMessageFileUploaded: "Participants uploaded from file. New count: {count}",
+                debugMessageRemoved: "Participant removed. New count: {count}",
+                debugMessageCleared: "All participants cleared. New count: {count}",
+                debugMessageFiltered: "Duplicates filtered. New count: {count}",
+                debugMessageShuffled: "Participants shuffled. New count: {count}",
+                debugMessageDrawn: "Participants selected. New count: {count}",
+                debugMessageInvalidIndex: "Invalid index for removal: {index}"
             }
         };
 
         let currentLanguage = localStorage.getItem(LOCAL_STORAGE_LANG_KEY) || 'id';
+
+        /**
+         * Displays a temporary message on the UI.
+         * @param {string} message - The message to display.
+         * @param {number} duration - Duration in milliseconds (default 5000ms).
+         */
+        function showUiMessage(message, duration = 5000) {
+            clearTimeout(uiMessageTimeout); // Clear any existing timeout
+            uiMessageDiv.textContent = message;
+            uiMessageDiv.classList.remove('hidden');
+            uiMessageDiv.classList.remove('opacity-0'); // Ensure it's visible
+            uiMessageDiv.classList.add('opacity-100');
+
+            uiMessageTimeout = setTimeout(() => {
+                uiMessageDiv.classList.remove('opacity-100');
+                uiMessageDiv.classList.add('opacity-0');
+                // Hide completely after transition
+                setTimeout(() => {
+                    uiMessageDiv.classList.add('hidden');
+                }, 500); // Match CSS transition duration
+            }, duration);
+        }
 
         /**
          * Updates the UI text based on the selected language.
@@ -345,9 +392,9 @@
                     history: history
                 };
                 localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
-                console.log("Data saved to local storage. Current participants count:", participants.length);
+                showUiMessage(translations[currentLanguage].debugMessageSaved.replace('{count}', participants.length));
             } catch (e) {
-                console.error("Failed to save data to local storage:", e);
+                console.error("Failed to save data to local storage:", e); // Keep console error for serious issues
                 alertMessage(translations[currentLanguage].alertFailedSave);
             }
         }
@@ -362,10 +409,10 @@
                     const data = JSON.parse(storedData);
                     participants = data.participants || [];
                     history = data.history || [];
-                    console.log("Data loaded from local storage. Loaded participants count:", participants.length);
+                    showUiMessage(translations[currentLanguage].debugMessageLoaded.replace('{count}', participants.length));
                 }
             } catch (e) {
-                console.error("Failed to load data from local storage:", e);
+                console.error("Failed to load data from local storage:", e); // Keep console error for serious issues
                 alertMessage(translations[currentLanguage].alertFailedLoad);
                 // If there's an issue, reset data to prevent further errors
                 participants = [];
@@ -380,7 +427,6 @@
          * It filters the list based on the current search input value.
          */
         function renderParticipantList() {
-            console.log("renderParticipantList called. Current participants array length:", participants.length);
             const filterTerm = participantSearchInput.value.toLowerCase();
             let participantsToDisplay = participants;
 
@@ -398,6 +444,7 @@
                     const participantItem = document.createElement('div');
                     participantItem.className = 'flex items-center justify-between p-2 my-1 bg-gray-500 rounded-md rounded-xl';
                     // We need the original index for editing/removing from the 'participants' array
+                    // Using indexOf here is fine because renderParticipantList rebuilds all elements with fresh indices.
                     const originalIndex = participants.indexOf(participant);
 
                     participantItem.innerHTML = `
@@ -448,7 +495,7 @@
             }
             const newParticipants = text.split('\n').map(line => line.trim()).filter(line => line !== '');
             participants = [...participants, ...newParticipants];
-            console.log("Participants added manually. New count:", participants.length);
+            showUiMessage(translations[currentLanguage].debugMessageManualAdd.replace('{count}', participants.length));
             manualParticipantsInput.value = ''; // Clear input
             renderParticipantList(); // Update participant list display
         }
@@ -460,7 +507,10 @@
         function removeParticipant(index) {
             if (index >= 0 && index < participants.length) {
                 participants.splice(index, 1); // Remove participant from array
+                showUiMessage(translations[currentLanguage].debugMessageRemoved.replace('{count}', participants.length));
                 renderParticipantList(); // Update participant list display
+            } else {
+                showUiMessage(translations[currentLanguage].debugMessageInvalidIndex.replace('{index}', index));
             }
         }
 
@@ -485,7 +535,7 @@
 
                     // If uploading a file, it replaces the current list
                     participants = [...newParticipants];
-                    console.log("Participants uploaded from file. New count:", participants.length);
+                    showUiMessage(translations[currentLanguage].debugMessageFileUploaded.replace('{count}', participants.length));
                     renderParticipantList(); // Update participant list display
                 };
                 reader.onerror = () => {
@@ -506,6 +556,7 @@
             showCustomModal(translations[currentLanguage].modalConfirmClearAll, () => {
                 participants = []; // Empty the participants array
                 history = []; // Also clear history if all participants are cleared
+                showUiMessage(translations[currentLanguage].debugMessageCleared.replace('{count}', participants.length));
                 renderParticipantList(); // Update participant list display
                 renderHistory(); // Update history display
                 alertMessage(translations[currentLanguage].alertParticipantsRemoved.replace('{num}', translations[currentLanguage].clearAllParticipantsButton.toLowerCase())); // "All participants have been removed."
@@ -533,6 +584,7 @@
             showCustomModal(translations[currentLanguage].modalConfirmRemoveN.replace('{numToRemove}', numToRemove), () => {
                 // Remove participants from the end of the array
                 participants.splice(participants.length - numToRemove, numToRemove);
+                showUiMessage(translations[currentLanguage].debugMessageRemoved.replace('{count}', participants.length));
                 renderParticipantList(); // Update participant list display
                 numParticipantsToRemoveInput.value = ''; // Clear input
                 alertMessage(numToRemove + " " + translations[currentLanguage].alertParticipantsRemoved);
@@ -549,6 +601,7 @@
             } else {
                 const removedCount = participants.length - uniqueParticipants.length;
                 participants = uniqueParticipants;
+                showUiMessage(translations[currentLanguage].debugMessageFiltered.replace('{count}', participants.length));
                 renderParticipantList();
                 alertMessage(removedCount + " " + translations[currentLanguage].alertDuplicatesRemoved);
             }
@@ -566,6 +619,7 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [participants[i], participants[j]] = [participants[j], participants[i]]; // Swap elements
             }
+            showUiMessage(translations[currentLanguage].debugMessageShuffled.replace('{count}', participants.length));
             renderParticipantList(); // Re-render to show shuffled order and updated numbering
             alertMessage("Daftar peserta telah diacak!");
         }
@@ -608,6 +662,7 @@
 
                 // Remove selected participants from the main participants array
                 participants = participants.filter(p => !selected.includes(p));
+                showUiMessage(translations[currentLanguage].debugMessageDrawn.replace('{count}', participants.length));
 
                 // Add selected participants to history
                 const timestamp = new Date().toLocaleString(currentLanguage === 'id' ? 'id-ID' : 'en-US');
@@ -673,6 +728,50 @@
                 });
             }
             saveDataToLocalStorage(); // Save changes to local storage
+        }
+
+        // --- Custom Modal Functions ---
+
+        /**
+         * Displays a custom modal.
+         * @param {string} message - The message to display.
+         * @param {function} onConfirm - Function to execute if user confirms (for confirmation modals).
+         * @param {boolean} isConfirm - Determines if it's a confirmation modal (true) or just an alert (false).
+         */
+        function showCustomModal(message, onConfirm = null, isConfirm = true) {
+            modalMessage.textContent = message;
+            customModal.classList.remove('hidden');
+
+            // Reset button visibility
+            modalConfirmBtn.classList.add('hidden');
+            modalCancelBtn.classList.add('hidden');
+            modalOkBtn.classList.add('hidden');
+
+            if (isConfirm) {
+                modalConfirmBtn.classList.remove('hidden');
+                modalCancelBtn.classList.remove('hidden');
+                modalConfirmBtn.onclick = () => {
+                    customModal.classList.add('hidden');
+                    if (onConfirm) onConfirm();
+                };
+                modalCancelBtn.onclick = () => {
+                    customModal.classList.add('hidden');
+                };
+            } else {
+                modalOkBtn.classList.remove('hidden');
+                modalOkBtn.onclick = () => {
+                    customModal.classList.add('hidden');
+                };
+            }
+            updateUIForLanguage(currentLanguage); // Update button texts in modal
+        }
+
+        /**
+         * Wrapper function to display a custom alert.
+         * @param {string} message - The message to display.
+         */
+        function alertMessage(message) {
+            showCustomModal(message, null, false);
         }
 
         // --- Event Listener for Quick Participant Search ---
