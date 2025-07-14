@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="appTitle">Situs Pilihan Peserta</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Mengatur font Inter untuk seluruh body */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Styling kustom untuk scrollbar agar sesuai dengan tema gelap */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #333; /* Warna track scrollbar */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #555; /* Warna thumb scrollbar */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #777; /* Warna thumb scrollbar saat hover */
+        }
+        /* Animasi berputar untuk pemenang */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .animate-spin-fast {
+            animation: spin 0.5s linear infinite;
+        }
+        /* Animasi untuk pemenang yang menonjol */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .winner-item {
+            animation: fadeInScale 0.5s ease-out forwards;
+        }
+        /* Styling untuk elemen yang bisa diedit */
+        .editable-participant:focus {
+            outline: 2px solid #60A5FA; /* Warna biru saat fokus */
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center py-8 px-4">
+    <div class="max-w-4xl w-full bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-center flex-grow" data-i18n-key="mainTitle">Situs Pilihan Peserta</h1>
+            <div class="flex items-center gap-2">
+                <label for="languageSelect" class="text-gray-300 text-sm" data-i18n-key="languageLabel">Bahasa:</label>
+                <select id="languageSelect" class="p-1 rounded-md bg-gray-700 text-gray-100 border border-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-500">
+                    <option value="id">Bahasa Indonesia</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+        </div>
+
+
+        <!-- Bagian Input Peserta -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <!-- Input Manual -->
+            <div class="bg-gray-700 p-4 rounded-lg rounded-xl">
+                <h2 class="text-xl font-semibold mb-3" data-i18n-key="manualInputTitle">Masukkan Peserta Manual</h2>
+                <textarea id="manualParticipants" rows="5" class="w-full p-2 rounded-md bg-gray-600 text-gray-100 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400" data-i18n-placeholder="manualInputPlaceholder" placeholder="Masukkan nama peserta, satu per baris"></textarea>
+                <p class="text-red-400 text-sm mt-1 hidden" id="manualParticipantsError"></p>
+                <button onclick="addManualParticipants()" class="mt-3 w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300" data-i18n-key="addParticipantsButton">Tambahkan Peserta</button>
+            </div>
+
+            <!-- Unggah File -->
+            <div class="bg-gray-700 p-4 rounded-lg rounded-xl">
+                <h2 class="text-xl font-semibold mb-3" data-i18n-key="uploadFileTitle">Unggah Peserta via File (.txt, .csv)</h2>
+                <input type="file" id="fileUpload" accept=".txt,.csv" class="w-full text-gray-100 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-500 file:text-white hover:file:bg-gray-600 cursor-pointer">
+                <p class="text-sm text-gray-400 mt-2" data-i18n-key="fileUploadHint">Setiap peserta harus berada di baris terpisah.</p>
+            </div>
+        </div>
+
+        <!-- Bagian Manajemen Daftar Peserta -->
+        <div class="bg-gray-700 p-4 rounded-lg rounded-xl mb-8">
+            <h2 class="text-xl font-semibold mb-3" data-i18n-key="participantListTitle">Daftar Peserta</h2>
+            <!-- Updated HTML structure for total participants for better i18n and real-time update -->
+            <p class="text-lg font-semibold mb-3"><span data-i18n-key="totalParticipantsPrefix">Total semua peserta:</span> <span id="participantCount">0</span></p>
+            <div class="mb-4">
+                <input type="text" id="participantSearchInput" class="w-full p-2 rounded-md bg-gray-600 text-gray-100 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400" data-i18n-placeholder="searchParticipantsPlaceholder" placeholder="Cari peserta...">
+            </div>
+            <div id="participantList" class="max-h-60 overflow-y-auto bg-gray-600 p-3 rounded-md border border-gray-500 mb-4">
+                <!-- Peserta akan ditampilkan di sini -->
+                <p id="noParticipantsMessage" class="text-gray-400 text-center" data-i18n-key="noParticipantsMessage">Belum ada peserta.</p>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button onclick="confirmClearAllParticipants()" class="flex-grow bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300" data-i18n-key="clearAllParticipantsButton">Hapus Semua Peserta</button>
+                <button onclick="filterDuplicateParticipants()" class="flex-grow bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300" data-i18n-key="filterDuplicatesButton">Filter Duplikat</button>
+                <button onclick="shuffleParticipants()" class="flex-grow bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300" data-i18n-key="shuffleNamesButton">Acak Nama</button>
+                <div class="flex items-center gap-2 flex-grow">
+                    <input type="number" id="numParticipantsToRemove" min="1" data-i18n-placeholder="removeCountPlaceholder" placeholder="Jumlah" class="w-24 p-2 rounded-md bg-gray-600 text-gray-100 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                    <button onclick="confirmRemoveNParticipants()" class="flex-grow bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300" data-i18n-key="removeNParticipantsButton">Hapus Peserta</button>
+                </div>
+                <p class="text-red-400 text-sm mt-1 hidden" id="numParticipantsToRemoveError"></p>
+            </div>
+        </div>
+
+        <!-- Bagian Proses Pilihan -->
+        <div class="bg-gray-700 p-4 rounded-lg rounded-xl mb-8">
+            <h2 class="text-xl font-semibold mb-3" data-i18n-key="drawSectionTitle">Proses Pilihan</h2>
+            <div class="flex flex-col sm:flex-row items-center gap-4">
+                <label for="numWinners" class="text-lg whitespace-nowrap" data-i18n-key="numWinnersLabel">Jumlah Peserta yang Akan Dipilih:</label>
+                <input type="number" id="numWinners" value="1" min="1" class="w-24 p-2 rounded-md bg-gray-600 text-gray-100 border border-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-400">
+                <button onclick="drawWinners()" class="flex-grow bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300" data-i18n-key="drawWinnersButton">Pilih Peserta</button>
+            </div>
+
+            <div id="selectedWinners" class="mt-4 p-3 rounded-md bg-gray-600 border border-gray-500 min-h-[50px]">
+                <h3 class="text-lg font-semibold mb-2" data-i18n-key="selectedWinnersTitle">Peserta yang Dipilih:</h3>
+                <ul id="winnersList" class="list-disc list-inside text-gray-200">
+                    <li id="noWinnersMessage" class="text-gray-400" data-i18n-key="noWinnersMessage">Belum ada peserta yang dipilih.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bagian Riwayat Pilihan -->
+        <div class="bg-gray-700 p-4 rounded-lg rounded-xl">
+            <h2 class="text-xl font-semibold mb-3" data-i18n-key="historyTitle">Riwayat Pilihan</h2>
+            <div id="winnersHistory" class="max-h-40 overflow-y-auto bg-gray-600 p-3 rounded-md border border-gray-500">
+                <ul id="historyList" class="list-disc list-inside text-gray-200">
+                    <li id="noHistoryMessage" class="text-gray-400" data-i18n-key="noHistoryMessage">Belum ada riwayat pilihan.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Alert/Confirmation Modal -->
+    <div id="customModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-80 max-w-sm rounded-xl">
+            <p id="modalMessage" class="text-gray-100 text-center mb-6 text-lg"></p>
+            <div class="flex justify-center gap-4">
+                <button id="modalConfirmBtn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300 hidden" data-i18n-key="confirmButton">Konfirmasi</button>
+                <button id="modalCancelBtn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300" data-i18n-key="cancelButton">Batal</button>
+                <button id="modalOkBtn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md rounded-xl transition duration-300 hidden" data-i18n-key="okButton">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let participants = []; // Stores the current list of participants
+        let history = [];      // Stores the history of selected participants
+        const LOCAL_STORAGE_KEY = 'undianAppData'; // Key for localStorage
+        const LOCAL_STORAGE_LANG_KEY = 'undianAppLang'; // Key for language preference
+
+        // --- DOM Elements ---
+        const appTitle = document.getElementById('appTitle');
+        const manualParticipantsInput = document.getElementById('manualParticipants');
+        const manualParticipantsError = document.getElementById('manualParticipantsError');
+        const fileUploadInput = document.getElementById('fileUpload');
+        const participantSearchInput = document.getElementById('participantSearchInput');
+        const participantListDiv = document.getElementById('participantList');
+        const participantCountSpan = document.getElementById('participantCount'); // This reference is now stable
+        const numWinnersInput = document.getElementById('numWinners');
+        const winnersListUl = document.getElementById('winnersList');
+        const historyListUl = document.getElementById('historyList');
+        const noParticipantsMessage = document.getElementById('noParticipantsMessage');
+        const noWinnersMessage = document.getElementById('noWinnersMessage');
+        const noHistoryMessage = document.getElementById('noHistoryMessage');
+        const numParticipantsToRemoveInput = document.getElementById('numParticipantsToRemove');
+        const numParticipantsToRemoveError = document.getElementById('numParticipantsToRemoveError');
+        const languageSelect = document.getElementById('languageSelect');
+
+        // Modal elements
+        const customModal = document.getElementById('customModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+        const modalCancelBtn = document.getElementById('modalCancelBtn');
+        const modalOkBtn = document.getElementById('modalOkBtn');
+
+        // --- Translations Object ---
+        const translations = {
+            id: {
+                mainTitle: "Situs Pilihan Peserta",
+                languageLabel: "Bahasa:",
+                manualInputTitle: "Masukkan Peserta Manual",
+                manualInputPlaceholder: "Masukkan nama peserta, satu per baris",
+                addParticipantsButton: "Tambahkan Peserta",
+                uploadFileTitle: "Unggah Peserta via File (.txt, .csv)",
+                fileUploadHint: "Setiap peserta harus berada di baris terpisah.",
+                participantListTitle: "Daftar Peserta",
+                totalParticipantsPrefix: "Total semua peserta:", // Changed key for prefix
+                searchParticipantsPlaceholder: "Cari peserta...",
+                noParticipantsMessage: "Belum ada peserta.",
+                deleteButton: "Hapus", // Added for participant item button
+                clearAllParticipantsButton: "Hapus Semua Peserta",
+                filterDuplicatesButton: "Filter Duplikat",
+                shuffleNamesButton: "Acak Nama", // New translation key
+                removeCountPlaceholder: "Jumlah",
+                removeNParticipantsButton: "Hapus Peserta",
+                drawSectionTitle: "Proses Pilihan",
+                numWinnersLabel: "Jumlah Peserta yang Akan Dipilih:",
+                drawWinnersButton: "Pilih Peserta",
+                selectedWinnersTitle: "Peserta yang Dipilih:",
+                noWinnersMessage: "Belum ada peserta yang dipilih.",
+                historyTitle: "Riwayat Pilihan",
+                noHistoryMessage: "Belum ada riwayat pilihan.",
+                confirmButton: "Konfirmasi",
+                cancelButton: "Batal",
+                okButton: "OK",
+                alertPositiveNumber: "Jumlah harus angka positif.",
+                alertExceedParticipants: "Jumlah tidak boleh melebihi jumlah peserta.",
+                alertNoParticipants: "Tidak ada peserta untuk dipilih.",
+                alertAlreadyEmpty: "Daftar peserta sudah kosong.",
+                alertParticipantsRemoved: "peserta telah dihapus.",
+                alertNoDuplicatesFound: "Tidak ditemukan duplikat.",
+                alertDuplicatesRemoved: "duplikat telah dihapus.",
+                alertEnterValidName: "Nama peserta tidak boleh kosong.",
+                alertFailedSave: "Gagal menyimpan data ke browser lokal Anda. Pastikan browser Anda mendukung fitur ini.",
+                alertFailedLoad: "Gagal memuat data dari browser lokal Anda. Data mungkin rusak.",
+                modalConfirmClearAll: "Apakah Anda yakin ingin menghapus semua peserta?",
+                modalConfirmRemoveN: "Apakah Anda yakin ingin menghapus {numToRemove} peserta?",
+                drawingText: "Memilih...",
+                alertNumToRemoveExceeds: "Jumlah peserta yang akan dihapus ({numToRemove}) melebihi jumlah peserta yang ada ({currentParticipants}).",
+                alertPleaseFill: "Mohon isi bidang ini.",
+                alertUnsupportedFile: "File sepertinya tidak mendukung atau kosong."
+            },
+            en: {
+                mainTitle: "Participant Selection Site",
+                languageLabel: "Language:",
+                manualInputTitle: "Enter Participants Manually",
+                manualInputPlaceholder: "Enter participant names, one per line",
+                addParticipantsButton: "Add Participants",
+                uploadFileTitle: "Upload Participants via File (.txt, .csv)",
+                fileUploadHint: "Each participant should be on a separate line.",
+                participantListTitle: "Participant List",
+                totalParticipantsPrefix: "Total participants:", // Changed key for prefix
+                searchParticipantsPlaceholder: "Search participants...",
+                noParticipantsMessage: "No participants yet.",
+                deleteButton: "Delete", // Added for participant item button
+                clearAllParticipantsButton: "Clear All Participants",
+                filterDuplicatesButton: "Filter Duplicates",
+                shuffleNamesButton: "Shuffle Names", // New translation key
+                removeCountPlaceholder: "Count",
+                removeNParticipantsButton: "Remove Participants",
+                drawSectionTitle: "Selection Process",
+                numWinnersLabel: "Number of Participants to Select:",
+                drawWinnersButton: "Select Participants",
+                selectedWinnersTitle: "Selected Participants:",
+                noWinnersMessage: "No participants have been selected yet.",
+                historyTitle: "Selection History",
+                noHistoryMessage: "No selection history yet.",
+                confirmButton: "Confirm",
+                cancelButton: "Cancel",
+                okButton: "OK",
+                alertPositiveNumber: "The number must be a positive number.",
+                alertExceedParticipants: "The number cannot exceed the total number of participants.",
+                alertNoParticipants: "No participants to select from.",
+                alertAlreadyEmpty: "The participant list is already empty.",
+                alertParticipantsRemoved: "participants have been removed.",
+                alertNoDuplicatesFound: "No duplicates found.",
+                alertDuplicatesRemoved: "duplicates have been removed.",
+                alertEnterValidName: "Participant name cannot be empty.",
+                alertFailedSave: "Failed to save data to your local browser. Make sure your browser supports this feature.",
+                alertFailedLoad: "Failed to load data from your local browser. Data might be corrupted.",
+                modalConfirmClearAll: "Are you sure you want to clear all participants?",
+                modalConfirmRemoveN: "Are you sure you want to remove {numToRemove} participants?",
+                drawingText: "Selecting...",
+                alertNumToRemoveExceeds: "The number of participants to remove ({numToRemove}) exceeds the current number of participants ({currentParticipants}).",
+                alertPleaseFill: "Please fill in this field.",
+                alertUnsupportedFile: "File seems unsupported or empty."
+            }
+        };
+
+        let currentLanguage = localStorage.getItem(LOCAL_STORAGE_LANG_KEY) || 'id';
+
+        /**
+         * Updates the UI text based on the selected language.
+         * @param {string} lang - The language code ('id' or 'en').
+         */
+        function updateUIForLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem(LOCAL_STORAGE_LANG_KEY, lang);
+            languageSelect.value = lang; // Set the dropdown value
+
+            // Update title
+            appTitle.textContent = translations[lang].mainTitle;
+
+            // Update elements with data-i18n-key
+            document.querySelectorAll('[data-i18n-key]').forEach(element => {
+                const key = element.getAttribute('data-i18n-key');
+                // Special handling for totalParticipantsPrefix
+                if (key === 'totalParticipantsPrefix') {
+                    element.textContent = translations[lang][key];
+                } else if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Update placeholders with data-i18n-placeholder
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+
+            // Re-render dynamic content that might contain language-specific text
+            // This will also ensure participantCountSpan is updated via renderParticipantList
+            renderParticipantList();
+            renderSelectedWinners([]); // Clear and re-render with current language message
+            renderHistory();
+        }
+
+        // Event listener for language selection change
+        languageSelect.addEventListener('change', (event) => {
+            updateUIForLanguage(event.target.value);
+        });
+
+        // --- Inline Message Functions ---
+        /**
+         * Displays an inline error message below a specific input element.
+         * @param {HTMLElement} errorElement - The paragraph element to display the error.
+         * @param {string} message - The error message.
+         */
+        function showInlineError(errorElement, message) {
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+        }
+
+        /**
+         * Hides an inline error message.
+         * @param {HTMLElement} errorElement - The paragraph element to hide.
+         */
+        function hideInlineError(errorElement) {
+            errorElement.classList.add('hidden');
+        }
+
+        // --- Local Storage Functions ---
+
+        /**
+         * Saves participant and history data to localStorage.
+         */
+        function saveDataToLocalStorage() {
+            try {
+                const data = {
+                    participants: participants,
+                    history: history
+                };
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(data));
+                console.log("Data saved to local storage. Current participants count:", participants.length);
+            } catch (e) {
+                console.error("Failed to save data to local storage:", e);
+                alertMessage(translations[currentLanguage].alertFailedSave);
+            }
+        }
+
+        /**
+         * Loads participant and history data from localStorage.
+         */
+        function loadDataFromLocalStorage() {
+            try {
+                const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+                if (storedData) {
+                    const data = JSON.parse(storedData);
+                    participants = data.participants || [];
+                    history = data.history || [];
+                    console.log("Data loaded from local storage. Loaded participants count:", participants.length);
+                }
+            } catch (e) {
+                console.error("Failed to load data from local storage:", e);
+                alertMessage(translations[currentLanguage].alertFailedLoad);
+                // If there's an issue, reset data to prevent further errors
+                participants = [];
+                history = [];
+            }
+        }
+
+        // --- Core Functions ---
+
+        /**
+         * Renders the current participant list in the UI with numbering and edit/delete options.
+         * It filters the list based on the current search input value.
+         */
+        function renderParticipantList() {
+            console.log("renderParticipantList called. Current participants array length:", participants.length);
+            const filterTerm = participantSearchInput.value.toLowerCase();
+            let participantsToDisplay = participants;
+
+            if (filterTerm) {
+                participantsToDisplay = participants.filter(p => p.toLowerCase().includes(filterTerm));
+            }
+
+            participantListDiv.innerHTML = ''; // Clear existing list
+            if (participantsToDisplay.length === 0) {
+                participantListDiv.appendChild(noParticipantsMessage);
+                noParticipantsMessage.classList.remove('hidden');
+            } else {
+                noParticipantsMessage.classList.add('hidden');
+                participantsToDisplay.forEach((participant, index) => {
+                    const participantItem = document.createElement('div');
+                    participantItem.className = 'flex items-center justify-between p-2 my-1 bg-gray-500 rounded-md rounded-xl';
+                    // We need the original index for editing/removing from the 'participants' array
+                    const originalIndex = participants.indexOf(participant);
+
+                    participantItem.innerHTML = `
+                        <span class="text-gray-100 mr-2">${index + 1}.</span>
+                        <span class="editable-participant flex-grow text-gray-100" contenteditable="true" data-original-index="${originalIndex}">${participant}</span>
+                        <button onclick="removeParticipant(${originalIndex})" class="ml-2 text-red-300 hover:text-red-500 font-bold text-sm transition duration-300" data-i18n-key="deleteButton">${translations[currentLanguage].deleteButton}</button>
+                    `;
+                    // Attach event listeners for inline editing
+                    const editableSpan = participantItem.querySelector('.editable-participant');
+                    editableSpan.addEventListener('blur', (event) => {
+                        const newName = event.target.textContent.trim();
+                        const originalParticipantIndex = parseInt(event.target.dataset.originalIndex);
+                        if (newName === "") {
+                            alertMessage(translations[currentLanguage].alertEnterValidName);
+                            event.target.textContent = participants[originalParticipantIndex]; // Revert to old name
+                        } else if (newName !== participants[originalParticipantIndex]) {
+                            participants[originalParticipantIndex] = newName;
+                            saveDataToLocalStorage();
+                        }
+                    });
+                    editableSpan.addEventListener('keydown', (event) => {
+                        if (event.key === 'Enter') {
+                            event.preventDefault(); // Prevent new line
+                            event.target.blur(); // Trigger blur to save changes
+                        }
+                    });
+                    participantListDiv.appendChild(participantItem);
+                });
+            }
+            // Update the total participant count - this is the key fix
+            participantCountSpan.textContent = participants.length;
+            numWinnersInput.max = participants.length;
+            if (parseInt(numWinnersInput.value) > participants.length) {
+                numWinnersInput.value = participants.length > 0 ? 1 : 0;
+            }
+            saveDataToLocalStorage(); // Save changes to local storage
+        }
+
+        /**
+         * Adds participants from the manual text area.
+         */
+        function addManualParticipants() {
+            hideInlineError(manualParticipantsError); // Clear previous error
+            const text = manualParticipantsInput.value.trim();
+            if (!text) {
+                showInlineError(manualParticipantsError, translations[currentLanguage].alertPleaseFill);
+                return;
+            }
+            const newParticipants = text.split('\n').map(line => line.trim()).filter(line => line !== '');
+            participants = [...participants, ...newParticipants];
+            console.log("Participants added manually. New count:", participants.length);
+            manualParticipantsInput.value = ''; // Clear input
+            renderParticipantList(); // Update participant list display
+        }
+
+        /**
+         * Removes a participant by its index.
+         * @param {number} index - The index of the participant to remove.
+         */
+        function removeParticipant(index) {
+            if (index >= 0 && index < participants.length) {
+                participants.splice(index, 1); // Remove participant from array
+                renderParticipantList(); // Update participant list display
+            }
+        }
+
+        /**
+         * Handles file upload and adds participants from the file.
+         */
+        fileUploadInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const text = e.target.result;
+                    const newParticipants = text.split('\n').map(line => line.trim()).filter(line => line !== '');
+
+                    if (newParticipants.length === 0 && text.trim() !== '') {
+                        alertMessage(translations[currentLanguage].alertUnsupportedFile);
+                        return;
+                    } else if (newParticipants.length === 0 && text.trim() === '') {
+                        alertMessage(translations[currentLanguage].alertUnsupportedFile);
+                        return;
+                    }
+
+                    // If uploading a file, it replaces the current list
+                    participants = [...newParticipants];
+                    console.log("Participants uploaded from file. New count:", participants.length);
+                    renderParticipantList(); // Update participant list display
+                };
+                reader.onerror = () => {
+                    alertMessage(translations[currentLanguage].alertUnsupportedFile);
+                };
+                reader.readAsText(file); // Read file content as text
+            }
+        });
+
+        /**
+         * Confirms and clears all participants.
+         */
+        function confirmClearAllParticipants() {
+            if (participants.length === 0) {
+                alertMessage(translations[currentLanguage].alertAlreadyEmpty);
+                return;
+            }
+            showCustomModal(translations[currentLanguage].modalConfirmClearAll, () => {
+                participants = []; // Empty the participants array
+                history = []; // Also clear history if all participants are cleared
+                renderParticipantList(); // Update participant list display
+                renderHistory(); // Update history display
+                alertMessage(translations[currentLanguage].alertParticipantsRemoved.replace('{num}', translations[currentLanguage].clearAllParticipantsButton.toLowerCase())); // "All participants have been removed."
+            });
+        }
+
+        /**
+         * Confirms and removes a specified number of participants.
+         */
+        function confirmRemoveNParticipants() {
+            hideInlineError(numParticipantsToRemoveError); // Clear previous error
+            const numToRemove = parseInt(numParticipantsToRemoveInput.value);
+
+            if (isNaN(numToRemove) || numToRemove <= 0) {
+                showInlineError(numParticipantsToRemoveError, translations[currentLanguage].alertPositiveNumber);
+                return;
+            }
+            if (numToRemove > participants.length) {
+                showInlineError(numParticipantsToRemoveError, translations[currentLanguage].alertNumToRemoveExceeds
+                    .replace('{numToRemove}', numToRemove)
+                    .replace('{currentParticipants}', participants.length));
+                return;
+            }
+
+            showCustomModal(translations[currentLanguage].modalConfirmRemoveN.replace('{numToRemove}', numToRemove), () => {
+                // Remove participants from the end of the array
+                participants.splice(participants.length - numToRemove, numToRemove);
+                renderParticipantList(); // Update participant list display
+                numParticipantsToRemoveInput.value = ''; // Clear input
+                alertMessage(numToRemove + " " + translations[currentLanguage].alertParticipantsRemoved);
+            });
+        }
+
+        /**
+         * Filters out duplicate participants from the list.
+         */
+        function filterDuplicateParticipants() {
+            const uniqueParticipants = Array.from(new Set(participants));
+            if (uniqueParticipants.length === participants.length) {
+                alertMessage(translations[currentLanguage].alertNoDuplicatesFound);
+            } else {
+                const removedCount = participants.length - uniqueParticipants.length;
+                participants = uniqueParticipants;
+                renderParticipantList();
+                alertMessage(removedCount + " " + translations[currentLanguage].alertDuplicatesRemoved);
+            }
+        }
+
+        /**
+         * Shuffles the participants array randomly (Fisher-Yates algorithm).
+         */
+        function shuffleParticipants() {
+            if (participants.length <= 1) {
+                alertMessage("Tidak ada cukup peserta untuk diacak.");
+                return;
+            }
+            for (let i = participants.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [participants[i], participants[j]] = [participants[j], participants[i]]; // Swap elements
+            }
+            renderParticipantList(); // Re-render to show shuffled order and updated numbering
+            alertMessage("Daftar peserta telah diacak!");
+        }
+
+
+        /**
+         * Draws participants randomly from the participant list.
+         */
+        function drawWinners() {
+            const numWinners = parseInt(numWinnersInput.value);
+
+            // Validate input for number of winners
+            if (isNaN(numWinners) || numWinners <= 0) {
+                alertMessage(translations[currentLanguage].alertPositiveNumber);
+                return;
+            }
+            if (numWinners > participants.length) {
+                alertMessage(translations[currentLanguage].alertExceedParticipants);
+                return;
+            }
+            if (participants.length === 0) {
+                alertMessage(translations[currentLanguage].alertNoParticipants);
+                return;
+            }
+
+            // Start the drawing animation
+            startDrawingAnimation();
+
+            // After animation, display winners
+            setTimeout(() => {
+                const selected = []; // Array to store selected participants for this draw
+                const availableParticipants = [...participants]; // Create a copy for drawing
+
+                // Select participants randomly
+                for (let i = 0; i < numWinners; i++) {
+                    const randomIndex = Math.floor(Math.random() * availableParticipants.length);
+                    const winner = availableParticipants.splice(randomIndex, 1)[0]; // Remove from available list
+                    selected.push(winner); // Add to selected participants list
+                }
+
+                // Remove selected participants from the main participants array
+                participants = participants.filter(p => !selected.includes(p));
+
+                // Add selected participants to history
+                const timestamp = new Date().toLocaleString(currentLanguage === 'id' ? 'id-ID' : 'en-US');
+                history.push({ timestamp: timestamp, winners: selected });
+
+                // Update UI display
+                renderSelectedWinners(selected); // Display current selected participants
+                renderHistory(); // Update history
+                renderParticipantList(); // Update participant list after removal
+            }, 2000); // Animation duration 2 seconds
+        }
+
+        /**
+         * Starts the drawing animation.
+         */
+        function startDrawingAnimation() {
+            winnersListUl.innerHTML = ''; // Clear previous winners
+            noWinnersMessage.classList.add('hidden'); // Hide "No winners" message
+
+            const animationItem = document.createElement('li');
+            animationItem.className = 'text-gray-300 text-xl text-center winner-item';
+            animationItem.innerHTML = `<span class="animate-spin-fast inline-block mr-2">⚙️</span> ${translations[currentLanguage].drawingText}`;
+            winnersListUl.appendChild(animationItem);
+        }
+
+        /**
+         * Renders the newly selected participants with prominent display.
+         * @param {string[]} winners - Array of selected participant names.
+         */
+        function renderSelectedWinners(winners) {
+            winnersListUl.innerHTML = ''; // Clear previous winners
+            if (winners.length === 0) {
+                winnersListUl.appendChild(noWinnersMessage);
+                noWinnersMessage.classList.remove('hidden');
+            } else {
+                noWinnersMessage.classList.add('hidden');
+                winners.forEach(winner => {
+                    const li = document.createElement('li');
+                    li.className = 'text-xl font-bold text-green-400 winner-item p-2 my-1 bg-gray-700 rounded-md rounded-xl'; // Prominent styling
+                    li.textContent = winner;
+                    winnersListUl.appendChild(li);
+                });
+            }
+        }
+
+        /**
+         * Renders the history of drawn participants.
+         */
+        function renderHistory() {
+            historyListUl.innerHTML = ''; // Clear previous history
+            if (history.length === 0) {
+                historyListUl.appendChild(noHistoryMessage);
+                noHistoryMessage.classList.remove('hidden');
+            } else {
+                noHistoryMessage.classList.add('hidden');
+                history.forEach(entry => {
+                    const li = document.createElement('li');
+                    li.className = 'mb-2';
+                    li.innerHTML = `
+                        <span class="font-semibold text-gray-300">${entry.timestamp}:</span> <span class="text-gray-200">${entry.winners.join(', ')}</span>
+                    `;
+                    historyListUl.appendChild(li);
+                });
+            }
+            saveDataToLocalStorage(); // Save changes to local storage
+        }
+
+        // --- Event Listener for Quick Participant Search ---
+        participantSearchInput.addEventListener('input', () => {
+            renderParticipantList(); // Re-render the list based on the current search input
+        });
+
+
+        // --- Initial Render ---
+        // Call render functions when DOM is fully loaded to display initial state
+        document.addEventListener('DOMContentLoaded', () => {
+            loadDataFromLocalStorage(); // Load data from local storage on page load
+            const savedLanguage = localStorage.getItem(LOCAL_STORAGE_LANG_KEY);
+            if (savedLanguage) {
+                currentLanguage = savedLanguage;
+            }
+            updateUIForLanguage(currentLanguage); // Apply initial language
+            // renderParticipantList is called inside updateUIForLanguage, so no need to call it here again
+            // renderHistory and renderSelectedWinners are also called inside updateUIForLanguage
+        });
+    </script>
+</body>
+</html>
+
