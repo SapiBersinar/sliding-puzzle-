@@ -54,7 +54,7 @@ const statWorstTime3x3 = document.getElementById('statWorstTime3x3');
 const statWorstMoves3x3 = document.getElementById('statWorstMoves3x3');
 const statWorstTime4x4 = document.getElementById('statWorstTime4x4');
 const statWorstMoves4x4 = document.getElementById('statWorstMoves4x4');
-const statWorstTime5x5 = document.getElementById('statWorstMoves5x5');
+const statWorstTime5x5 = document.getElementById('statWorstTime5x5');
 const statWorstMoves5x5 = document.getElementById('statWorstMoves5x5');
 const statWorstTime6x6 = document.getElementById('statWorstTime6x6');
 const statWorstMoves6x6 = document.getElementById('statWorstMoves6x6');
@@ -249,7 +249,7 @@ const translations = {
         worstTime3x3: "Worst Time (3x3)",
         worstMoves3x3: "Worst Moves (3x3)",
         worstTime4x4: "Worst Time (4x4)",
-        worstMoves4x4: "Worst Moves (4x4)",
+worstMoves4x4: "Worst Moves (4x4)",
         worstTime5x5: "Worst Time (5x5)",
         worstMoves5x5: "Worst Moves (5x5)",
         worstTime6x6: "Worst Time (6x6)",
@@ -835,7 +835,7 @@ function initializePuzzle(srcX, srcY, srcW, srcH) {
     // It should now work because originalImage.crossOrigin is set.
     currentBase64Image = puzzleCanvas.toDataURL('image/png'); 
     drawMovesPerTimeGraph();
-    drawDirectionalMovesGraph(); // Initialize new graph
+    drawDirectionalMovesGraph(); 
 }
 
 // =====================================================================
@@ -860,7 +860,7 @@ function recalculatePiecePositionsAndRedraw() {
     drawPuzzle();
     updateProgressIndicator();
     drawMovesPerTimeGraph();
-    drawDirectionalMovesGraph(); // Redraw new graph on resize
+    drawDirectionalMovesGraph(); 
 }
 
 // =====================================================================
@@ -2315,5 +2315,4 @@ window.onload = async () => {
     originalImage.crossOrigin = 'Anonymous'; 
     originalImage.src = `https://placehold.co/${placeholderSize}x${placeholderSize}/e0e7ff/4f46e5?text=${encodeURIComponent(placeholderText)}`; 
 };
-
 

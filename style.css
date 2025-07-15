@@ -198,7 +198,7 @@ canvas {
     background-image: linear-gradient(to right, #1A908A, #329A5C); /* Darker shades */
 }
 .dark-theme .btn-green-solve:active {
-    background-image: linear-gradient(to right, #146D66, #287A47); /* Even darker shades */
+    background-image: linear-gradient(to right, #146D6D, #287A47); /* Even darker shades */
     transform: scale(0.98);
 }
 
@@ -519,18 +519,39 @@ canvas {
     fill: #a0aec0; /* Dark theme label color */
 }
 
-/* Animasi Promosi Website */
-.promo-gradient-animation {
-    background-size: 400% 400%;
-    animation: gradient-animation 10s ease infinite;
-    color: white; /* Pastikan teks terlihat */
+/* Promosi Website - Tanpa Background pada div */
+#websitePromo {
+    background-color: transparent; /* Hapus latar belakang */
+    box-shadow: none; /* Hapus bayangan */
+    padding: 0; /* Hapus padding jika tidak diperlukan */
 }
 
-@keyframes gradient-animation {
+/* Animasi Gradient Teks dan Fade In/Out */
+.promo-text {
+    font-size: 1.25rem; /* text-lg dari Tailwind */
+    font-weight: bold;
+    display: inline-block; /* Penting untuk gradient teks */
+    background-size: 400% 400%; /* Untuk animasi gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent; /* Pastikan teks transparan untuk menampilkan gradient */
+    animation: 
+        gradient-text-animation 10s ease infinite,
+        fade-in-out 4s ease-in-out infinite alternate; /* Animasi fade in/out */
+}
+
+@keyframes gradient-text-animation {
     0% { background-image: linear-gradient(to right, #ff7e5f, #feb47b); } /* Orange-Red to Peach */
     25% { background-image: linear-gradient(to right, #6dd5ed, #2193b0); } /* Sky Blue to Darker Blue */
     50% { background-image: linear-gradient(to right, #4facfe, #00f2fe); } /* Light Blue to Cyan */
     75% { background-image: linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b); } /* Purple to Pink to Orange */
     100% { background-image: linear-gradient(to right, #ff7e5f, #feb47b); } /* Back to start */
+}
+
+@keyframes fade-in-out {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
 }
 
