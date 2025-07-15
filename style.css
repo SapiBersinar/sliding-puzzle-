@@ -1,0 +1,536 @@
+/* Menggunakan font Inter dari Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+body {
+    font-family: 'Inter', sans-serif';
+    background-attachment: fixed; /* Memastikan gradient tetap saat scroll */
+    overflow-x: hidden; /* Mencegah overflow horizontal */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transisi tema */
+}
+/* Tema Terang (Default) */
+body.light-theme {
+    background-image: linear-gradient(to bottom right, #a78bfa, #818cf8, #6366f1); /* Ungu-biru gradient */
+    color: #1a202c; /* Teks gelap */
+}
+body.light-theme .main-container {
+    background-color: #ffffff; /* Latar belakang putih */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+body.light-theme .text-primary {
+    color: #4f46e5; /* Indigo-600 */
+}
+body.light-theme .text-secondary {
+    color: #6b7280; /* Gray-500 */
+}
+body.light-theme .canvas-border {
+    border-color: #4f46e5; /* Indigo-600 */
+}
+body.light-theme .canvas-bg {
+    background-color: #ffffff;
+}
+body.light-theme .message-box, body.light-theme .confirmation-box, body.light-theme .cropper-content, body.light-theme #moveHistoryContainer, body.light-theme #playerStatsContainer, body.light-theme #movesPerTimeGraphContainer, body.light-theme #directionalMovesGraphContainer {
+    background-color: #fff;
+    border-color: #4f46e5;
+}
+body.light-theme #moveHistoryContainer, body.light-theme #playerStatsContainer, body.light-theme #movesPerTimeGraphContainer, body.light-theme #directionalMovesGraphContainer {
+    background-color: #f8fafc;
+}
+body.light-theme .sample-image-container:hover {
+    border-color: #6366f1;
+}
+body.light-theme .puzzle-solved-animation {
+    border-color: #10b981; /* Green-500 */
+    box-shadow: 0 0 20px 5px rgba(16, 185, 129, 0.7), 0 0 30px 10px rgba(16, 185, 129, 0.5);
+}
+body.light-theme .moves-time-text {
+    color: #4f46e5; /* Indigo-600 */
+}
+body.light-theme .piece-number-color {
+    color: #312e81; /* Darker indigo */
+}
+
+/* Tema Gelap */
+body.dark-theme {
+    background-color: #1a202c; /* Darker background */
+    background-image: none; /* Remove gradient */
+    color: #e2e8f0; /* Light text */
+}
+body.dark-theme .main-container {
+    background-color: #2d3748; /* Darker container */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+}
+body.dark-theme .text-primary {
+    color: #6366f1; /* Indigo-500, similar to light theme primary */
+}
+body.dark-theme .text-secondary {
+    color: #a0aec0; /* Light gray */
+}
+body.dark-theme .canvas-border {
+    border-color: #4f46e5; /* Indigo-600, similar to light theme */
+}
+body.dark-theme .canvas-bg {
+    background-color: #2d3748; /* Darker canvas background */
+}
+body.dark-theme .message-box, body.dark-theme .confirmation-box, body.dark-theme .cropper-content, body.dark-theme #moveHistoryContainer, body.dark-theme #playerStatsContainer, body.dark-theme #movesPerTimeGraphContainer, body.dark-theme #directionalMovesGraphContainer {
+    background-color: #2d3748;
+    border-color: #4f46e5; /* Indigo-600 */
+    color: #e2e8f0;
+}
+body.dark-theme #moveHistoryContainer, body.dark-theme #playerStatsContainer, body.dark-theme #movesPerTimeGraphContainer, body.dark-theme #directionalMovesGraphContainer {
+    background-color: #1a202c;
+}
+body.dark-theme .sample-image-container:hover {
+    border-color: #6366f1; /* Indigo-500 */
+}
+body.dark-theme .puzzle-solved-animation {
+    border-color: #8b5cf6; /* Violet-500 for solved state */
+    box-shadow: 0 0 20px 5px rgba(139, 92, 246, 0.7), 0 0 30px 10px rgba(139, 92, 246, 0.5); /* Glowing effect */
+}
+body.dark-theme .moves-time-text {
+    color: #fff; /* White text for numbers */
+}
+body.dark-theme .piece-number-color {
+    color: #a78bfa; /* Violet-400 */
+}
+
+/* Styling untuk canvas */
+canvas {
+    display: block; /* Menghilangkan spasi ekstra di bawah canvas */
+    border: 3px solid; /* Border */
+    border-radius: 0.75rem; /* Sudut membulat */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    touch-action: manipulation; /* Memungkinkan event sentuhan */
+    -webkit-user-select: none; /* Non-seleksi teks untuk iOS */
+    -moz-user-select: none; /* Non-seleksi teks untuk Firefox */
+    -ms-user-select: none; /* Non-seleksi teks untuk IE/Edge */
+    user-select: none; /* Non-seleksi teks */
+    /* Transisi untuk animasi kemenangan */
+    transition: transform 0.5s ease-out, border 0.5s ease-out, box-shadow 0.5s ease-out;
+}
+.message-box, .confirmation-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    text-align: center;
+    border: 2px solid; /* Border */
+    width: 90%;
+    max-width: 400px;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+/* Styling untuk tombol */
+.btn-primary-gradient {
+    background-image: linear-gradient(to right, #6366f1, #8b5cf6); /* Indigo ke Violet */
+    transition: background-image 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.btn-primary-gradient:hover {
+    background-image: linear-gradient(to right, #4f46e5, #7c3aed); /* Lebih gelap saat hover */
+}
+.btn-primary-gradient:active {
+    background-image: linear-gradient(to right, #3730a3, #5b21b6); /* Lebih gelap lagi saat ditekan */
+    transform: scale(0.98);
+}
+/* Dark Theme Specific Button Gradients for Shuffle/Replay */
+.dark-theme .btn-primary-gradient {
+    background-image: linear-gradient(to right, #4A90E2, #6A5ACD); /* Vibrant Blue to Medium Purple */
+}
+.dark-theme .btn-primary-gradient:hover {
+    background-image: linear-gradient(to right, #3A7CD1, #5A4ABF); /* Darker shades */
+}
+.dark-theme .btn-primary-gradient:active {
+    background-image: linear-gradient(to right, #2A6AB0, #4A3A9E); /* Even darker shades */
+    transform: scale(0.98);
+}
+
+
+.btn-purple {
+    background-color: #a855f7; /* Purple-500 */
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.btn-purple:hover {
+    background-color: #9333ea; /* Purple-600 */
+}
+.btn-purple:active {
+    background-color: #7e22ce; /* Purple-700 saat ditekan */
+    transform: scale(0.98);
+}
+/* Dark Theme Specific Button for Undo */
+.dark-theme .btn-purple {
+    background-color: #9370DB; /* MediumPurple */
+}
+.dark-theme .btn-purple:hover {
+    background-color: #7B5ECF; /* Darker MediumPurple */
+}
+.dark-theme .btn-purple:active {
+    background-color: #644CA3; /* Even Darker MediumPurple */
+    transform: scale(0.98);
+}
+
+
+.btn-green-solve { /* This button is now removed from HTML, but keeping style for consistency if needed elsewhere */
+    background-color: #10b981; /* Green-500 */
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.btn-green-solve:hover {
+    background-color: #059669;
+}
+.btn-green-solve:active {
+    background-color: #047857;
+    transform: scale(0.98);
+}
+/* Dark Theme Specific Button for Solve/Share */
+.dark-theme .btn-green-solve {
+    background-image: linear-gradient(to right, #20B2AA, #3CB371); /* LightSeaGreen to MediumSeaGreen */
+}
+.dark-theme .btn-green-solve:hover {
+    background-image: linear-gradient(to right, #1A908A, #329A5C); /* Darker shades */
+}
+.dark-theme .btn-green-solve:active {
+    background-image: linear-gradient(to right, #146D66, #287A47); /* Even darker shades */
+    transform: scale(0.98);
+}
+
+.btn-gray { /* General gray button for Reset */
+    background-color: #6b7280; /* Gray-500 */
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+.btn-gray:hover {
+    background-color: #4b5563; /* Gray-600 */
+}
+.btn-gray:active {
+    background-color: #374151; /* Gray-700 saat ditekan */
+    transform: scale(0.98);
+}
+.dark-theme .btn-gray {
+    background-color: #4a5568; /* Gray-700 */
+}
+.dark-theme .btn-gray:hover {
+    background-color: #2d3748; /* Gray-800 */
+}
+.dark-theme .btn-gray:active {
+    background-color: #1a202c; /* Gray-900 */
+    transform: scale(0.98);
+}
+
+/* Styling untuk gambar contoh yang bisa diklik */
+.sample-image-container {
+    width: 80px; /* Lebar tetap untuk gambar contoh */
+    height: 80px; /* Tinggi tetap untuk gambar contoh */
+    overflow: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, border 0.2s ease-in-out;
+    border: 2px solid transparent; /* Border transparan default */
+}
+.sample-image-container:hover {
+    transform: scale(1.05); /* Sedikit membesar saat hover */
+}
+.sample-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Pastikan gambar mengisi container tanpa distorsi */
+    display: block;
+}
+
+
+/* Kelas untuk animasi kemenangan */
+@keyframes puzzle-bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+}
+
+/* Container untuk tampilan gambar asli di bawah */
+.original-image-display-container {
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 3xl; /* Match main container width */
+}
+.dark-theme .original-image-display-container {
+    background-color: #2d3748;
+}
+.original-image-display-container.show {
+    display: flex;
+}
+.original-image-display-container img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 1.5rem;
+}
+.original-image-display-container button {
+    margin-top: 0; /* Adjust margin if needed */
+}
+
+/* Kelas untuk menyembunyikan main-content saat gambar asli ditampilkan */
+.main-content-hidden {
+    display: none;
+}
+
+/* Cropper Modal Styling */
+.cropper-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+.cropper-content {
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    max-width: 95vw;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+#cropperCanvas {
+    border: 2px solid;
+    max-width: 100%;
+    max-height: 60vh; /* Adjust as needed */
+    display: block;
+}
+.light-theme #cropperCanvas {
+    border-color: #6366f1;
+    background-color: #f0f0f0;
+}
+.dark-theme #cropperCanvas {
+    border-color: #4f46e5; /* Indigo-600 */
+    background-color: #4a5568;
+}
+.cropper-controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Loading Overlay */
+#loadingOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.5rem;
+    z-index: 1002;
+    display: none; /* Hidden by default */
+}
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Move History Styling */
+#moveHistoryContainer {
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid;
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+#moveHistoryList li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+#moveHistoryList li svg {
+    margin-right: 0.5rem;
+    flex-shrink: 0; /* Prevent SVG from shrinking */
+}
+
+/* Player Stats Styling */
+#playerStatsContainer {
+    border: 1px solid;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+#playerStatsContainer ul {
+    list-style: none;
+    padding: 0;
+}
+#playerStatsContainer li {
+    margin-bottom: 0.5rem;
+}
+#playerStatsContainer li span {
+    font-weight: 600;
+}
+
+/* Progress Indicator Styling */
+#progressIndicator {
+    width: 100%;
+    background-color: #e0e7ff; /* Light background for progress bar */
+    border-radius: 9999px; /* Full rounded corners */
+    height: 1.5rem; /* Height of the bar */
+    overflow: hidden; /* Ensure inner bar stays within bounds */
+    margin-bottom: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+.dark-theme #progressIndicator {
+    background-color: #4a5568; /* Darker background for dark theme */
+}
+
+#progressBar {
+    height: 100%;
+    width: 0%; /* Initial width */
+    background-image: linear-gradient(to right, #818cf8, #6366f1); /* Blue-purple gradient */
+    border-radius: 9999px;
+    transition: width 0.5s ease-out; /* Smooth transition for width changes */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 0.875rem; /* text-sm */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.dark-theme #progressBar {
+    background-image: linear-gradient(to right, #4A90E2, #6A5ACD); /* Dark theme gradient */
+}
+#progressText {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+/* Confetti Canvas */
+#confettiCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allow clicks to pass through */
+    z-index: 1001; /* Above puzzle, below modals */
+}
+
+/* Moves Per Time Graph Styling */
+#movesPerTimeGraphContainer {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+}
+#movesPerTimeGraphSVG {
+    width: 100%;
+    height: 150px; /* Fixed height for the graph */
+    background-color: transparent; /* Background handled by container */
+}
+.moves-graph-line {
+    fill: none;
+    stroke-width: 2;
+    transition: stroke 0.3s ease;
+    stroke: #4f46e5; /* Default line color */
+}
+.dark-theme .moves-graph-line {
+    stroke: #6366f1; /* Dark theme line color */
+}
+.moves-graph-point {
+    r: 4;
+    stroke-width: 1;
+    fill: #4f46e5; /* Default point color */
+    stroke: #3730a3; /* Darker stroke for points */
+}
+.dark-theme .moves-graph-point {
+    fill: #6366f1;
+    stroke: #4f46e5;
+}
+
+/* Directional Moves Graph Styling */
+#directionalMovesGraphContainer {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: 1px solid;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    text-align: center;
+}
+#directionalMovesGraphSVG {
+    width: 100%;
+    height: 150px; /* Fixed height for the graph */
+    background-color: transparent;
+}
+.bar-chart-bar {
+    fill: #818cf8; /* Default bar color */
+    transition: fill 0.3s ease;
+}
+.dark-theme .bar-chart-bar {
+    fill: #6366f1; /* Dark theme bar color */
+}
+.bar-chart-label {
+    font-size: 12px;
+    fill: #6b7280; /* Default label color */
+}
+.dark-theme .bar-chart-label {
+    fill: #a0aec0; /* Dark theme label color */
+}
+
+/* Animasi Promosi Website */
+.promo-gradient-animation {
+    background-size: 400% 400%;
+    animation: gradient-animation 10s ease infinite;
+    color: white; /* Pastikan teks terlihat */
+}
+
+@keyframes gradient-animation {
+    0% { background-image: linear-gradient(to right, #ff7e5f, #feb47b); } /* Orange-Red to Peach */
+    25% { background-image: linear-gradient(to right, #6dd5ed, #2193b0); } /* Sky Blue to Darker Blue */
+    50% { background-image: linear-gradient(to right, #4facfe, #00f2fe); } /* Light Blue to Cyan */
+    75% { background-image: linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b); } /* Purple to Pink to Orange */
+    100% { background-image: linear-gradient(to right, #ff7e5f, #feb47b); } /* Back to start */
+}
+
