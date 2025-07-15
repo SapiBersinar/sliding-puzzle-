@@ -526,7 +526,7 @@ canvas {
     padding: 0; /* Hapus padding jika tidak diperlukan */
 }
 
-/* Animasi Gradient Teks dan Fade In/Out */
+/* Animasi Gradient Teks dan Fade In/Out dengan Pop */
 .promo-text {
     font-size: 1.25rem; /* text-lg dari Tailwind */
     font-weight: bold;
@@ -537,21 +537,23 @@ canvas {
     background-clip: text;
     color: transparent; /* Pastikan teks transparan untuk menampilkan gradient */
     animation: 
-        gradient-text-animation 10s ease infinite,
-        fade-in-out 4s ease-in-out infinite alternate; /* Animasi fade in/out */
+        gradient-text-animation 8s ease infinite, /* Kecepatan gradient */
+        promo-pop-fade 4s ease-in-out infinite alternate; /* Animasi pop dan fade in/out */
+    will-change: transform, opacity, background-position; /* Hint untuk performa */
 }
 
 @keyframes gradient-text-animation {
-    0% { background-image: linear-gradient(to right, #ff7e5f, #feb47b); } /* Orange-Red to Peach */
-    25% { background-image: linear-gradient(to right, #6dd5ed, #2193b0); } /* Sky Blue to Darker Blue */
-    50% { background-image: linear-gradient(to right, #4facfe, #00f2fe); } /* Light Blue to Cyan */
-    75% { background-image: linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b); } /* Purple to Pink to Orange */
-    100% { background-image: linear-gradient(to right, #ff7e5f, #feb47b); } /* Back to start */
+    0% { background-position: 0% 50%; background-image: linear-gradient(to right, #ff7e5f, #feb47b); } /* Orange-Red to Peach */
+    25% { background-position: 100% 50%; background-image: linear-gradient(to right, #6dd5ed, #2193b0); } /* Sky Blue to Darker Blue */
+    50% { background-position: 0% 50%; background-image: linear-gradient(to right, #4facfe, #00f2fe); } /* Light Blue to Cyan */
+    75% { background-position: 100% 50%; background-image: linear-gradient(to right, #a770ef, #cf8bf3, #fdb99b); } /* Purple to Pink to Orange */
+    100% { background-position: 0% 50%; background-image: linear-gradient(to right, #ff7e5f, #feb47b); } /* Back to start */
 }
 
-@keyframes fade-in-out {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
+@keyframes promo-pop-fade {
+    0% { opacity: 0; transform: scale(0.9); }
+    20% { opacity: 1; transform: scale(1.05); }
+    80% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.9); }
 }
 
