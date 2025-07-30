@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Permainan Gosok Bom</title>
+    <!-- Tailwind CSS CDN for utility classes and responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter for a clean, modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for the body, font, and background */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            transition: background-color 0.3s ease-in-out; /* Smooth transition for theme change */
+        }
+
+        /* --- Theme-specific styles (Default/Light Theme) --- */
+        body.theme-light { background-color: #e0e7ff; /* bg-indigo-100 */ color: #374151; /* text-gray-700 */ }
+        body.theme-light #game-wrapper { background-color: #ffffff; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+        body.theme-light #game-board-card { background-color: #000000; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5); }
+        body.theme-light .card-overlay { background-color: #60a5fa; } /* Default blue for card back */
+        body.theme-light .message-box { background-color: #ffffff; }
+        body.theme-light .text-gray-800 { color: #1f2937; } /* For title and message text */
+        body.theme-light .text-gray-700 { color: #374151; } /* For labels etc. */
+        body.theme-light input { background-color: #ffffff; border-color: #d1d5db; }
+        body.theme-light select { background-color: #ffffff; color: #374151; border-color: #d1d5db; }
+        body.theme-light select option { background-color: #ffffff; color: #374151; }
+
+
+        /* --- Dark Theme --- */
+        body.theme-dark { background-color: #1a202c; /* Darker background */ color: #e2e8f0; /* Light text */ }
+        body.theme-dark #game-wrapper { background-color: #2d3748; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.1); }
+        body.theme-dark #game-board-card { background-color: #1f2937; box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.7); }
+        body.theme-dark .card-overlay { background-color: #4a5568; } /* Darker blue for card back */
+        body.theme-dark .message-box { background-color: #2d3748; }
+        body.theme-dark .text-gray-800 { color: #f7fafc; }
+        body.theme-dark .text-gray-700 { color: #e2e8f0; }
+        body.theme-dark input { background-color: #4a5568; border-color: #64748b; color: #e2e8f0; }
+        body.theme-dark input::placeholder { color: #a0aec0; }
+        body.theme-dark select { background-color: #4a5568; color: #e2e8f0; border-color: #64748b; }
+        body.theme-dark select option { background-color: #4a5568; color: #e2e8f0; }
+
+
+        /* --- Forest Theme --- */
+        body.theme-forest { background-color: #2a523e; /* Deep forest green */ color: #e0e0e0; }
+        body.theme-forest #game-wrapper { background-color: #4CAF50; /* Brighter green, but still natural */ box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.08); }
+        body.theme-forest #game-board-card { background-color: #1a3a2e; /* Very dark green */ box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6); }
+        body.theme-forest .card-overlay { background-color: #388E3C; /* Darker, more muted green for card back */ }
+        body.theme-forest .message-box { background-color: #4CAF50; }
+        body.theme-forest .text-gray-800 { color: #ffffff; }
+        body.theme-forest .text-gray-700 { color: #f0f0f0; }
+        body.theme-forest input { background-color: #388E3C; border-color: #81C784; color: #ffffff; }
+        body.theme-forest input::placeholder { color: #c8e6c9; }
+        body.theme-forest select { background-color: #388E3C; color: #ffffff; border-color: #81C784; }
+        body.theme-forest select option { background-color: #388E3C; color: #ffffff; }
+
+
+        /* Styling for the main game wrapper card */
+        #game-wrapper {
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 100%;
+            margin: 2rem auto;
+            text-align: center;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        /* Styling for the game board container (the new card for the game cards) */
+        #game-board-card {
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: background-image 0.3s ease-in-out, background-color 0.3s ease-in-out;
+        }
+
+        /* Styling for each card container (outer wrapper) */
+        .card-container {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* 1:1 Aspect Ratio to make cards square */
+            border-radius: 0.75rem;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            background-color: transparent;
+        }
+        /* Hover effect for cards */
+        .card-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* New inner div for the card content that will be white */
+        .card-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* This is the white background when revealed */
+            border-radius: inherit;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Styling for the image inside each card */
+        .card-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+
+        /* Styling for the overlay that covers the card content */
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            color: white;
+            font-size: 2rem;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out, background-color 0.3s ease-in-out;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            z-index: 2;
+        }
+        /* Class to hide the overlay with a flip animation */
+        .card-overlay.hidden-overlay {
+            opacity: 0;
+            transform: rotateY(180deg); /* Flips the card to reveal content */
+            pointer-events: none; /* Crucial: Allows clicks to pass through after hidden */
+        }
+        /* Styling for the number on the card overlay */
+        .card-number {
+            position: absolute;
+            font-size: 3rem; /* Larger font size for visibility */
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Add shadow for better contrast */
+            transition: opacity 0.3s ease-in-out; /* Smooth transition for number disappearing */
+        }
+        .card-number.hidden {
+            opacity: 0;
+        }
+
+
+        /* Styling for the game message box (modal) */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+        }
+        /* Class to show the message box */
+        .message-box.show {
+            display: block;
+        }
+
+        /* --- Animasi Judul (Promosi) --- */
+        @keyframes pulse-promo {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .promo-title {
+            animation: pulse-promo 2s infinite ease-in-out;
+        }
+
+        /* --- Animasi Bom --- */
+        @keyframes bomb-shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-1deg); }
+            50% { transform: translateX(5px) rotate(1deg); }
+            75% { transform: translateX(-5px) rotate(-1deg); }
+            100% { transform: translateX(0); }
+        }
+        .bomb-revealed .card-image {
+            animation: bomb-shake 0.3s ease-in-out 3;
+        }
+
+        /* --- Animasi Kartu Non-Bom (Safe Reveal) --- */
+        @keyframes safe-pulse-glow {
+            0% { transform: scale(1); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+            50% { transform: scale(1.02); box-shadow: 0 0 55px rgba(0, 255, 0, 1); } /* Stronger glow intensity */
+            100% { transform: scale(1); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        }
+        .card-container.safe-revealed {
+            animation: safe-pulse-glow 0.4s ease-out;
+        }
+
+        /* --- Animasi Kemenangan (Confetti) --- */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f0f; /* Pink */
+            opacity: 0;
+            animation: confetti-fall 2s forwards;
+            border-radius: 50%; /* For round confetti */
+            z-index: 999;
+        }
+        @keyframes confetti-fall {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)) rotate(720deg); opacity: 0; }
+        }
+
+        /* Hide the default file input button */
+        .file-input-hidden {
+            display: none;
+        }
+        /* Style the label to look like a button */
+        .upload-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #4f46e5;
+            color: white;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out;
+        }
+        .upload-button:hover {
+            background-color: #4338ca;
+        }
+
+        /* Debugging Panel Styles (Modal) */
+        #debug-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001; /* Above everything */
+            display: none; /* Hidden by default */
+        }
+        #debug-panel.show {
+            display: flex; /* Use flex to center content */
+        }
+        #debug-content {
+            background-color: rgba(0, 0, 0, 0.9); /* Darker content background */
+            color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto; /* Scrollable if content overflows */
+            font-family: monospace;
+            font-size: 0.9rem;
+            text-align: left;
+            position: relative; /* For close button positioning */
+        }
+        #debug-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #6ee7b7; /* Light green for heading */
+        }
+        #debug-content p {
+            margin-bottom: 0.5rem;
+        }
+        #debug-close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            padding: 5px;
+            line-height: 1;
+        }
+        #debug-toggle-button {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            background-color: #dc2626; /* Red */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-top-left-radius: 0.5rem;
+            cursor: pointer;
+            z-index: 1002; /* Above debug panel */
+        }
+
+        /* --- Promo Mode Specific Styles --- */
+        body.promo-mode .hide-on-promo {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="theme-light">
+
+    <!-- Main game wrapper card -->
+    <div id="game-wrapper">
+        <!-- Game title with promo animation -->
+        <h1 class="text-4xl font-bold text-gray-800 mb-8 promo-title">Permainan Gosok Bom</h1>
+
+        <!-- Theme Selection -->
+        <div class="mb-4 hide-on-promo">
+            <label for="theme-select" class="block text-sm font-medium text-gray-700 mb-2">Pilih Tema Visual:</label>
+            <select id="theme-select" class="px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="light">Terang (Default)</option>
+                <option value="dark">Gelap</option>
+                <option value="forest">Hutan</option>
+            </select>
+        </div>
+
+        <!-- Image Upload Section -->
+        <div class="flex flex-wrap justify-center gap-4 mb-6 hide-on-promo">
+            <div>
+                <label for="background-upload" class="upload-button">
+                    Unggah Latar Belakang Papan
+                </label>
+                <input type="file" id="background-upload" accept="image/*" class="file-input-hidden">
+            </div>
+            <div>
+                <label for="bomb-image-upload" class="upload-button">
+                    Unggah Gambar Bom
+                </label>
+                <input type="file" id="bomb-image-upload" accept="image/*" class="file-input-hidden">
+            </div>
+            <div>
+                <label for="non-bomb-image-upload" class="upload-button">
+                    Unggah Gambar Bukan Bom
+                </label>
+                <input type="file" id="non-bomb-image-upload" accept="image/*" class="file-input-hidden">
+            </div>
+        </div>
+
+        <!-- Game board container (the new card for the game cards) -->
+        <div id="game-board-card">
+            <!-- Game board grid container -->
+            <div id="game-board" class="grid grid-cols-3 gap-4 max-w-lg w-full mx-auto">
+                <!-- Cards will be injected here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Password input section -->
+        <div class="mt-6">
+            <input type="text" id="password-input" placeholder="terminal"
+                   class="px-4 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-xs text-center">
+            <button id="reveal-bomb-button"
+                    class="mt-3 px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out">
+                Enter / Click
+            </button>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 hide-on-promo">
+            <button id="shuffle-button" class="px-6 py-3 bg-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105">
+                Acak Permainan
+            </button>
+            <button id="reset-button" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
+                Mulai Ulang Permainan
+            </button>
+        </div>
+    </div>
+
+    <!-- Message box for game status (win/lose) -->
+    <div id="message-box" class="message-box">
+        <p id="message-text" class="text-2xl font-semibold text-gray-800 mb-4"></p>
+        <button id="close-message" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200">Oke</button>
+    </div>
+
+    <!-- Debugging Panel Toggle Button -->
+    <button id="debug-toggle-button" class="hide-on-promo">Debug</button>
+
+    <!-- Debugging Panel (Modal Structure) -->
+    <div id="debug-panel">
+        <div id="debug-content">
+            <button id="debug-close-button">&times;</button>
+            <h3>Panel Debugging</h3>
+            <p>Lokasi Bom (1-indexed): <span id="debug-bomb-index"></span></p>
+            <p>Kartu Terbuka: <span id="debug-revealed-count"></span></p>
+            <p>Permainan Selesai: <span id="debug-is-game-over"></span></p>
+            <p>Tema Aktif: <span id="debug-active-theme"></span></p>
+            <p>URL Bom: <span id="debug-bomb-url"></span></p>
+            <p>URL Bukan Bom: <span id="debug-non-bomb-url"></span></p>
+            <p>Pesan Kesalahan/Peringatan: <span id="debug-error-messages" class="text-red-400"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Constants for image URLs and game configuration
+        let BOMB_IMAGE_URL = "https://raw.githubusercontent.com/SapiBersinar/hanzercopy.cloud/refs/heads/main/gambar-ai/2.png";
+        let NON_BOMB_IMAGE_URL = "https://raw.githubusercontent.com/SapiBersinar/hanzercopy.cloud/refs/heads/main/gambar-ai/1.png";
+        const TOTAL_CARDS = 12; // Total number of cards on the board
+        const BOMB_COUNT = 1;   // Number of bombs in the game
+
+        // Local Storage Keys
+        const BACKGROUND_STORAGE_KEY = 'bombGameBackground';
+        const BOMB_IMAGE_STORAGE_KEY = 'bombCustomBombImage';
+        const NON_BOMB_IMAGE_STORAGE_KEY = 'bombCustomNonBombImage';
+        const THEME_STORAGE_KEY = 'bombGameTheme';
+
+        // Predefined colors for random selection (for shuffle)
+        const BOARD_BG_COLORS = ['#263238', '#37474F', '#212121', '#4A148C', '#004D40']; // Darker shades of previous colors
+        const CARD_OVERLAY_COLORS = ['#FFA500', '#60a5fa', '#f87171', '#fbbf24', '#a78bfa', '#34d399', '#f472b6']; // Orange added as default, plus others
+
+        // Game state variables
+        let bombIndex = -1;
+        let isGameOver = false;
+        let revealedCount = 0;
+        let activeTheme = 'light';
+        let isPromoModeActive = false; // Global state for promo mode
+
+        // DOM element references
+        let gameBoard = document.getElementById('game-board');
+        let gameBoardCard = document.getElementById('game-board-card');
+        let backgroundUpload = document.getElementById('background-upload');
+        let bombImageUpload = document.getElementById('bomb-image-upload');
+        let nonBombImageUpload = document.getElementById('non-bomb-image-upload');
+        let passwordInput = document.getElementById('password-input');
+        let revealBombButton = document.getElementById('reveal-bomb-button');
+        let shuffleButton = document.getElementById('shuffle-button');
+        let resetButton = document.getElementById('reset-button');
+        let messageBox = document.getElementById('message-box');
+        let messageText = document.getElementById('message-text');
+        let closeMessageButton = document.getElementById('close-message');
+        let themeSelect = document.getElementById('theme-select');
+
+        // Debugging elements
+        let debugToggleButton = document.getElementById('debug-toggle-button');
+        let debugPanel = document.getElementById('debug-panel');
+        let debugCloseButton = document.getElementById('debug-close-button');
+        let debugBombIndex = document.getElementById('debug-bomb-index');
+        let debugRevealedCount = document.getElementById('debug-revealed-count');
+        let debugIsGameOver = document.getElementById('debug-is-game-over');
+        let debugActiveTheme = document.getElementById('debug-active-theme');
+        let debugBombUrl = document.getElementById('debug-bomb-url');
+        let debugNonBombUrl = document.getElementById('debug-non-bomb-url');
+        let debugErrorMessages = document.getElementById('debug-error-messages');
+
+
+        /**
+         * Updates the debugging panel with current game state.
+         */
+        function updateDebugPanel() {
+            debugBombIndex.textContent = bombIndex + 1; // +1 for user-friendly 1-indexed
+            debugRevealedCount.textContent = revealedCount;
+            debugIsGameOver.textContent = isGameOver ? 'Ya' : 'Tidak';
+            debugActiveTheme.textContent = activeTheme;
+            debugBombUrl.textContent = BOMB_IMAGE_URL;
+            debugNonBombUrl.textContent = NON_BOMB_IMAGE_URL;
+        }
+
+        /**
+         * Logs a message to the debug panel's error messages section.
+         * @param {string} message - The error or warning message.
+         */
+        function logDebugError(message) {
+            debugErrorMessages.textContent = message;
+        }
+
+        /**
+         * Clears error messages from the debug panel.
+         */
+        function clearDebugErrors() {
+            debugErrorMessages.textContent = '';
+        }
+
+        /**
+         * Applies the selected theme to the body.
+         * @param {string} themeName - The name of the theme (e.g., 'light', 'dark').
+         */
+        function applyTheme(themeName) {
+            document.body.classList.remove('theme-light', 'theme-dark', 'theme-forest');
+            document.body.classList.add(`theme-${themeName}`);
+            activeTheme = themeName;
+            localStorage.setItem(THEME_STORAGE_KEY, themeName);
+            updateDebugPanel();
+        }
+
+        /**
+         * Toggles the visibility of a specific card number or all card numbers.
+         * @param {number|'all'|null} command - The 1-indexed number of the card to show, 'all' to show all, or null to hide all.
+         */
+        function toggleCardNumberVisibility(command = null) {
+            const cardNumbers = document.querySelectorAll('.card-number');
+            cardNumbers.forEach((span, index) => {
+                if (command === 'all') {
+                    span.classList.remove('hidden');
+                } else if (typeof command === 'number' && parseInt(command) === (index + 1)) {
+                    span.classList.remove('hidden');
+                } else {
+                    span.classList.add('hidden');
+                }
+            });
+        }
+
+        /**
+         * Initializes the game board by creating cards, assigning bomb position,
+         * and setting up event listeners.
+         * @param {string} mode - The mode of initialization: 'initial', 'reset', 'shuffle', 'lagi', 'smooth-bg'.
+         */
+        function initializeGame(mode = 'initial') {
+            gameBoard.innerHTML = '';
+            isGameOver = false;
+            revealedCount = 0;
+            bombIndex = Math.floor(Math.random() * TOTAL_CARDS);
+            clearDebugErrors();
+
+            // --- Handle Promo Mode Persistence ---
+            // Only deactivate promo mode if it's an explicit reset or initial load
+            if (mode === 'initial' || mode === 'reset') {
+                isPromoModeActive = false;
+                document.body.classList.remove('promo-mode');
+            }
+            // If promo mode is active for 'lagi' or 'smooth-bg', it remains active.
+            // The `toggleUIMode` function will handle adding/removing the class based on `isPromoModeActive`.
+
+
+            // Load custom images or use defaults for bomb/non-bomb
+            BOMB_IMAGE_URL = localStorage.getItem(BOMB_IMAGE_STORAGE_KEY) || "https://raw.githubusercontent.com/SapiBersinar/hanzercopy.cloud/refs/heads/main/gambar-ai/2.png";
+            NON_BOMB_IMAGE_URL = localStorage.getItem(NON_BOMB_IMAGE_STORAGE_KEY) || "https://raw.githubusercontent.com/SapiBersinar/hanzercopy.cloud/refs/heads/main/gambar-ai/1.png";
+
+            // --- Board Background Color/Image Logic ---
+            const savedBackground = localStorage.getItem(BACKGROUND_STORAGE_KEY);
+            if (mode === 'lagi') {
+                // Do not change board background, preserve current state
+                // (current gameBoardCard.style.backgroundImage/backgroundColor is already set)
+            } else if (savedBackground) {
+                gameBoardCard.style.backgroundImage = `url('${savedBackground}')`;
+                gameBoardCard.style.backgroundColor = 'transparent'; // Ensure transparency for image
+            } else {
+                gameBoardCard.style.backgroundImage = 'none';
+                gameBoardCard.style.backgroundColor = '#000000'; // Default black
+            }
+
+            // --- Card Overlay Color Logic ---
+            let currentOverlayColor;
+            if (mode === 'initial' || mode === 'reset') {
+                currentOverlayColor = '#FFA500'; // Default orange
+            } else { // 'shuffle', 'lagi', 'smooth-bg'
+                currentOverlayColor = CARD_OVERLAY_COLORS[Math.floor(Math.random() * CARD_OVERLAY_COLORS.length)];
+            }
+
+            // Loop to create each card element
+            for (let i = 0; i < TOTAL_CARDS; i++) {
+                const cardContainer = document.createElement('div');
+                cardContainer.classList.add('card-container');
+                cardContainer.dataset.index = i;
+
+                const cardInner = document.createElement('div');
+                cardInner.classList.add('card-inner');
+
+                const cardImage = document.createElement('img');
+                cardImage.classList.add('card-image');
+                cardImage.src = (i === bombIndex) ? BOMB_IMAGE_URL : NON_BOMB_IMAGE_URL;
+                cardImage.alt = (i === bombIndex) ? 'Bom' : 'Bukan Bom';
+
+                cardInner.appendChild(cardImage);
+
+                const cardOverlay = document.createElement('div');
+                cardOverlay.classList.add('card-overlay');
+                cardOverlay.style.backgroundColor = currentOverlayColor; // Apply determined color to overlay
+
+                // Add the card number to the overlay (initially hidden)
+                const cardNumberSpan = document.createElement('span');
+                cardNumberSpan.classList.add('card-number', 'hidden'); // Hidden by default
+                cardNumberSpan.textContent = i + 1; // Display 1-indexed number
+                cardOverlay.appendChild(cardNumberSpan);
+
+                cardContainer.appendChild(cardInner);
+                cardContainer.appendChild(cardOverlay);
+
+                cardContainer.addEventListener('click', handleCardClick);
+                gameBoard.appendChild(cardContainer);
+            }
+            updateDebugPanel();
+            toggleCardNumberVisibility(null); // Ensure all numbers are hidden on init
+        }
+
+        /**
+         * Handles the click event when a card is clicked.
+         * @param {Event} event - The click event object.
+         */
+        function handleCardClick(event) {
+            if (isGameOver) {
+                return;
+            }
+
+            const clickedCard = event.currentTarget;
+            const cardOverlay = clickedCard.querySelector('.card-overlay');
+
+            if (cardOverlay.classList.contains('hidden-overlay')) {
+                return;
+            }
+
+            const index = parseInt(clickedCard.dataset.index);
+            cardOverlay.classList.add('hidden-overlay');
+
+            cardOverlay.addEventListener('transitionend', () => {
+                if (index === bombIndex) {
+                    isGameOver = true;
+                    clickedCard.classList.add('bomb-revealed');
+                    setTimeout(() => {
+                        showMessage('Anda kalah! Anda menemukan bom.');
+                        revealAllCards();
+                    }, 500);
+                } else {
+                    revealedCount++;
+                    clickedCard.classList.add('safe-revealed');
+                    clickedCard.addEventListener('animationend', () => {
+                        clickedCard.classList.remove('safe-revealed');
+                    }, { once: true });
+
+                    if (revealedCount === (TOTAL_CARDS - BOMB_COUNT)) {
+                        isGameOver = true;
+                        showMessage(`Selamat! Anda menang! Bom berada di kartu nomor ${bombIndex + 1}.`); // Explicitly state bomb location
+                        triggerWinAnimation(); // Trigger victory animation
+                        // Add temporary highlight to the bomb card
+                        const bombCard = gameBoard.querySelector(`[data-index="${bombIndex}"]`);
+                        if (bombCard) {
+                            bombCard.style.border = '3px solid gold'; // Temporary visual highlight
+                            bombCard.style.boxShadow = '0 0 20px gold';
+                            setTimeout(() => {
+                                bombCard.style.border = '';
+                                bombCard.style.boxShadow = '';
+                            }, 3000); // Remove highlight after 3 seconds
+                        }
+                    }
+                }
+                updateDebugPanel();
+            }, { once: true });
+        }
+
+        /**
+         * Reveals all cards on the board, typically called when the game ends.
+         */
+        function revealAllCards() {
+            const cards = gameBoard.querySelectorAll('.card-container');
+            cards.forEach(card => {
+                const cardOverlay = card.querySelector('.card-overlay');
+                cardOverlay.classList.add('hidden-overlay');
+                if (parseInt(card.dataset.index) === bombIndex) {
+                    card.classList.add('bomb-revealed');
+                }
+            });
+        }
+
+        /**
+         * Displays a message in the modal box.
+         * @param {string} message - The message text to display.
+         */
+        function showMessage(message) {
+            messageText.textContent = message;
+            messageBox.classList.add('show');
+            // Clear any debug errors when a new game message is shown
+            clearDebugErrors();
+        }
+
+        /**
+         * Hides the message modal box.
+         */
+        function hideMessage() {
+            messageBox.classList.remove('show');
+        }
+
+        /**
+         * Triggers a simple confetti-like victory animation.
+         */
+        function triggerWinAnimation() {
+            const colors = ['#f0f', '#0ff', '#ff0', '#0f0', '#f00', '#00f']; // Confetti colors
+            for (let i = 0; i < 50; i++) { // Generate 50 confetti particles
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                // Random starting position within the game wrapper
+                const startX = Math.random() * gameBoard.offsetWidth;
+                const startY = Math.random() * gameBoard.offsetHeight;
+                confetti.style.left = `${startX}px`;
+                confetti.style.top = `${startY}px`;
+
+                // Random end position for falling effect
+                const endX = (Math.random() - 0.5) * 400 + startX; // +/- 200px from startX
+                const endY = (Math.random() * 300) + gameBoard.offsetHeight; // Fall downwards
+                confetti.style.setProperty('--x', `${endX}px`);
+                confetti.style.setProperty('--y', `${endY}px`);
+
+                gameBoard.appendChild(confetti);
+
+                // Remove confetti after animation
+                confetti.addEventListener('animationend', () => {
+                    confetti.remove();
+                });
+            }
+        }
+
+        /**
+         * Generic function to handle image uploads and save to localStorage.
+         * @param {Event} event - The change event from the file input.
+         * @param {string} storageKey - The localStorage key to save the image URL.
+         * @param {function} callback - Callback function to run after image is loaded.
+         */
+        function handleImageUpload(event, storageKey, callback) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageUrl = e.target.result;
+                    localStorage.setItem(storageKey, imageUrl);
+                    if (callback) callback(imageUrl);
+                    initializeGame('reset'); // Re-initialize game to apply new images
+                };
+                reader.readAsDataURL(file);
+            } else {
+                logDebugError(`Gagal mengunggah gambar untuk ${storageKey}. Tidak ada file terpilih.`);
+            }
+        }
+
+        /**
+         * Toggles the visibility of various UI elements for promo mode.
+         * @param {boolean} activatePromoMode - True to activate promo mode (hide UI), false to deactivate.
+         */
+        function toggleUIMode(activatePromoMode) {
+            if (activatePromoMode) {
+                document.body.classList.add('promo-mode');
+                debugPanel.classList.remove('show'); // Hide debug panel if open
+            } else {
+                document.body.classList.remove('promo-mode');
+            }
+            isPromoModeActive = activatePromoMode; // Update global state
+        }
+
+        /**
+         * Handles all commands from the terminal input.
+         * @param {string} command - The command string from the input.
+         */
+        function handleTerminalCommand(command) {
+            command = command.trim(); // Trim whitespace
+            const lowerCaseCommand = command.toLowerCase(); // For case-insensitive checks
+
+            passwordInput.value = ''; // Always clear input after processing
+            toggleCardNumberVisibility(null); // Hide any displayed numbers by default
+
+            if (lowerCaseCommand === '0091') {
+                showMessage(`Kode bom berada di kartu nomor ${bombIndex + 1}.`);
+            } else if (lowerCaseCommand === 'debug') {
+                debugPanel.classList.add('show');
+            } else if (lowerCaseCommand === 'clear') {
+                showMessage('Angka kartu disembunyikan.');
+            } else if (lowerCaseCommand === '0000') { // Secret code to hide UI
+                toggleUIMode(true);
+                showMessage('Mode promosi diaktifkan. UI disembunyikan.');
+            } else if (lowerCaseCommand === '-0') { // Command to show UI
+                toggleUIMode(false);
+                showMessage('Semua elemen UI ditampilkan kembali.');
+            } else if (lowerCaseCommand === 'reset' || lowerCaseCommand === 'mulai ulang permainan') { // Restart game
+                initializeGame('reset'); // This will also deactivate promo mode
+                showMessage('Permainan diulang.');
+            } else if (lowerCaseCommand === 'lagi') { // Shuffle but keep board color, preserve promo mode
+                initializeGame('lagi');
+                showMessage('Permainan diacak ulang (warna papan tetap).');
+            } else if (lowerCaseCommand === '0099') { // Smooth background, only randomize card colors
+                initializeGame('smooth-bg');
+                showMessage('Latar belakang papan dihaluskan, warna kartu diacak.');
+            } else if (lowerCaseCommand === 'angka') { // Show all numbers
+                toggleCardNumberVisibility('all');
+                showMessage('Menampilkan semua angka kartu.');
+            } else if (lowerCaseCommand.startsWith('angka(') && lowerCaseCommand.endsWith(')')) {
+                const numStr = command.substring(command.indexOf('(') + 1, command.lastIndexOf(')'));
+                const num = parseInt(numStr);
+                if (!isNaN(num) && num >= 1 && num <= TOTAL_CARDS) {
+                    toggleCardNumberVisibility(num);
+                    showMessage(`Menampilkan angka kartu ${num}.`);
+                } else {
+                    showMessage('Format angka tidak valid. Gunakan "Angka(<nomor>)" contoh: Angka(2).');
+                    logDebugError(`Perintah angka tidak valid: "${command}"`);
+                }
+            } else if (command === '') { // Empty input, show all numbers
+                toggleCardNumberVisibility('all');
+                showMessage('Menampilkan semua angka kartu.');
+            }
+            else {
+                showMessage('Perintah atau kode rahasia tidak valid.');
+                logDebugError(`Perintah tidak dikenal: "${command}"`);
+            }
+            updateDebugPanel(); // Update debug panel after command
+        }
+
+
+        // --- Event Listeners ---
+
+        // Image Uploads
+        backgroundUpload.addEventListener('change', (e) => handleImageUpload(e, BACKGROUND_STORAGE_KEY, (url) => {
+            gameBoardCard.style.backgroundImage = `url('${url}')`;
+            gameBoardCard.style.backgroundColor = 'transparent';
+        }));
+        bombImageUpload.addEventListener('change', (e) => handleImageUpload(e, BOMB_IMAGE_STORAGE_KEY, (url) => {
+            BOMB_IMAGE_URL = url;
+        }));
+        nonBombImageUpload.addEventListener('change', (e) => handleImageUpload(e, NON_BOMB_IMAGE_STORAGE_KEY, (url) => {
+            NON_BOMB_IMAGE_URL = url;
+        }));
+
+        // Theme Selector
+        themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
+
+        // Password Input (Terminal) Logic - handles Enter key press
+        passwordInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Prevent default form submission
+                handleTerminalCommand(this.value); // Process command on Enter
+            }
+        });
+
+        // "Enter / Click" Button Logic - processes commands on click
+        revealBombButton.addEventListener('click', function() {
+            handleTerminalCommand(passwordInput.value);
+        });
+
+
+        // Game Control Buttons
+        shuffleButton.addEventListener('click', () => initializeGame('shuffle')); // Updated mode
+        resetButton.addEventListener('click', () => initializeGame('reset')); // Updated mode
+        closeMessageButton.addEventListener('click', hideMessage);
+
+        // Debugging Toggle & Close Button
+        debugToggleButton.addEventListener('click', () => {
+            debugPanel.classList.toggle('show');
+        });
+        debugCloseButton.addEventListener('click', () => {
+            debugPanel.classList.remove('show');
+        });
+
+        // --- Initial Load ---
+        window.onload = function() {
+            // Load and apply saved theme
+            const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
+            themeSelect.value = savedTheme;
+            applyTheme(savedTheme);
+
+            // Load saved background image
+            const savedBackground = localStorage.getItem(BACKGROUND_STORAGE_KEY);
+            if (savedBackground) {
+                gameBoardCard.style.backgroundImage = `url('${savedBackground}')`;
+                gameBoardCard.style.backgroundColor = 'transparent';
+            } else {
+                // If no saved background, set initial default black
+                gameBoardCard.style.backgroundColor = '#000000';
+            }
+
+            initializeGame('initial'); // Initialize the game board in initial mode
+            updateDebugPanel(); // Initial debug panel update
+        };
+    </script>
+</body>
+</html>
+
