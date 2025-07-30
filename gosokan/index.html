@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en"> <!-- Default to English -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Permainan Gosok Bom</title>
+    <title>Bomb Scratch Game</title>
     <!-- Tailwind CSS CDN for utility classes and responsive design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter for a clean, modern look -->
@@ -323,36 +323,30 @@
     <!-- Main game wrapper card -->
     <div id="game-wrapper">
         <!-- Game title with promo animation -->
-        <h1 class="text-4xl font-bold text-gray-800 mb-8 promo-title">Permainan Gosok Bom</h1>
+        <h1 class="text-4xl font-bold text-gray-800 mb-8 promo-title" id="game-title"></h1>
 
         <!-- Theme Selection -->
         <div class="mb-4 hide-on-promo">
-            <label for="theme-select" class="block text-sm font-medium text-gray-700 mb-2">Pilih Tema Visual:</label>
+            <label for="theme-select" class="block text-sm font-medium text-gray-700 mb-2" id="theme-label"></label>
             <select id="theme-select" class="px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option value="light">Terang (Default)</option>
-                <option value="dark">Gelap</option>
-                <option value="forest">Hutan</option>
+                <option value="light" id="opt-light"></option>
+                <option value="dark" id="opt-dark"></option>
+                <option value="forest" id="opt-forest"></option>
             </select>
         </div>
 
         <!-- Image Upload Section -->
         <div class="flex flex-wrap justify-center gap-4 mb-6 hide-on-promo">
             <div>
-                <label for="background-upload" class="upload-button">
-                    Unggah Latar Belakang Papan
-                </label>
+                <label for="background-upload" class="upload-button" id="upload-board-bg-label"></label>
                 <input type="file" id="background-upload" accept="image/*" class="file-input-hidden">
             </div>
             <div>
-                <label for="bomb-image-upload" class="upload-button">
-                    Unggah Gambar Bom
-                </label>
+                <label for="bomb-image-upload" class="upload-button" id="upload-bomb-img-label"></label>
                 <input type="file" id="bomb-image-upload" accept="image/*" class="file-input-hidden">
             </div>
             <div>
-                <label for="non-bomb-image-upload" class="upload-button">
-                    Unggah Gambar Bukan Bom
-                </label>
+                <label for="non-bomb-image-upload" class="upload-button" id="upload-non-bomb-img-label"></label>
                 <input type="file" id="non-bomb-image-upload" accept="image/*" class="file-input-hidden">
             </div>
         </div>
@@ -370,18 +364,15 @@
             <input type="text" id="password-input" placeholder="terminal"
                    class="px-4 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-xs text-center">
             <button id="reveal-bomb-button"
-                    class="mt-3 px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out">
-                Enter / Click
+                    class="mt-3 px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out" id="enter-click-button">
             </button>
         </div>
 
         <!-- Action buttons -->
         <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 hide-on-promo">
-            <button id="shuffle-button" class="px-6 py-3 bg-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105">
-                Acak Permainan
+            <button id="shuffle-button" class="px-6 py-3 bg-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105" id="shuffle-button-text">
             </button>
-            <button id="reset-button" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
-                Mulai Ulang Permainan
+            <button id="reset-button" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105" id="reset-button-text">
             </button>
         </div>
     </div>
@@ -389,24 +380,24 @@
     <!-- Message box for game status (win/lose) -->
     <div id="message-box" class="message-box">
         <p id="message-text" class="text-2xl font-semibold text-gray-800 mb-4"></p>
-        <button id="close-message" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200">Oke</button>
+        <button id="close-message" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200" id="ok-button"></button>
     </div>
 
     <!-- Debugging Panel Toggle Button -->
-    <button id="debug-toggle-button" class="hide-on-promo">Debug</button>
+    <button id="debug-toggle-button" class="hide-on-promo" id="debug-toggle-button-text"></button>
 
     <!-- Debugging Panel (Modal Structure) -->
     <div id="debug-panel">
         <div id="debug-content">
             <button id="debug-close-button">&times;</button>
-            <h3>Panel Debugging</h3>
-            <p>Lokasi Bom (1-indexed): <span id="debug-bomb-index"></span></p>
-            <p>Kartu Terbuka: <span id="debug-revealed-count"></span></p>
-            <p>Permainan Selesai: <span id="debug-is-game-over"></span></p>
-            <p>Tema Aktif: <span id="debug-active-theme"></span></p>
-            <p>URL Bom: <span id="debug-bomb-url"></span></p>
-            <p>URL Bukan Bom: <span id="debug-non-bomb-url"></span></p>
-            <p>Pesan Kesalahan/Peringatan: <span id="debug-error-messages" class="text-red-400"></span></p>
+            <h3 id="debug-panel-title"></h3>
+            <p><span id="debug-bomb-index-label"></span>: <span id="debug-bomb-index"></span></p>
+            <p><span id="debug-revealed-count-label"></span>: <span id="debug-revealed-count"></span></p>
+            <p><span id="debug-is-game-over-label"></span>: <span id="debug-is-game-over"></span></p>
+            <p><span id="debug-active-theme-label"></span>: <span id="debug-active-theme"></span></p>
+            <p><span id="debug-bomb-url-label"></span>: <span id="debug-bomb-url"></span></p>
+            <p><span id="debug-non-bomb-url-label"></span>: <span id="debug-non-bomb-url"></span></p>
+            <p><span id="debug-error-messages-label"></span>: <span id="debug-error-messages" class="text-red-400"></span></p>
         </div>
     </div>
 
@@ -422,6 +413,7 @@
         const BOMB_IMAGE_STORAGE_KEY = 'bombCustomBombImage';
         const NON_BOMB_IMAGE_STORAGE_KEY = 'bombCustomNonBombImage';
         const THEME_STORAGE_KEY = 'bombGameTheme';
+        const LANGUAGE_STORAGE_KEY = 'bombGameLanguage';
 
         // Predefined colors for random selection (for shuffle)
         const BOARD_BG_COLORS = ['#263238', '#37474F', '#212121', '#4A148C', '#004D40']; // Darker shades of previous colors
@@ -433,8 +425,133 @@
         let revealedCount = 0;
         let activeTheme = 'light';
         let isPromoModeActive = false; // Global state for promo mode
+        let activeLanguage = 'en'; // Default language is English
+
+        // Translations object
+        const translations = {
+            en: {
+                gameTitle: "Bomb Scratch Game",
+                themeLabel: "Select Visual Theme:",
+                optLight: "Light (Default)",
+                optDark: "Dark",
+                optForest: "Forest",
+                uploadBoardBgLabel: "Upload Board Background",
+                uploadBombImgLabel: "Upload Bomb Image",
+                uploadNonBombImgLabel: "Upload Non-Bomb Image",
+                enterClickButton: "Enter / Click",
+                shuffleButtonText: "Shuffle Game",
+                resetButtonText: "Restart Game",
+                okButton: "OK",
+                debugToggleButtonText: "Debug",
+                debugPanelTitle: "Debugging Panel",
+                debugBombIndexLabel: "Bomb Location (1-indexed)",
+                debugRevealedCountLabel: "Cards Revealed",
+                debugIsGameOverLabel: "Game Over",
+                debugActiveThemeLabel: "Active Theme",
+                debugBombUrlLabel: "Bomb URL",
+                debugNonBombUrlLabel: "Non-Bomb URL",
+                debugErrorMessagesLabel: "Error/Warning Messages",
+                msgBombFound: "You lost! You found the bomb.",
+                msgWin: (bombNum) => `Congratulations! You won! The bomb was on card number ${bombNum}.`,
+                msgSecretCode: (bombNum) => `The bomb code is on card number ${bombNum}.`,
+                msgInvalidCode: "Invalid secret code.",
+                msgCardsHidden: "Card numbers hidden.",
+                msgPromoModeActivated: "Promotion mode activated. UI hidden.",
+                msgUIRestored: "All UI elements restored.",
+                msgGameRestarted: "Game restarted.",
+                msgGameShuffled: "Game shuffled (board color unchanged).",
+                msgSmoothBg: "Board background smoothed, card colors randomized.",
+                msgShowAllNumbers: "Displaying all card numbers.",
+                msgShowSingleNumber: (num) => `Displaying card number ${num}.`,
+                msgInvalidNumberFormat: 'Invalid number format. Use "Angka(<number>)" e.g., Angka(2).',
+                msgUnknownCommand: (cmd) => `Unknown command: "${cmd}"`,
+                helpCommands: `
+Available Commands:
+- 0091: Show bomb location.
+- debug: Open debug panel.
+- clear: Hide all card numbers.
+- 0000: Activate promotion mode (hide UI).
+- -0: Exit promotion mode (show UI).
+- reset / restart game: Restart game.
+- lagi: Shuffle game (keep board background).
+- 0099: Smooth board background, randomize card colors.
+- Angka: Show all card numbers.
+- Angka(<number>): Show specific card number (e.g., Angka(5)).
+- En: Switch to English.
+- Id: Switch to Indonesian.
+- !: Show this help.
+`
+            },
+            id: {
+                gameTitle: "Permainan Gosok Bom",
+                themeLabel: "Pilih Tema Visual:",
+                optLight: "Terang (Default)",
+                optDark: "Gelap",
+                optForest: "Hutan",
+                uploadBoardBgLabel: "Unggah Latar Belakang Papan",
+                uploadBombImgLabel: "Unggah Gambar Bom",
+                uploadNonBombImgLabel: "Unggah Gambar Bukan Bom",
+                enterClickButton: "Enter / Klik",
+                shuffleButtonText: "Acak Permainan",
+                resetButtonText: "Mulai Ulang Permainan",
+                okButton: "Oke",
+                debugToggleButtonText: "Debug",
+                debugPanelTitle: "Panel Debugging",
+                debugBombIndexLabel: "Lokasi Bom (1-indexed)",
+                debugRevealedCountLabel: "Kartu Terbuka",
+                debugIsGameOverLabel: "Permainan Selesai",
+                debugActiveThemeLabel: "Tema Aktif",
+                debugBombUrlLabel: "URL Bom",
+                debugNonBombUrlLabel: "URL Bukan Bom",
+                debugErrorMessagesLabel: "Pesan Kesalahan/Peringatan",
+                msgBombFound: "Anda kalah! Anda menemukan bom.",
+                msgWin: (bombNum) => `Selamat! Anda menang! Bom berada di kartu nomor ${bombNum}.`,
+                msgSecretCode: (bombNum) => `Kode bom berada di kartu nomor ${bombNum}.`,
+                msgInvalidCode: "Kode rahasia salah.",
+                msgCardsHidden: "Angka kartu disembunyikan.",
+                msgPromoModeActivated: "Mode promosi diaktifkan. UI disembunyikan.",
+                msgUIRestored: "Semua elemen UI ditampilkan kembali.",
+                msgGameRestarted: "Permainan diulang.",
+                msgGameShuffled: "Permainan diacak ulang (warna papan tetap).",
+                msgSmoothBg: "Latar belakang papan dihaluskan, warna kartu diacak.",
+                msgShowAllNumbers: "Menampilkan semua angka kartu.",
+                msgShowSingleNumber: (num) => `Menampilkan angka kartu ${num}.`,
+                msgInvalidNumberFormat: 'Format angka tidak valid. Gunakan "Angka(<nomor>)" contoh: Angka(2).',
+                msgUnknownCommand: (cmd) => `Perintah tidak dikenal: "${cmd}"`,
+                helpCommands: `
+Perintah Tersedia:
+- 0091: Tampilkan lokasi bom.
+- debug: Buka panel debug.
+- clear: Sembunyikan semua angka kartu.
+- 0000: Aktifkan mode promosi (sembunyikan UI).
+- -0: Keluar dari mode promosi (tampilkan UI).
+- reset / mulai ulang permainan: Mulai ulang permainan.
+- lagi: Acak permainan (pertahankan latar belakang papan).
+- 0099: Haluskan latar belakang papan, acak warna kartu.
+- Angka: Tampilkan semua angka kartu.
+- Angka(<nomor>): Tampilkan angka kartu spesifik (contoh: Angka(5)).
+- En: Ubah ke Bahasa Inggris.
+- Id: Ubah ke Bahasa Indonesia.
+- !: Tampilkan bantuan ini.
+`
+            }
+        };
 
         // DOM element references
+        let gameTitle = document.getElementById('game-title');
+        let themeLabel = document.getElementById('theme-label');
+        let optLight = document.getElementById('opt-light');
+        let optDark = document.getElementById('opt-dark');
+        let optForest = document.getElementById('opt-forest');
+        let uploadBoardBgLabel = document.getElementById('upload-board-bg-label');
+        let uploadBombImgLabel = document.getElementById('upload-bomb-img-label');
+        let uploadNonBombImgLabel = document.getElementById('upload-non-bomb-img-label');
+        let enterClickButton = document.getElementById('enter-click-button');
+        let shuffleButtonText = document.getElementById('shuffle-button-text');
+        let resetButtonText = document.getElementById('reset-button-text');
+        let okButton = document.getElementById('ok-button');
+        let debugToggleButtonText = document.getElementById('debug-toggle-button-text');
+
         let gameBoard = document.getElementById('game-board');
         let gameBoardCard = document.getElementById('game-board-card');
         let backgroundUpload = document.getElementById('background-upload');
@@ -453,6 +570,14 @@
         let debugToggleButton = document.getElementById('debug-toggle-button');
         let debugPanel = document.getElementById('debug-panel');
         let debugCloseButton = document.getElementById('debug-close-button');
+        let debugPanelTitle = document.getElementById('debug-panel-title');
+        let debugBombIndexLabel = document.getElementById('debug-bomb-index-label');
+        let debugRevealedCountLabel = document.getElementById('debug-revealed-count-label');
+        let debugIsGameOverLabel = document.getElementById('debug-is-game-over-label');
+        let debugActiveThemeLabel = document.getElementById('debug-active-theme-label');
+        let debugBombUrlLabel = document.getElementById('debug-bomb-url-label');
+        let debugNonBombUrlLabel = document.getElementById('debug-non-bomb-url-label');
+        let debugErrorMessagesLabel = document.getElementById('debug-error-messages-label');
         let debugBombIndex = document.getElementById('debug-bomb-index');
         let debugRevealedCount = document.getElementById('debug-revealed-count');
         let debugIsGameOver = document.getElementById('debug-is-game-over');
@@ -463,12 +588,53 @@
 
 
         /**
+         * Sets the language for all UI elements.
+         * @param {string} langCode - 'en' for English, 'id' for Indonesian.
+         */
+        function setLanguage(langCode) {
+            activeLanguage = langCode;
+            localStorage.setItem(LANGUAGE_STORAGE_KEY, langCode);
+            const lang = translations[langCode];
+
+            // Update main UI texts
+            gameTitle.textContent = lang.gameTitle;
+            themeLabel.textContent = lang.themeLabel;
+            optLight.textContent = lang.optLight;
+            optDark.textContent = lang.optDark;
+            optForest.textContent = lang.optForest;
+            uploadBoardBgLabel.textContent = lang.uploadBoardBgLabel;
+            uploadBombImgLabel.textContent = lang.uploadBombImgLabel;
+            uploadNonBombImgLabel.textContent = lang.uploadNonBombImgLabel;
+            enterClickButton.textContent = lang.enterClickButton;
+            shuffleButtonText.textContent = lang.shuffleButtonText;
+            resetButtonText.textContent = lang.resetButtonText;
+            okButton.textContent = lang.okButton;
+            debugToggleButtonText.textContent = lang.debugToggleButtonText;
+
+            // Update Debug Panel texts
+            debugPanelTitle.textContent = lang.debugPanelTitle;
+            debugBombIndexLabel.textContent = lang.debugBombIndexLabel;
+            debugRevealedCountLabel.textContent = lang.debugRevealedCountLabel;
+            debugIsGameOverLabel.textContent = lang.debugIsGameOverLabel;
+            debugActiveThemeLabel.textContent = lang.debugActiveThemeLabel;
+            debugBombUrlLabel.textContent = lang.debugBombUrlLabel;
+            debugNonBombUrlLabel.textContent = lang.debugNonBombUrlLabel;
+            debugErrorMessagesLabel.textContent = lang.debugErrorMessagesLabel;
+
+            // Update placeholder
+            passwordInput.placeholder = "terminal"; // Placeholder is always "terminal"
+
+            updateDebugPanel(); // Update debug panel content with new language
+        }
+
+        /**
          * Updates the debugging panel with current game state.
          */
         function updateDebugPanel() {
+            const lang = translations[activeLanguage];
             debugBombIndex.textContent = bombIndex + 1; // +1 for user-friendly 1-indexed
             debugRevealedCount.textContent = revealedCount;
-            debugIsGameOver.textContent = isGameOver ? 'Ya' : 'Tidak';
+            debugIsGameOver.textContent = isGameOver ? lang.debugIsGameOverLabel.split(': ')[1] : (lang.debugIsGameOverLabel.split(': ')[1] === 'Ya' ? 'Tidak' : 'No'); // Adjust based on language
             debugActiveTheme.textContent = activeTheme;
             debugBombUrl.textContent = BOMB_IMAGE_URL;
             debugNonBombUrl.textContent = NON_BOMB_IMAGE_URL;
@@ -546,9 +712,13 @@
 
             // --- Board Background Color/Image Logic ---
             const savedBackground = localStorage.getItem(BACKGROUND_STORAGE_KEY);
-            if (mode === 'lagi') {
-                // Do not change board background, preserve current state
-                // (current gameBoardCard.style.backgroundImage/backgroundColor is already set)
+            if (mode === 'lagi' || mode === 'smooth-bg') {
+                // Do not change board background, preserve current state or set to black for smooth
+                if (mode === 'smooth-bg') {
+                    gameBoardCard.style.backgroundImage = 'none';
+                    gameBoardCard.style.backgroundColor = '#000000'; // Ensure black background for smooth
+                }
+                // Otherwise, for 'lagi', it keeps whatever it was before
             } else if (savedBackground) {
                 gameBoardCard.style.backgroundImage = `url('${savedBackground}')`;
                 gameBoardCard.style.backgroundColor = 'transparent'; // Ensure transparency for image
@@ -559,9 +729,9 @@
 
             // --- Card Overlay Color Logic ---
             let currentOverlayColor;
-            if (mode === 'initial' || mode === 'reset') {
-                currentOverlayColor = '#FFA500'; // Default orange
-            } else { // 'shuffle', 'lagi', 'smooth-bg'
+            if (mode === 'initial' || mode === 'reset' || mode === 'smooth-bg') {
+                currentOverlayColor = '#FFA500'; // Default orange for cards
+            } else { // 'shuffle' or 'lagi'
                 currentOverlayColor = CARD_OVERLAY_COLORS[Math.floor(Math.random() * CARD_OVERLAY_COLORS.length)];
             }
 
@@ -607,7 +777,7 @@
          */
         function handleCardClick(event) {
             if (isGameOver) {
-                return;
+                return; // If game is over, prevent further clicks from affecting game state
             }
 
             const clickedCard = event.currentTarget;
@@ -624,9 +794,9 @@
                 if (index === bombIndex) {
                     isGameOver = true;
                     clickedCard.classList.add('bomb-revealed');
+                    // Only show message for the bomb, don't reveal other cards
                     setTimeout(() => {
-                        showMessage('Anda kalah! Anda menemukan bom.');
-                        revealAllCards();
+                        showMessage(translations[activeLanguage].msgBombFound);
                     }, 500);
                 } else {
                     revealedCount++;
@@ -637,7 +807,7 @@
 
                     if (revealedCount === (TOTAL_CARDS - BOMB_COUNT)) {
                         isGameOver = true;
-                        showMessage(`Selamat! Anda menang! Bom berada di kartu nomor ${bombIndex + 1}.`); // Explicitly state bomb location
+                        showMessage(translations[activeLanguage].msgWin(bombIndex + 1)); // Explicitly state bomb location
                         triggerWinAnimation(); // Trigger victory animation
                         // Add temporary highlight to the bomb card
                         const bombCard = gameBoard.querySelector(`[data-index="${bombIndex}"]`);
@@ -657,6 +827,8 @@
 
         /**
          * Reveals all cards on the board, typically called when the game ends.
+         * NOTE: This function is now only called if the user explicitly wants to reveal all cards (e.g., for debugging)
+         * or for the win condition to highlight the bomb. It's NOT called on a loss.
          */
         function revealAllCards() {
             const cards = gameBoard.querySelectorAll('.card-container');
@@ -735,7 +907,7 @@
                 };
                 reader.readAsDataURL(file);
             } else {
-                logDebugError(`Gagal mengunggah gambar untuk ${storageKey}. Tidak ada file terpilih.`);
+                logDebugError(translations[activeLanguage].debugErrorMessagesLabel.split(': ')[1] + ` Failed to upload image for ${storageKey}. No file selected.`);
             }
         }
 
@@ -763,48 +935,56 @@
 
             passwordInput.value = ''; // Always clear input after processing
             toggleCardNumberVisibility(null); // Hide any displayed numbers by default
+            clearDebugErrors(); // Clear any previous errors
 
             if (lowerCaseCommand === '0091') {
-                showMessage(`Kode bom berada di kartu nomor ${bombIndex + 1}.`);
+                showMessage(translations[activeLanguage].msgSecretCode(bombIndex + 1));
             } else if (lowerCaseCommand === 'debug') {
                 debugPanel.classList.add('show');
             } else if (lowerCaseCommand === 'clear') {
-                showMessage('Angka kartu disembunyikan.');
+                showMessage(translations[activeLanguage].msgCardsHidden);
             } else if (lowerCaseCommand === '0000') { // Secret code to hide UI
                 toggleUIMode(true);
-                showMessage('Mode promosi diaktifkan. UI disembunyikan.');
+                showMessage(translations[activeLanguage].msgPromoModeActivated);
             } else if (lowerCaseCommand === '-0') { // Command to show UI
                 toggleUIMode(false);
-                showMessage('Semua elemen UI ditampilkan kembali.');
+                showMessage(translations[activeLanguage].msgUIRestored);
             } else if (lowerCaseCommand === 'reset' || lowerCaseCommand === 'mulai ulang permainan') { // Restart game
                 initializeGame('reset'); // This will also deactivate promo mode
-                showMessage('Permainan diulang.');
+                showMessage(translations[activeLanguage].msgGameRestarted);
             } else if (lowerCaseCommand === 'lagi') { // Shuffle but keep board color, preserve promo mode
                 initializeGame('lagi');
-                showMessage('Permainan diacak ulang (warna papan tetap).');
+                showMessage(translations[activeLanguage].msgGameShuffled);
             } else if (lowerCaseCommand === '0099') { // Smooth background, only randomize card colors
                 initializeGame('smooth-bg');
-                showMessage('Latar belakang papan dihaluskan, warna kartu diacak.');
+                showMessage(translations[activeLanguage].msgSmoothBg);
             } else if (lowerCaseCommand === 'angka') { // Show all numbers
                 toggleCardNumberVisibility('all');
-                showMessage('Menampilkan semua angka kartu.');
+                showMessage(translations[activeLanguage].msgShowAllNumbers);
             } else if (lowerCaseCommand.startsWith('angka(') && lowerCaseCommand.endsWith(')')) {
                 const numStr = command.substring(command.indexOf('(') + 1, command.lastIndexOf(')'));
                 const num = parseInt(numStr);
                 if (!isNaN(num) && num >= 1 && num <= TOTAL_CARDS) {
                     toggleCardNumberVisibility(num);
-                    showMessage(`Menampilkan angka kartu ${num}.`);
+                    showMessage(translations[activeLanguage].msgShowSingleNumber(num));
                 } else {
-                    showMessage('Format angka tidak valid. Gunakan "Angka(<nomor>)" contoh: Angka(2).');
-                    logDebugError(`Perintah angka tidak valid: "${command}"`);
+                    showMessage(translations[activeLanguage].msgInvalidNumberFormat);
+                    logDebugError(translations[activeLanguage].debugErrorMessagesLabel.split(': ')[1] + translations[activeLanguage].msgInvalidNumberFormat + ` Command: "${command}"`);
                 }
-            } else if (command === '') { // Empty input, show all numbers
-                toggleCardNumberVisibility('all');
-                showMessage('Menampilkan semua angka kartu.');
+            } else if (lowerCaseCommand === 'en') {
+                setLanguage('en');
+                showMessage("Language set to English.");
+            } else if (lowerCaseCommand === 'id') {
+                setLanguage('id');
+                showMessage("Bahasa diatur ke Bahasa Indonesia.");
+            } else if (lowerCaseCommand === '!') {
+                showMessage(translations[activeLanguage].helpCommands);
+            } else if (command === '') { // Empty input
+                // Do nothing, or show a subtle message
             }
             else {
-                showMessage('Perintah atau kode rahasia tidak valid.');
-                logDebugError(`Perintah tidak dikenal: "${command}"`);
+                showMessage(translations[activeLanguage].msgUnknownCommand(command));
+                logDebugError(translations[activeLanguage].debugErrorMessagesLabel.split(': ')[1] + translations[activeLanguage].msgUnknownCommand(command));
             }
             updateDebugPanel(); // Update debug panel after command
         }
@@ -856,6 +1036,10 @@
 
         // --- Initial Load ---
         window.onload = function() {
+            // Load and apply saved language
+            const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) || 'en'; // Default to English
+            setLanguage(savedLanguage);
+
             // Load and apply saved theme
             const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
             themeSelect.value = savedTheme;
