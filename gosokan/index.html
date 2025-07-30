@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en"> <!-- Default to English -->
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bomb Scratch Game</title>
+    <title id="game-title-meta">Permainan Gosok Bom</title>
     <!-- Tailwind CSS CDN for utility classes and responsive design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts - Inter for a clean, modern look -->
@@ -251,7 +251,7 @@
         }
 
         /* Debugging Panel Styles (Modal) */
-        #debug-panel {
+        #debug-panel, #help-panel {
             position: fixed;
             top: 0;
             left: 0;
@@ -264,10 +264,10 @@
             z-index: 1001; /* Above everything */
             display: none; /* Hidden by default */
         }
-        #debug-panel.show {
+        #debug-panel.show, #help-panel.show {
             display: flex; /* Use flex to center content */
         }
-        #debug-content {
+        #debug-content, #help-content {
             background-color: rgba(0, 0, 0, 0.9); /* Darker content background */
             color: #fff;
             padding: 20px;
@@ -280,15 +280,15 @@
             text-align: left;
             position: relative; /* For close button positioning */
         }
-        #debug-content h3 {
+        #debug-content h3, #help-content h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: #6ee7b7; /* Light green for heading */
         }
-        #debug-content p {
+        #debug-content p, #help-content p {
             margin-bottom: 0.5rem;
         }
-        #debug-close-button {
+        #debug-close-button, #help-close-button {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -312,6 +312,30 @@
             z-index: 1002; /* Above debug panel */
         }
 
+        /* --- Help Table Styles --- */
+        #help-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        #help-content th, #help-content td {
+            border: 1px solid #4a5568; /* Darker border for table */
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+        }
+        #help-content th {
+            background-color: #2d3748; /* Darker header background */
+            color: #6ee7b7;
+            font-weight: bold;
+        }
+        #help-content tr:nth-child(even) {
+            background-color: #1f2937; /* Alternate row color */
+        }
+        #help-content tr:hover {
+            background-color: #374151; /* Hover effect for rows */
+        }
+
         /* --- Promo Mode Specific Styles --- */
         body.promo-mode .hide-on-promo {
             display: none !important;
@@ -323,30 +347,36 @@
     <!-- Main game wrapper card -->
     <div id="game-wrapper">
         <!-- Game title with promo animation -->
-        <h1 class="text-4xl font-bold text-gray-800 mb-8 promo-title" id="game-title"></h1>
+        <h1 id="game-title" class="text-4xl font-bold text-gray-800 mb-8 promo-title">Permainan Gosok Bom</h1>
 
         <!-- Theme Selection -->
         <div class="mb-4 hide-on-promo">
-            <label for="theme-select" class="block text-sm font-medium text-gray-700 mb-2" id="theme-label"></label>
+            <label for="theme-select" class="block text-sm font-medium text-gray-700 mb-2" id="label-theme-select">Pilih Tema Visual:</label>
             <select id="theme-select" class="px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option value="light" id="opt-light"></option>
-                <option value="dark" id="opt-dark"></option>
-                <option value="forest" id="opt-forest"></option>
+                <option value="light" id="option-light">Terang (Default)</option>
+                <option value="dark" id="option-dark">Gelap</option>
+                <option value="forest" id="option-forest">Hutan</option>
             </select>
         </div>
 
         <!-- Image Upload Section -->
         <div class="flex flex-wrap justify-center gap-4 mb-6 hide-on-promo">
             <div>
-                <label for="background-upload" class="upload-button" id="upload-board-bg-label"></label>
+                <label for="background-upload" class="upload-button" id="label-upload-board-bg">
+                    Unggah Latar Belakang Papan
+                </label>
                 <input type="file" id="background-upload" accept="image/*" class="file-input-hidden">
             </div>
             <div>
-                <label for="bomb-image-upload" class="upload-button" id="upload-bomb-img-label"></label>
+                <label for="bomb-image-upload" class="upload-button" id="label-upload-bomb-img">
+                    Unggah Gambar Bom
+                </label>
                 <input type="file" id="bomb-image-upload" accept="image/*" class="file-input-hidden">
             </div>
             <div>
-                <label for="non-bomb-image-upload" class="upload-button" id="upload-non-bomb-img-label"></label>
+                <label for="non-bomb-image-upload" class="upload-button" id="label-upload-non-bomb-img">
+                    Unggah Gambar Bukan Bom
+                </label>
                 <input type="file" id="non-bomb-image-upload" accept="image/*" class="file-input-hidden">
             </div>
         </div>
@@ -364,15 +394,18 @@
             <input type="text" id="password-input" placeholder="terminal"
                    class="px-4 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-blue-500 w-full max-w-xs text-center">
             <button id="reveal-bomb-button"
-                    class="mt-3 px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out" id="enter-click-button">
+                    class="mt-3 px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out">
+                Enter / Click
             </button>
         </div>
 
         <!-- Action buttons -->
         <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8 hide-on-promo">
-            <button id="shuffle-button" class="px-6 py-3 bg-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105" id="shuffle-button-text">
+            <button id="shuffle-button" class="px-6 py-3 bg-green-600 text-white font-bold rounded-full shadow-lg hover:bg-green-700 transition duration-300 ease-in-out transform hover:scale-105">
+                Acak Permainan
             </button>
-            <button id="reset-button" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105" id="reset-button-text">
+            <button id="reset-button" class="px-6 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105">
+                Mulai Ulang Permainan
             </button>
         </div>
     </div>
@@ -380,28 +413,191 @@
     <!-- Message box for game status (win/lose) -->
     <div id="message-box" class="message-box">
         <p id="message-text" class="text-2xl font-semibold text-gray-800 mb-4"></p>
-        <button id="close-message" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200" id="ok-button"></button>
+        <button id="close-message" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200" id="button-close-message">Oke</button>
     </div>
 
     <!-- Debugging Panel Toggle Button -->
-    <button id="debug-toggle-button" class="hide-on-promo" id="debug-toggle-button-text"></button>
+    <button id="debug-toggle-button" class="hide-on-promo">Debug</button>
 
     <!-- Debugging Panel (Modal Structure) -->
     <div id="debug-panel">
         <div id="debug-content">
             <button id="debug-close-button">&times;</button>
-            <h3 id="debug-panel-title"></h3>
-            <p><span id="debug-bomb-index-label"></span>: <span id="debug-bomb-index"></span></p>
-            <p><span id="debug-revealed-count-label"></span>: <span id="debug-revealed-count"></span></p>
-            <p><span id="debug-is-game-over-label"></span>: <span id="debug-is-game-over"></span></p>
-            <p><span id="debug-active-theme-label"></span>: <span id="debug-active-theme"></span></p>
-            <p><span id="debug-bomb-url-label"></span>: <span id="debug-bomb-url"></span></p>
-            <p><span id="debug-non-bomb-url-label"></span>: <span id="debug-non-bomb-url"></span></p>
-            <p><span id="debug-error-messages-label"></span>: <span id="debug-error-messages" class="text-red-400"></span></p>
+            <h3 id="debug-panel-title">Panel Debugging</h3>
+            <p><span id="debug-label-bomb-index">Lokasi Bom (1-indexed):</span> <span id="debug-bomb-index"></span></p>
+            <p><span id="debug-label-revealed-count">Kartu Terbuka:</span> <span id="debug-revealed-count"></span></p>
+            <p><span id="debug-label-is-game-over">Permainan Selesai:</span> <span id="debug-is-game-over"></span></p>
+            <p><span id="debug-label-active-theme">Tema Aktif:</span> <span id="debug-active-theme"></span></p>
+            <p><span id="debug-label-bomb-url">URL Bom:</span> <span id="debug-bomb-url"></span></p>
+            <p><span id="debug-label-non-bomb-url">URL Bukan Bom:</span> <span id="debug-non-bomb-url"></span></p>
+            <p><span id="debug-label-error-messages">Pesan Kesalahan/Peringatan:</span> <span id="debug-error-messages" class="text-red-400"></span></p>
+        </div>
+    </div>
+
+    <!-- Help Panel (Modal Structure) -->
+    <div id="help-panel">
+        <div id="help-content">
+            <button id="help-close-button">&times;</button>
+            <h3 id="help-panel-title">Daftar Perintah</h3>
+            <table id="commands-table">
+                <thead>
+                    <tr>
+                        <th id="table-header-command">Perintah</th>
+                        <th id="table-header-description">Deskripsi</th>
+                    </tr>
+                </thead>
+                <tbody id="commands-table-body">
+                    <!-- Commands will be injected here by JavaScript -->
+                </tbody>
+            </table>
         </div>
     </div>
 
     <script>
+        // Language Translations
+        const translations = {
+            id: {
+                gameTitle: "Permainan Gosok Bom",
+                selectTheme: "Pilih Tema Visual:",
+                uploadBoardBg: "Unggah Latar Belakang Papan",
+                uploadBombImg: "Unggah Gambar Bom",
+                uploadNonBombImg: "Unggah Gambar Bukan Bom",
+                terminalPlaceholder: "terminal",
+                enterClickButton: "Enter / Click",
+                shuffleGame: "Acak Permainan",
+                resetGame: "Mulai Ulang Permainan",
+                youLose: "Anda kalah! Anda menemukan bom.",
+                youWin: (bombIndex) => `Selamat! Anda menang! Bom berada di kartu nomor ${bombIndex}.`,
+                invalidSecretCode: "Kode rahasia atau perintah tidak valid.",
+                bombLocation: (bombIndex) => `Kode bom berada di kartu nomor ${bombIndex}.`,
+                cardNumberHidden: "Angka kartu disembunyikan.",
+                promoModeActivated: "Mode promosi diaktifkan. UI disembunyikan.",
+                uiRestored: "Semua elemen UI ditampilkan kembali.",
+                gameReset: "Permainan diulang.",
+                gameShuffled: "Permainan diacak ulang (warna papan tetap).",
+                smoothBgActivated: "Latar belakang papan dihaluskan, warna kartu diacak.",
+                showingAllNumbers: "Menampilkan semua angka kartu.",
+                showingSpecificNumber: (num) => `Menampilkan angka kartu ${num}.`,
+                invalidNumberFormat: 'Format angka tidak valid. Gunakan "Angka(<nomor>)" contoh: Angka(2).',
+                unknownCommand: (cmd) => `Perintah tidak dikenal: "${cmd}"`,
+                debugPanelTitle: "Panel Debugging",
+                debugBombIndex: "Lokasi Bom (1-indexed):",
+                debugRevealedCount: "Kartu Terbuka:",
+                debugIsGameOver: "Permainan Selesai:",
+                debugActiveTheme: "Tema Aktif:",
+                debugBombUrl: "URL Bom:",
+                debugNonBombUrl: "URL Bukan Bom:",
+                debugErrorMessages: "Pesan Kesalahan/Peringatan:",
+                debugButton: "Debug",
+                hideDebugButton: "Sembunyikan Debug",
+                debugCloseButton: "&times;",
+                helpPanelTitle: "Daftar Perintah",
+                tableHeaderCommand: "Perintah",
+                tableHeaderDescription: "Deskripsi",
+                // Commands (lowercase for matching)
+                cmd_debug: "debug",
+                cmd_clear: "clear",
+                cmd_promo_hide: "0000",
+                cmd_promo_show: "-0",
+                cmd_reset: "reset",
+                cmd_restart_game: "mulai ulang permainan",
+                cmd_shuffle: "lagi",
+                cmd_smooth_bg: "0099",
+                cmd_show_all_numbers: "angka",
+                cmd_show_specific_number_prefix: "angka(",
+                cmd_show_specific_number_suffix: ")",
+                cmd_secret_code: "0091",
+                cmd_help: "!",
+                cmd_lang_en: "en",
+                cmd_lang_id: "id",
+                helpCommands: [
+                    { cmd: "0091", desc: "Lihat lokasi bom." },
+                    { cmd: "debug", desc: "Buka panel debugging." },
+                    { cmd: "clear", desc: "Sembunyikan semua angka kartu." },
+                    { cmd: "0000", desc: "Aktifkan mode promosi (sembunyikan UI)." },
+                    { cmd: "-0", desc: "Nonaktifkan mode promosi (tampilkan UI)." },
+                    { cmd: "reset / mulai ulang permainan", desc: "Mulai permainan baru." },
+                    { cmd: "lagi", desc: "Acak ulang kartu (warna papan tetap)." },
+                    { cmd: "0099", desc: "Haluskan latar belakang papan (warna kartu diacak)." },
+                    { cmd: "angka", desc: "Tampilkan semua angka kartu." },
+                    { cmd: "angka(<nomor>)", desc: "Tampilkan angka kartu tertentu (contoh: angka(5))." },
+                    { cmd: "En", desc: "Ubah bahasa ke Inggris." },
+                    { cmd: "Id", desc: "Ubah bahasa ke Indonesia." },
+                    { cmd: "!", desc: "Tampilkan daftar perintah ini." }
+                ]
+            },
+            en: {
+                gameTitle: "Bomb Scratch Game",
+                selectTheme: "Select Visual Theme:",
+                uploadBoardBg: "Upload Board Background",
+                uploadBombImg: "Upload Bomb Image",
+                uploadNonBombImg: "Upload Non-Bomb Image",
+                terminalPlaceholder: "terminal",
+                enterClickButton: "Enter / Click",
+                shuffleGame: "Shuffle Game",
+                resetGame: "Restart Game",
+                youLose: "You lost! You found the bomb.",
+                youWin: (bombIndex) => `Congratulations! You won! The bomb was at card number ${bombIndex}.`,
+                invalidSecretCode: "Invalid secret code or command.",
+                bombLocation: (bombIndex) => `The bomb code is at card number ${bombIndex}.`,
+                cardNumberHidden: "Card numbers hidden.",
+                promoModeActivated: "Promotion mode activated. UI hidden.",
+                uiRestored: "All UI elements restored.",
+                gameReset: "Game restarted.",
+                gameShuffled: "Game shuffled (board color remains).",
+                smoothBgActivated: "Board background smoothed, card colors shuffled.",
+                showingAllNumbers: "Showing all card numbers.",
+                showingSpecificNumber: (num) => `Showing card number ${num}.`,
+                invalidNumberFormat: 'Invalid number format. Use "Number(<number>)" e.g.: Number(2).',
+                unknownCommand: (cmd) => `Unknown command: "${cmd}"`,
+                debugPanelTitle: "Debugging Panel",
+                debugBombIndex: "Bomb Location (1-indexed):",
+                debugRevealedCount: "Cards Revealed:",
+                debugIsGameOver: "Game Over:",
+                debugActiveTheme: "Active Theme:",
+                debugBombUrl: "Bomb URL:",
+                debugNonBombUrl: "Non-Bomb URL:",
+                debugErrorMessages: "Error/Warning Messages:",
+                debugButton: "Debug",
+                hideDebugButton: "Hide Debug",
+                debugCloseButton: "&times;",
+                helpPanelTitle: "Command List",
+                tableHeaderCommand: "Command",
+                tableHeaderDescription: "Description",
+                // Commands (lowercase for matching)
+                cmd_debug: "debug",
+                cmd_clear: "clear",
+                cmd_promo_hide: "0000",
+                cmd_promo_show: "-0",
+                cmd_reset: "reset",
+                cmd_restart_game: "restart game",
+                cmd_shuffle: "again",
+                cmd_smooth_bg: "0099",
+                cmd_show_all_numbers: "number",
+                cmd_show_specific_number_prefix: "number(",
+                cmd_show_specific_number_suffix: ")",
+                cmd_secret_code: "0091",
+                cmd_help: "!",
+                cmd_lang_en: "en",
+                cmd_lang_id: "id",
+                helpCommands: [
+                    { cmd: "0091", desc: "See bomb location." },
+                    { cmd: "debug", desc: "Open debugging panel." },
+                    { cmd: "clear", desc: "Hide all card numbers." },
+                    { cmd: "0000", desc: "Activate promotion mode (hide UI)." },
+                    { cmd: "-0", desc: "Deactivate promotion mode (show UI)." },
+                    { cmd: "reset / restart game", desc: "Start a new game." },
+                    { cmd: "again", desc: "Shuffle cards (board color remains)." },
+                    { cmd: "0099", desc: "Smooth board background (card colors shuffled)." },
+                    { cmd: "number", desc: "Show all card numbers." },
+                    { cmd: "number(<number>)", desc: "Show specific card number (e.g.: number(5))." },
+                    { cmd: "En", desc: "Change language to English." },
+                    { cmd: "Id", desc: "Change language to Indonesian." },
+                    { cmd: "!", desc: "Show this command list." }
+                ]
+            }
+        };
+
         // Constants for image URLs and game configuration
         let BOMB_IMAGE_URL = "https://raw.githubusercontent.com/SapiBersinar/hanzercopy.cloud/refs/heads/main/gambar-ai/2.png";
         let NON_BOMB_IMAGE_URL = "https://raw.githubusercontent.com/SapiBersinar/hanzercopy.cloud/refs/heads/main/gambar-ai/1.png";
@@ -413,10 +609,9 @@
         const BOMB_IMAGE_STORAGE_KEY = 'bombCustomBombImage';
         const NON_BOMB_IMAGE_STORAGE_KEY = 'bombCustomNonBombImage';
         const THEME_STORAGE_KEY = 'bombGameTheme';
-        const LANGUAGE_STORAGE_KEY = 'bombGameLanguage';
+        const LANGUAGE_STORAGE_KEY = 'bombGameLanguage'; // New storage key for language
 
-        // Predefined colors for random selection (for shuffle)
-        const BOARD_BG_COLORS = ['#263238', '#37474F', '#212121', '#4A148C', '#004D40']; // Darker shades of previous colors
+        // Predefined colors for random selection (for card overlays)
         const CARD_OVERLAY_COLORS = ['#FFA500', '#60a5fa', '#f87171', '#fbbf24', '#a78bfa', '#34d399', '#f472b6']; // Orange added as default, plus others
 
         // Game state variables
@@ -425,216 +620,66 @@
         let revealedCount = 0;
         let activeTheme = 'light';
         let isPromoModeActive = false; // Global state for promo mode
-        let activeLanguage = 'en'; // Default language is English
+        let currentLang = 'id'; // Default language
 
-        // Translations object
-        const translations = {
-            en: {
-                gameTitle: "Bomb Scratch Game",
-                themeLabel: "Select Visual Theme:",
-                optLight: "Light (Default)",
-                optDark: "Dark",
-                optForest: "Forest",
-                uploadBoardBgLabel: "Upload Board Background",
-                uploadBombImgLabel: "Upload Bomb Image",
-                uploadNonBombImgLabel: "Upload Non-Bomb Image",
-                enterClickButton: "Enter / Click",
-                shuffleButtonText: "Shuffle Game",
-                resetButtonText: "Restart Game",
-                okButton: "OK",
-                debugToggleButtonText: "Debug",
-                debugPanelTitle: "Debugging Panel",
-                debugBombIndexLabel: "Bomb Location (1-indexed)",
-                debugRevealedCountLabel: "Cards Revealed",
-                debugIsGameOverLabel: "Game Over",
-                debugActiveThemeLabel: "Active Theme",
-                debugBombUrlLabel: "Bomb URL",
-                debugNonBombUrlLabel: "Non-Bomb URL",
-                debugErrorMessagesLabel: "Error/Warning Messages",
-                msgBombFound: "You lost! You found the bomb.",
-                msgWin: (bombNum) => `Congratulations! You won! The bomb was on card number ${bombNum}.`,
-                msgSecretCode: (bombNum) => `The bomb code is on card number ${bombNum}.`,
-                msgInvalidCode: "Invalid secret code.",
-                msgCardsHidden: "Card numbers hidden.",
-                msgPromoModeActivated: "Promotion mode activated. UI hidden.",
-                msgUIRestored: "All UI elements restored.",
-                msgGameRestarted: "Game restarted.",
-                msgGameShuffled: "Game shuffled (board color unchanged).",
-                msgSmoothBg: "Board background smoothed, card colors randomized.",
-                msgShowAllNumbers: "Displaying all card numbers.",
-                msgShowSingleNumber: (num) => `Displaying card number ${num}.`,
-                msgInvalidNumberFormat: 'Invalid number format. Use "Angka(<number>)" e.g., Angka(2).',
-                msgUnknownCommand: (cmd) => `Unknown command: "${cmd}"`,
-                helpCommands: `
-Available Commands:
-- 0091: Show bomb location.
-- debug: Open debug panel.
-- clear: Hide all card numbers.
-- 0000: Activate promotion mode (hide UI).
-- -0: Exit promotion mode (show UI).
-- reset / restart game: Restart game.
-- lagi: Shuffle game (keep board background).
-- 0099: Smooth board background, randomize card colors.
-- Angka: Show all card numbers.
-- Angka(<number>): Show specific card number (e.g., Angka(5)).
-- En: Switch to English.
-- Id: Switch to Indonesian.
-- !: Show this help.
-`
-            },
-            id: {
-                gameTitle: "Permainan Gosok Bom",
-                themeLabel: "Pilih Tema Visual:",
-                optLight: "Terang (Default)",
-                optDark: "Gelap",
-                optForest: "Hutan",
-                uploadBoardBgLabel: "Unggah Latar Belakang Papan",
-                uploadBombImgLabel: "Unggah Gambar Bom",
-                uploadNonBombImgLabel: "Unggah Gambar Bukan Bom",
-                enterClickButton: "Enter / Klik",
-                shuffleButtonText: "Acak Permainan",
-                resetButtonText: "Mulai Ulang Permainan",
-                okButton: "Oke",
-                debugToggleButtonText: "Debug",
-                debugPanelTitle: "Panel Debugging",
-                debugBombIndexLabel: "Lokasi Bom (1-indexed)",
-                debugRevealedCountLabel: "Kartu Terbuka",
-                debugIsGameOverLabel: "Permainan Selesai",
-                debugActiveThemeLabel: "Tema Aktif",
-                debugBombUrlLabel: "URL Bom",
-                debugNonBombUrlLabel: "URL Bukan Bom",
-                debugErrorMessagesLabel: "Pesan Kesalahan/Peringatan",
-                msgBombFound: "Anda kalah! Anda menemukan bom.",
-                msgWin: (bombNum) => `Selamat! Anda menang! Bom berada di kartu nomor ${bombNum}.`,
-                msgSecretCode: (bombNum) => `Kode bom berada di kartu nomor ${bombNum}.`,
-                msgInvalidCode: "Kode rahasia salah.",
-                msgCardsHidden: "Angka kartu disembunyikan.",
-                msgPromoModeActivated: "Mode promosi diaktifkan. UI disembunyikan.",
-                msgUIRestored: "Semua elemen UI ditampilkan kembali.",
-                msgGameRestarted: "Permainan diulang.",
-                msgGameShuffled: "Permainan diacak ulang (warna papan tetap).",
-                msgSmoothBg: "Latar belakang papan dihaluskan, warna kartu diacak.",
-                msgShowAllNumbers: "Menampilkan semua angka kartu.",
-                msgShowSingleNumber: (num) => `Menampilkan angka kartu ${num}.`,
-                msgInvalidNumberFormat: 'Format angka tidak valid. Gunakan "Angka(<nomor>)" contoh: Angka(2).',
-                msgUnknownCommand: (cmd) => `Perintah tidak dikenal: "${cmd}"`,
-                helpCommands: `
-Perintah Tersedia:
-- 0091: Tampilkan lokasi bom.
-- debug: Buka panel debug.
-- clear: Sembunyikan semua angka kartu.
-- 0000: Aktifkan mode promosi (sembunyikan UI).
-- -0: Keluar dari mode promosi (tampilkan UI).
-- reset / mulai ulang permainan: Mulai ulang permainan.
-- lagi: Acak permainan (pertahankan latar belakang papan).
-- 0099: Haluskan latar belakang papan, acak warna kartu.
-- Angka: Tampilkan semua angka kartu.
-- Angka(<nomor>): Tampilkan angka kartu spesifik (contoh: Angka(5)).
-- En: Ubah ke Bahasa Inggris.
-- Id: Ubah ke Bahasa Indonesia.
-- !: Tampilkan bantuan ini.
-`
-            }
-        };
+        // DOM element references (declared here, assigned in window.onload)
+        let gameTitleMeta;
+        let gameTitle;
+        let labelThemeSelect;
+        let optionLight;
+        let optionDark;
+        let optionForest;
+        let labelUploadBoardBg;
+        let labelUploadBombImg;
+        let labelUploadNonBombImg;
+        let gameBoard;
+        let gameBoardCard;
+        let backgroundUpload;
+        let bombImageUpload;
+        let nonBombImageUpload;
+        let passwordInput;
+        let revealBombButton;
+        let shuffleButton;
+        let resetButton;
+        let messageBox;
+        let messageText;
+        let closeMessageButton;
+        let themeSelect;
 
-        // DOM element references
-        let gameTitle = document.getElementById('game-title');
-        let themeLabel = document.getElementById('theme-label');
-        let optLight = document.getElementById('opt-light');
-        let optDark = document.getElementById('opt-dark');
-        let optForest = document.getElementById('opt-forest');
-        let uploadBoardBgLabel = document.getElementById('upload-board-bg-label');
-        let uploadBombImgLabel = document.getElementById('upload-bomb-img-label');
-        let uploadNonBombImgLabel = document.getElementById('upload-non-bomb-img-label');
-        let enterClickButton = document.getElementById('enter-click-button');
-        let shuffleButtonText = document.getElementById('shuffle-button-text');
-        let resetButtonText = document.getElementById('reset-button-text');
-        let okButton = document.getElementById('ok-button');
-        let debugToggleButtonText = document.getElementById('debug-toggle-button-text');
+        let debugToggleButton;
+        let debugPanel;
+        let debugCloseButton;
+        let debugPanelTitle;
+        let debugLabelBombIndex;
+        let debugBombIndex;
+        let debugLabelRevealedCount;
+        let debugRevealedCount;
+        let debugLabelIsGameOver;
+        let debugIsGameOver;
+        let debugLabelActiveTheme;
+        let debugActiveTheme;
+        let debugLabelBombUrl;
+        let debugBombUrl;
+        let debugLabelNonBombUrl;
+        let debugNonBombUrl;
+        let debugLabelErrorMessages;
+        let debugErrorMessages;
 
-        let gameBoard = document.getElementById('game-board');
-        let gameBoardCard = document.getElementById('game-board-card');
-        let backgroundUpload = document.getElementById('background-upload');
-        let bombImageUpload = document.getElementById('bomb-image-upload');
-        let nonBombImageUpload = document.getElementById('non-bomb-image-upload');
-        let passwordInput = document.getElementById('password-input');
-        let revealBombButton = document.getElementById('reveal-bomb-button');
-        let shuffleButton = document.getElementById('shuffle-button');
-        let resetButton = document.getElementById('reset-button');
-        let messageBox = document.getElementById('message-box');
-        let messageText = document.getElementById('message-text');
-        let closeMessageButton = document.getElementById('close-message');
-        let themeSelect = document.getElementById('theme-select');
+        let helpPanel; // New help panel elements
+        let helpCloseButton;
+        let helpPanelTitle;
+        let commandsTableBody;
+        let tableHeaderCommand;
+        let tableHeaderDescription;
 
-        // Debugging elements
-        let debugToggleButton = document.getElementById('debug-toggle-button');
-        let debugPanel = document.getElementById('debug-panel');
-        let debugCloseButton = document.getElementById('debug-close-button');
-        let debugPanelTitle = document.getElementById('debug-panel-title');
-        let debugBombIndexLabel = document.getElementById('debug-bomb-index-label');
-        let debugRevealedCountLabel = document.getElementById('debug-revealed-count-label');
-        let debugIsGameOverLabel = document.getElementById('debug-is-game-over-label');
-        let debugActiveThemeLabel = document.getElementById('debug-active-theme-label');
-        let debugBombUrlLabel = document.getElementById('debug-bomb-url-label');
-        let debugNonBombUrlLabel = document.getElementById('debug-non-bomb-url-label');
-        let debugErrorMessagesLabel = document.getElementById('debug-error-messages-label');
-        let debugBombIndex = document.getElementById('debug-bomb-index');
-        let debugRevealedCount = document.getElementById('debug-revealed-count');
-        let debugIsGameOver = document.getElementById('debug-is-game-over');
-        let debugActiveTheme = document.getElementById('debug-active-theme');
-        let debugBombUrl = document.getElementById('debug-bomb-url');
-        let debugNonBombUrl = document.getElementById('debug-non-bomb-url');
-        let debugErrorMessages = document.getElementById('debug-error-messages');
-
-
-        /**
-         * Sets the language for all UI elements.
-         * @param {string} langCode - 'en' for English, 'id' for Indonesian.
-         */
-        function setLanguage(langCode) {
-            activeLanguage = langCode;
-            localStorage.setItem(LANGUAGE_STORAGE_KEY, langCode);
-            const lang = translations[langCode];
-
-            // Update main UI texts
-            gameTitle.textContent = lang.gameTitle;
-            themeLabel.textContent = lang.themeLabel;
-            optLight.textContent = lang.optLight;
-            optDark.textContent = lang.optDark;
-            optForest.textContent = lang.optForest;
-            uploadBoardBgLabel.textContent = lang.uploadBoardBgLabel;
-            uploadBombImgLabel.textContent = lang.uploadBombImgLabel;
-            uploadNonBombImgLabel.textContent = lang.uploadNonBombImgLabel;
-            enterClickButton.textContent = lang.enterClickButton;
-            shuffleButtonText.textContent = lang.shuffleButtonText;
-            resetButtonText.textContent = lang.resetButtonText;
-            okButton.textContent = lang.okButton;
-            debugToggleButtonText.textContent = lang.debugToggleButtonText;
-
-            // Update Debug Panel texts
-            debugPanelTitle.textContent = lang.debugPanelTitle;
-            debugBombIndexLabel.textContent = lang.debugBombIndexLabel;
-            debugRevealedCountLabel.textContent = lang.debugRevealedCountLabel;
-            debugIsGameOverLabel.textContent = lang.debugIsGameOverLabel;
-            debugActiveThemeLabel.textContent = lang.debugActiveThemeLabel;
-            debugBombUrlLabel.textContent = lang.debugBombUrlLabel;
-            debugNonBombUrlLabel.textContent = lang.debugNonBombUrlLabel;
-            debugErrorMessagesLabel.textContent = lang.debugErrorMessagesLabel;
-
-            // Update placeholder
-            passwordInput.placeholder = "terminal"; // Placeholder is always "terminal"
-
-            updateDebugPanel(); // Update debug panel content with new language
-        }
 
         /**
          * Updates the debugging panel with current game state.
          */
         function updateDebugPanel() {
-            const lang = translations[activeLanguage];
             debugBombIndex.textContent = bombIndex + 1; // +1 for user-friendly 1-indexed
             debugRevealedCount.textContent = revealedCount;
-            debugIsGameOver.textContent = isGameOver ? lang.debugIsGameOverLabel.split(': ')[1] : (lang.debugIsGameOverLabel.split(': ')[1] === 'Ya' ? 'Tidak' : 'No'); // Adjust based on language
+            debugIsGameOver.textContent = isGameOver ? translations[currentLang].debugIsGameOver.split(':')[1].trim() : (currentLang === 'id' ? 'Tidak' : 'No');
             debugActiveTheme.textContent = activeTheme;
             debugBombUrl.textContent = BOMB_IMAGE_URL;
             debugNonBombUrl.textContent = NON_BOMB_IMAGE_URL;
@@ -654,6 +699,86 @@ Perintah Tersedia:
         function clearDebugErrors() {
             debugErrorMessages.textContent = '';
         }
+
+        /**
+         * Sets the current language and updates all UI texts.
+         * @param {string} langCode - 'id' for Indonesian, 'en' for English.
+         */
+        function setLanguage(langCode) {
+            currentLang = langCode;
+            localStorage.setItem(LANGUAGE_STORAGE_KEY, langCode);
+            document.documentElement.lang = langCode; // Update HTML lang attribute
+
+            const t = translations[langCode];
+
+            // Update meta title
+            gameTitleMeta.textContent = t.gameTitle;
+            // Update main title
+            gameTitle.textContent = t.gameTitle;
+            // Update theme selection
+            labelThemeSelect.textContent = t.selectTheme;
+            optionLight.textContent = langCode === 'id' ? 'Terang (Default)' : 'Light (Default)';
+            optionDark.textContent = langCode === 'id' ? 'Gelap' : 'Dark';
+            optionForest.textContent = langCode === 'id' ? 'Hutan' : 'Forest';
+            // Update upload labels
+            labelUploadBoardBg.textContent = t.uploadBoardBg;
+            labelUploadBombImg.textContent = t.uploadBombImg;
+            labelUploadNonBombImg.textContent = t.uploadNonBombImg;
+            // Update terminal input
+            passwordInput.placeholder = t.terminalPlaceholder;
+            revealBombButton.textContent = t.enterClickButton;
+            // Update action buttons
+            shuffleButton.textContent = t.shuffleGame;
+            resetButton.textContent = t.resetGame;
+            // Update message box button
+            closeMessageButton.textContent = langCode === 'id' ? 'Oke' : 'Okay';
+            // Update debug button
+            debugToggleButton.textContent = t.debugButton;
+            // Update debug panel
+            debugPanelTitle.textContent = t.debugPanelTitle;
+            debugLabelBombIndex.textContent = t.debugBombIndex;
+            debugLabelRevealedCount.textContent = t.debugRevealedCount;
+            debugLabelIsGameOver.textContent = t.debugIsGameOver;
+            debugLabelActiveTheme.textContent = t.debugActiveTheme;
+            debugLabelBombUrl.textContent = t.debugBombUrl;
+            debugLabelNonBombUrl.textContent = t.debugNonBombUrl;
+            debugLabelErrorMessages.textContent = t.debugErrorMessages;
+            // Update help panel
+            helpPanelTitle.textContent = t.helpPanelTitle;
+            tableHeaderCommand.textContent = t.tableHeaderCommand;
+            tableHeaderDescription.textContent = t.tableHeaderDescription;
+            populateHelpTable(); // Repopulate table with new language
+
+            updateDebugPanel(); // Update debug panel content with new language
+            // If a message box is open, update its text
+            if (messageBox.classList.contains('show')) {
+                if (isGameOver) {
+                    if (revealedCount === (TOTAL_CARDS - BOMB_COUNT)) {
+                        showMessage(t.youWin(bombIndex + 1));
+                    } else {
+                        showMessage(t.youLose);
+                    }
+                } else {
+                    hideMessage(); // Hide if no specific game state message
+                }
+            }
+        }
+
+        /**
+         * Populates the help table with commands for the current language.
+         */
+        function populateHelpTable() {
+            commandsTableBody.innerHTML = ''; // Clear existing rows
+            const t = translations[currentLang];
+            t.helpCommands.forEach(item => {
+                const row = commandsTableBody.insertRow();
+                const cmdCell = row.insertCell();
+                const descCell = row.insertCell();
+                cmdCell.textContent = item.cmd;
+                descCell.textContent = item.desc;
+            });
+        }
+
 
         /**
          * Applies the selected theme to the body.
@@ -687,7 +812,7 @@ Perintah Tersedia:
         /**
          * Initializes the game board by creating cards, assigning bomb position,
          * and setting up event listeners.
-         * @param {string} mode - The mode of initialization: 'initial', 'reset', 'shuffle', 'lagi', 'smooth-bg'.
+         * @param {string} mode - The mode of initialization: 'initial', 'reset', 'shuffle', 'lagi', 'smooth-bg', '0000_activate', '-0_deactivate'.
          */
         function initializeGame(mode = 'initial') {
             gameBoard.innerHTML = '';
@@ -697,13 +822,17 @@ Perintah Tersedia:
             clearDebugErrors();
 
             // --- Handle Promo Mode Persistence ---
-            // Only deactivate promo mode if it's an explicit reset or initial load
             if (mode === 'initial' || mode === 'reset') {
+                isPromoModeActive = false; // Reset promo mode on full game reset/initial load
+                document.body.classList.remove('promo-mode');
+            } else if (mode === '0000_activate') { // Explicit activation from terminal
+                isPromoModeActive = true;
+                document.body.classList.add('promo-mode');
+            } else if (mode === '-0_deactivate') { // Explicit deactivation from terminal
                 isPromoModeActive = false;
                 document.body.classList.remove('promo-mode');
             }
-            // If promo mode is active for 'lagi' or 'smooth-bg', it remains active.
-            // The `toggleUIMode` function will handle adding/removing the class based on `isPromoModeActive`.
+            // For 'lagi', 'shuffle', 'smooth-bg', promo mode state is preserved from `isPromoModeActive`
 
 
             // Load custom images or use defaults for bomb/non-bomb
@@ -712,25 +841,18 @@ Perintah Tersedia:
 
             // --- Board Background Color/Image Logic ---
             const savedBackground = localStorage.getItem(BACKGROUND_STORAGE_KEY);
-            if (mode === 'lagi' || mode === 'smooth-bg') {
-                // Do not change board background, preserve current state or set to black for smooth
-                if (mode === 'smooth-bg') {
-                    gameBoardCard.style.backgroundImage = 'none';
-                    gameBoardCard.style.backgroundColor = '#000000'; // Ensure black background for smooth
-                }
-                // Otherwise, for 'lagi', it keeps whatever it was before
-            } else if (savedBackground) {
+            if (savedBackground) { // If custom background is saved, always use it
                 gameBoardCard.style.backgroundImage = `url('${savedBackground}')`;
                 gameBoardCard.style.backgroundColor = 'transparent'; // Ensure transparency for image
-            } else {
+            } else { // No custom background, always default to black
                 gameBoardCard.style.backgroundImage = 'none';
                 gameBoardCard.style.backgroundColor = '#000000'; // Default black
             }
 
             // --- Card Overlay Color Logic ---
             let currentOverlayColor;
-            if (mode === 'initial' || mode === 'reset' || mode === 'smooth-bg') {
-                currentOverlayColor = '#FFA500'; // Default orange for cards
+            if (mode === 'initial' || mode === 'reset' || mode === 'smooth-bg' || mode === '0000_activate' || mode === '-0_deactivate') {
+                currentOverlayColor = '#FFA500'; // Default orange for cards on init, reset, smooth-bg, and promo mode changes
             } else { // 'shuffle' or 'lagi'
                 currentOverlayColor = CARD_OVERLAY_COLORS[Math.floor(Math.random() * CARD_OVERLAY_COLORS.length)];
             }
@@ -776,15 +898,14 @@ Perintah Tersedia:
          * @param {Event} event - The click event object.
          */
         function handleCardClick(event) {
-            if (isGameOver) {
-                return; // If game is over, prevent further clicks from affecting game state
-            }
+            // No longer return if isGameOver, allow clicking other cards after losing
+            // The isGameOver flag now primarily controls the win condition and game restart logic
 
             const clickedCard = event.currentTarget;
             const cardOverlay = clickedCard.querySelector('.card-overlay');
 
             if (cardOverlay.classList.contains('hidden-overlay')) {
-                return;
+                return; // Prevent re-clicking already revealed cards
             }
 
             const index = parseInt(clickedCard.dataset.index);
@@ -792,53 +913,45 @@ Perintah Tersedia:
 
             cardOverlay.addEventListener('transitionend', () => {
                 if (index === bombIndex) {
-                    isGameOver = true;
-                    clickedCard.classList.add('bomb-revealed');
-                    // Only show message for the bomb, don't reveal other cards
+                    isGameOver = true; // Game is over
+                    clickedCard.classList.add('bomb-revealed'); // Animate the bomb card
                     setTimeout(() => {
-                        showMessage(translations[activeLanguage].msgBombFound);
+                        showMessage(translations[currentLang].youLose); // Show lose message
+                        // Do NOT reveal all cards here. Only the bomb is shown.
                     }, 500);
                 } else {
-                    revealedCount++;
-                    clickedCard.classList.add('safe-revealed');
-                    clickedCard.addEventListener('animationend', () => {
-                        clickedCard.classList.remove('safe-revealed');
-                    }, { once: true });
+                    if (!isGameOver) { // Only count revealed cards and check win condition if game is not already over
+                        revealedCount++;
+                        clickedCard.classList.add('safe-revealed');
+                        clickedCard.addEventListener('animationend', () => {
+                            clickedCard.classList.remove('safe-revealed');
+                        }, { once: true });
 
-                    if (revealedCount === (TOTAL_CARDS - BOMB_COUNT)) {
-                        isGameOver = true;
-                        showMessage(translations[activeLanguage].msgWin(bombIndex + 1)); // Explicitly state bomb location
-                        triggerWinAnimation(); // Trigger victory animation
-                        // Add temporary highlight to the bomb card
-                        const bombCard = gameBoard.querySelector(`[data-index="${bombIndex}"]`);
-                        if (bombCard) {
-                            bombCard.style.border = '3px solid gold'; // Temporary visual highlight
-                            bombCard.style.boxShadow = '0 0 20px gold';
-                            setTimeout(() => {
-                                bombCard.style.border = '';
-                                bombCard.style.boxShadow = '';
-                            }, 3000); // Remove highlight after 3 seconds
+                        if (revealedCount === (TOTAL_CARDS - BOMB_COUNT)) {
+                            isGameOver = true;
+                            showMessage(translations[currentLang].youWin(bombIndex + 1)); // Explicitly state bomb location
+                            triggerWinAnimation(); // Trigger victory animation
+                            // Add temporary highlight to the bomb card
+                            const bombCard = gameBoard.querySelector(`[data-index="${bombIndex}"]`);
+                            if (bombCard) {
+                                bombCard.style.border = '3px solid gold'; // Temporary visual highlight
+                                bombCard.style.boxShadow = '0 0 20px gold';
+                                setTimeout(() => {
+                                    bombCard.style.border = '';
+                                    bombCard.style.boxShadow = '';
+                                }, 3000); // Remove highlight after 3 seconds
+                            }
                         }
+                    } else {
+                        // If game is already over (due to bomb), just reveal the card without further game logic
+                        clickedCard.classList.add('safe-revealed'); // Still show safe animation
+                        clickedCard.addEventListener('animationend', () => {
+                            clickedCard.classList.remove('safe-revealed');
+                        }, { once: true });
                     }
                 }
                 updateDebugPanel();
             }, { once: true });
-        }
-
-        /**
-         * Reveals all cards on the board, typically called when the game ends.
-         * NOTE: This function is now only called if the user explicitly wants to reveal all cards (e.g., for debugging)
-         * or for the win condition to highlight the bomb. It's NOT called on a loss.
-         */
-        function revealAllCards() {
-            const cards = gameBoard.querySelectorAll('.card-container');
-            cards.forEach(card => {
-                const cardOverlay = card.querySelector('.card-overlay');
-                cardOverlay.classList.add('hidden-overlay');
-                if (parseInt(card.dataset.index) === bombIndex) {
-                    card.classList.add('bomb-revealed');
-                }
-            });
         }
 
         /**
@@ -907,22 +1020,8 @@ Perintah Tersedia:
                 };
                 reader.readAsDataURL(file);
             } else {
-                logDebugError(translations[activeLanguage].debugErrorMessagesLabel.split(': ')[1] + ` Failed to upload image for ${storageKey}. No file selected.`);
+                logDebugError(translations[currentLang].uploadErrorMessage(storageKey));
             }
-        }
-
-        /**
-         * Toggles the visibility of various UI elements for promo mode.
-         * @param {boolean} activatePromoMode - True to activate promo mode (hide UI), false to deactivate.
-         */
-        function toggleUIMode(activatePromoMode) {
-            if (activatePromoMode) {
-                document.body.classList.add('promo-mode');
-                debugPanel.classList.remove('show'); // Hide debug panel if open
-            } else {
-                document.body.classList.remove('promo-mode');
-            }
-            isPromoModeActive = activatePromoMode; // Update global state
         }
 
         /**
@@ -932,113 +1031,169 @@ Perintah Tersedia:
         function handleTerminalCommand(command) {
             command = command.trim(); // Trim whitespace
             const lowerCaseCommand = command.toLowerCase(); // For case-insensitive checks
+            const t = translations[currentLang]; // Get current language translations
 
             passwordInput.value = ''; // Always clear input after processing
             toggleCardNumberVisibility(null); // Hide any displayed numbers by default
-            clearDebugErrors(); // Clear any previous errors
 
-            if (lowerCaseCommand === '0091') {
-                showMessage(translations[activeLanguage].msgSecretCode(bombIndex + 1));
-            } else if (lowerCaseCommand === 'debug') {
+            if (lowerCaseCommand === t.cmd_secret_code) {
+                showMessage(t.bombLocation(bombIndex + 1));
+            } else if (lowerCaseCommand === t.cmd_debug) {
                 debugPanel.classList.add('show');
-            } else if (lowerCaseCommand === 'clear') {
-                showMessage(translations[activeLanguage].msgCardsHidden);
-            } else if (lowerCaseCommand === '0000') { // Secret code to hide UI
-                toggleUIMode(true);
-                showMessage(translations[activeLanguage].msgPromoModeActivated);
-            } else if (lowerCaseCommand === '-0') { // Command to show UI
-                toggleUIMode(false);
-                showMessage(translations[activeLanguage].msgUIRestored);
-            } else if (lowerCaseCommand === 'reset' || lowerCaseCommand === 'mulai ulang permainan') { // Restart game
+            } else if (lowerCaseCommand === t.cmd_clear) {
+                showMessage(t.cardNumberHidden);
+            } else if (lowerCaseCommand === t.cmd_promo_hide) { // Secret code to hide UI
+                initializeGame('0000_activate'); // Activate promo mode
+                showMessage(t.promoModeActivated);
+            } else if (lowerCaseCommand === t.cmd_promo_show) { // Command to show UI
+                initializeGame('-0_deactivate'); // Deactivate promo mode
+                showMessage(t.uiRestored);
+            } else if (lowerCaseCommand === t.cmd_reset || lowerCaseCommand === t.cmd_restart_game) { // Restart game
                 initializeGame('reset'); // This will also deactivate promo mode
-                showMessage(translations[activeLanguage].msgGameRestarted);
-            } else if (lowerCaseCommand === 'lagi') { // Shuffle but keep board color, preserve promo mode
-                initializeGame('lagi');
-                showMessage(translations[activeLanguage].msgGameShuffled);
-            } else if (lowerCaseCommand === '0099') { // Smooth background, only randomize card colors
+                showMessage(t.gameReset);
+            } else if (lowerCaseCommand === t.cmd_shuffle) { // Shuffle but keep board color, preserve promo mode
+                initializeGame('shuffle'); // 'shuffle' mode (new random card colors, board bg unchanged)
+                showMessage(t.gameShuffled);
+            } else if (lowerCaseCommand === t.cmd_smooth_bg) { // Smooth background, only randomize card colors
                 initializeGame('smooth-bg');
-                showMessage(translations[activeLanguage].msgSmoothBg);
-            } else if (lowerCaseCommand === 'angka') { // Show all numbers
+                showMessage(t.smoothBgActivated);
+            } else if (lowerCaseCommand === t.cmd_show_all_numbers) { // Show all numbers
                 toggleCardNumberVisibility('all');
-                showMessage(translations[activeLanguage].msgShowAllNumbers);
-            } else if (lowerCaseCommand.startsWith('angka(') && lowerCaseCommand.endsWith(')')) {
+                showMessage(t.showingAllNumbers);
+            } else if (lowerCaseCommand.startsWith(t.cmd_show_specific_number_prefix.toLowerCase()) && lowerCaseCommand.endsWith(t.cmd_show_specific_number_suffix.toLowerCase())) {
                 const numStr = command.substring(command.indexOf('(') + 1, command.lastIndexOf(')'));
                 const num = parseInt(numStr);
                 if (!isNaN(num) && num >= 1 && num <= TOTAL_CARDS) {
                     toggleCardNumberVisibility(num);
-                    showMessage(translations[activeLanguage].msgShowSingleNumber(num));
+                    showMessage(t.showingSpecificNumber(num));
                 } else {
-                    showMessage(translations[activeLanguage].msgInvalidNumberFormat);
-                    logDebugError(translations[activeLanguage].debugErrorMessagesLabel.split(': ')[1] + translations[activeLanguage].msgInvalidNumberFormat + ` Command: "${command}"`);
+                    showMessage(t.invalidNumberFormat);
+                    logDebugError(t.invalidNumberFormat);
                 }
-            } else if (lowerCaseCommand === 'en') {
+            } else if (lowerCaseCommand === t.cmd_lang_en) {
                 setLanguage('en');
-                showMessage("Language set to English.");
-            } else if (lowerCaseCommand === 'id') {
+                showMessage(translations['en'].uiRestored); // Show message in new language
+            } else if (lowerCaseCommand === t.cmd_lang_id) {
                 setLanguage('id');
-                showMessage("Bahasa diatur ke Bahasa Indonesia.");
-            } else if (lowerCaseCommand === '!') {
-                showMessage(translations[activeLanguage].helpCommands);
-            } else if (command === '') { // Empty input
-                // Do nothing, or show a subtle message
+                showMessage(translations['id'].uiRestored); // Show message in new language
+            } else if (lowerCaseCommand === t.cmd_help) {
+                helpPanel.classList.add('show'); // Show help panel
+            } else if (command === '') { // Empty input, show all numbers
+                toggleCardNumberVisibility('all');
+                showMessage(t.showingAllNumbers);
             }
             else {
-                showMessage(translations[activeLanguage].msgUnknownCommand(command));
-                logDebugError(translations[activeLanguage].debugErrorMessagesLabel.split(': ')[1] + translations[activeLanguage].msgUnknownCommand(command));
+                showMessage(t.invalidSecretCode);
+                logDebugError(t.unknownCommand(command));
             }
             updateDebugPanel(); // Update debug panel after command
         }
 
 
         // --- Event Listeners ---
-
-        // Image Uploads
-        backgroundUpload.addEventListener('change', (e) => handleImageUpload(e, BACKGROUND_STORAGE_KEY, (url) => {
-            gameBoardCard.style.backgroundImage = `url('${url}')`;
-            gameBoardCard.style.backgroundColor = 'transparent';
-        }));
-        bombImageUpload.addEventListener('change', (e) => handleImageUpload(e, BOMB_IMAGE_STORAGE_KEY, (url) => {
-            BOMB_IMAGE_URL = url;
-        }));
-        nonBombImageUpload.addEventListener('change', (e) => handleImageUpload(e, NON_BOMB_IMAGE_STORAGE_KEY, (url) => {
-            NON_BOMB_IMAGE_URL = url;
-        }));
-
-        // Theme Selector
-        themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
-
-        // Password Input (Terminal) Logic - handles Enter key press
-        passwordInput.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); // Prevent default form submission
-                handleTerminalCommand(this.value); // Process command on Enter
-            }
-        });
-
-        // "Enter / Click" Button Logic - processes commands on click
-        revealBombButton.addEventListener('click', function() {
-            handleTerminalCommand(passwordInput.value);
-        });
-
-
-        // Game Control Buttons
-        shuffleButton.addEventListener('click', () => initializeGame('shuffle')); // Updated mode
-        resetButton.addEventListener('click', () => initializeGame('reset')); // Updated mode
-        closeMessageButton.addEventListener('click', hideMessage);
-
-        // Debugging Toggle & Close Button
-        debugToggleButton.addEventListener('click', () => {
-            debugPanel.classList.toggle('show');
-        });
-        debugCloseButton.addEventListener('click', () => {
-            debugPanel.classList.remove('show');
-        });
-
-        // --- Initial Load ---
         window.onload = function() {
+            // Assign DOM element references here
+            gameTitleMeta = document.getElementById('game-title-meta');
+            gameTitle = document.getElementById('game-title');
+            labelThemeSelect = document.getElementById('label-theme-select');
+            optionLight = document.getElementById('option-light');
+            optionDark = document.getElementById('option-dark');
+            optionForest = document.getElementById('option-forest');
+            labelUploadBoardBg = document.getElementById('label-upload-board-bg');
+            labelUploadBombImg = document.getElementById('label-upload-bomb-img');
+            labelUploadNonBombImg = document.getElementById('label-upload-non-bomb-img');
+            gameBoard = document.getElementById('game-board');
+            gameBoardCard = document.getElementById('game-board-card');
+            backgroundUpload = document.getElementById('background-upload');
+            bombImageUpload = document.getElementById('bomb-image-upload');
+            nonBombImageUpload = document.getElementById('non-bomb-image-upload');
+            passwordInput = document.getElementById('password-input');
+            revealBombButton = document.getElementById('reveal-bomb-button');
+            shuffleButton = document.getElementById('shuffle-button');
+            resetButton = document.getElementById('reset-button');
+            messageBox = document.getElementById('message-box');
+            messageText = document.getElementById('message-text');
+            closeMessageButton = document.getElementById('close-message');
+            themeSelect = document.getElementById('theme-select');
+            debugToggleButton = document.getElementById('debug-toggle-button');
+            debugPanel = document.getElementById('debug-panel');
+            debugCloseButton = document.getElementById('debug-close-button');
+            debugPanelTitle = document.getElementById('debug-panel-title');
+            debugLabelBombIndex = document.getElementById('debug-label-bomb-index');
+            debugBombIndex = document.getElementById('debug-bomb-index');
+            debugLabelRevealedCount = document.getElementById('debug-label-revealed-count');
+            debugRevealedCount = document.getElementById('debug-revealed-count');
+            debugLabelIsGameOver = document.getElementById('debug-label-is-game-over');
+            debugIsGameOver = document.getElementById('debug-is-game-over');
+            debugLabelActiveTheme = document.getElementById('debug-label-active-theme');
+            debugActiveTheme = document.getElementById('debug-active-theme');
+            debugLabelBombUrl = document.getElementById('debug-label-bomb-url');
+            debugBombUrl = document.getElementById('debug-bomb-url');
+            debugLabelNonBombUrl = document.getElementById('debug-label-non-bomb-url');
+            debugNonBombUrl = document.getElementById('debug-non-bomb-url');
+            debugLabelErrorMessages = document.getElementById('debug-label-error-messages');
+            debugErrorMessages = document.getElementById('debug-error-messages');
+
+            helpPanel = document.getElementById('help-panel');
+            helpCloseButton = document.getElementById('help-close-button');
+            helpPanelTitle = document.getElementById('help-panel-title');
+            commandsTableBody = document.getElementById('commands-table-body');
+            tableHeaderCommand = document.getElementById('table-header-command');
+            tableHeaderDescription = document.getElementById('table-header-description');
+
+
+            // Image Uploads
+            backgroundUpload.addEventListener('change', (e) => handleImageUpload(e, BACKGROUND_STORAGE_KEY, (url) => {
+                gameBoardCard.style.backgroundImage = `url('${url}')`;
+                gameBoardCard.style.backgroundColor = 'transparent';
+            }));
+            bombImageUpload.addEventListener('change', (e) => handleImageUpload(e, BOMB_IMAGE_STORAGE_KEY, (url) => {
+                BOMB_IMAGE_URL = url;
+            }));
+            nonBombImageUpload.addEventListener('change', (e) => handleImageUpload(e, NON_BOMB_IMAGE_STORAGE_KEY, (url) => {
+                NON_BOMB_IMAGE_URL = url;
+            }));
+
+            // Theme Selector
+            themeSelect.addEventListener('change', (e) => applyTheme(e.target.value));
+
+            // Password Input (Terminal) Logic - handles Enter key press
+            passwordInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent default form submission
+                    handleTerminalCommand(this.value); // Process command on Enter
+                }
+            });
+
+            // "Enter / Click" Button Logic - processes commands on click
+            revealBombButton.addEventListener('click', function() {
+                handleTerminalCommand(passwordInput.value);
+            });
+
+
+            // Game Control Buttons
+            shuffleButton.addEventListener('click', () => initializeGame('shuffle')); // Updated mode
+            resetButton.addEventListener('click', () => initializeGame('reset')); // Updated mode
+            closeMessageButton.addEventListener('click', hideMessage);
+
+            // Debugging Toggle & Close Button
+            debugToggleButton.addEventListener('click', () => {
+                debugPanel.classList.toggle('show');
+            });
+            debugCloseButton.addEventListener('click', () => {
+                debugPanel.classList.remove('show');
+            });
+
+            // Help Panel Close Button
+            helpCloseButton.addEventListener('click', () => {
+                helpPanel.classList.remove('show');
+            });
+
+            // --- Initial Load ---
             // Load and apply saved language
-            const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) || 'en'; // Default to English
-            setLanguage(savedLanguage);
+            const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || 'id';
+            setLanguage(savedLang); // Apply language first
+            populateHelpTable(); // Populate table after language is set
 
             // Load and apply saved theme
             const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || 'light';
