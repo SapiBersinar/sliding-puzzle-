@@ -336,6 +336,34 @@
             background-color: #374151; /* Hover effect for rows */
         }
 
+        /* --- Terminal History Styles --- */
+        #terminal-history {
+            background-color: #1f2937; /* Dark background for terminal */
+            color: #e2e8f0; /* Light text */
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            max-height: 12rem; /* Max height for scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            text-align: left;
+            font-family: monospace;
+            font-size: 0.85rem;
+            border: 1px solid #374151; /* Subtle border */
+            /* Removed hide-on-promo class from here */
+        }
+        #terminal-history p {
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+        #terminal-history p:last-child {
+            margin-bottom: 0;
+        }
+        .log-info { color: #e2e8f0; } /* Default text color */
+        .log-success { color: #34d399; } /* Green for success */
+        .log-error { color: #ef4444; } /* Red for error */
+        .log-command { color: #60a5fa; } /* Blue for commands */
+
+
         /* --- Promo Mode Specific Styles --- */
         body.promo-mode .hide-on-promo {
             display: none !important;
@@ -397,6 +425,11 @@
                     class="mt-3 px-4 py-2 bg-indigo-600 text-white font-bold rounded-md shadow-md hover:bg-indigo-700 transition duration-300 ease-in-out">
                 Enter / Click
             </button>
+        </div>
+
+        <!-- Terminal History/Logging -->
+        <div id="terminal-history">
+            <!-- Log messages will appear here -->
         </div>
 
         <!-- Action buttons -->
@@ -494,6 +527,10 @@
                 helpPanelTitle: "Daftar Perintah",
                 tableHeaderCommand: "Perintah",
                 tableHeaderDescription: "Deskripsi",
+                uploadSuccess: (url) => `Berhasil mengunggah: ${url}`,
+                uploadError: (key) => `Gagal mengunggah gambar untuk ${key}. Tidak ada file terpilih.`,
+                commandExecuted: (cmd) => `Perintah dieksekusi: "${cmd}"`,
+                gameInitLog: "Permainan diinisialisasi.",
                 // Commands (lowercase for matching)
                 cmd_debug: "debug",
                 cmd_clear: "clear",
@@ -564,6 +601,10 @@
                 helpPanelTitle: "Command List",
                 tableHeaderCommand: "Command",
                 tableHeaderDescription: "Description",
+                uploadSuccess: (url) => `Successfully uploaded: ${url}`,
+                uploadError: (key) => `Failed to upload image for ${key}. No file selected.`,
+                commandExecuted: (cmd) => `Command executed: "${cmd}"`,
+                gameInitLog: "Game initialized.",
                 // Commands (lowercase for matching)
                 cmd_debug: "debug",
                 cmd_clear: "clear",
@@ -672,6 +713,8 @@
         let tableHeaderCommand;
         let tableHeaderDescription;
 
+        let terminalHistory; // New terminal history element
+
 
         /**
          * Updates the debugging panel with current game state.
@@ -691,6 +734,7 @@
          */
         function logDebugError(message) {
             debugErrorMessages.textContent = message;
+            logTerminalHistory(message, 'error'); // Also log to terminal history
         }
 
         /**
@@ -699,6 +743,27 @@
         function clearDebugErrors() {
             debugErrorMessages.textContent = '';
         }
+
+        /**
+         * Logs a message to the terminal history display.
+         * @param {string} message - The message to log.
+         * @param {string} type - The type of message ('info', 'success', 'error', 'command').
+         */
+        function logTerminalHistory(message, type = 'info') {
+            if (!terminalHistory) return; // Ensure element exists
+
+            const now = new Date();
+            const timestamp = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+            
+            const logEntry = document.createElement('p');
+            logEntry.classList.add(`log-${type}`);
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            terminalHistory.appendChild(logEntry);
+
+            // Keep scroll at the bottom
+            terminalHistory.scrollTop = terminalHistory.scrollHeight;
+        }
+
 
         /**
          * Sets the current language and updates all UI texts.
@@ -762,6 +827,7 @@
                     hideMessage(); // Hide if no specific game state message
                 }
             }
+            logTerminalHistory(currentLang === 'id' ? "Bahasa diubah ke Indonesia." : "Language changed to English.", 'info');
         }
 
         /**
@@ -841,17 +907,17 @@
 
             // --- Board Background Color/Image Logic ---
             const savedBackground = localStorage.getItem(BACKGROUND_STORAGE_KEY);
-            if (savedBackground) { // If custom background is saved, always use it
+            if (savedBackground && mode !== 'smooth-bg') { // If custom background is saved, always use it unless smooth-bg is requested
                 gameBoardCard.style.backgroundImage = `url('${savedBackground}')`;
                 gameBoardCard.style.backgroundColor = 'transparent'; // Ensure transparency for image
-            } else { // No custom background, always default to black
+            } else { // No custom background, or smooth-bg requested, always default to black
                 gameBoardCard.style.backgroundImage = 'none';
                 gameBoardCard.style.backgroundColor = '#000000'; // Default black
             }
 
             // --- Card Overlay Color Logic ---
             let currentOverlayColor;
-            if (mode === 'initial' || mode === 'reset' || mode === 'smooth-bg' || mode === '0000_activate' || mode === '-0_deactivate') {
+            if (mode === 'initial' || mode === 'reset' || mode === '0000_activate' || mode === '-0_deactivate' || mode === 'smooth-bg') {
                 currentOverlayColor = '#FFA500'; // Default orange for cards on init, reset, smooth-bg, and promo mode changes
             } else { // 'shuffle' or 'lagi'
                 currentOverlayColor = CARD_OVERLAY_COLORS[Math.floor(Math.random() * CARD_OVERLAY_COLORS.length)];
@@ -891,6 +957,7 @@
             }
             updateDebugPanel();
             toggleCardNumberVisibility(null); // Ensure all numbers are hidden on init
+            logTerminalHistory(translations[currentLang].gameInitLog, 'info');
         }
 
         /**
@@ -898,9 +965,6 @@
          * @param {Event} event - The click event object.
          */
         function handleCardClick(event) {
-            // No longer return if isGameOver, allow clicking other cards after losing
-            // The isGameOver flag now primarily controls the win condition and game restart logic
-
             const clickedCard = event.currentTarget;
             const cardOverlay = clickedCard.querySelector('.card-overlay');
 
@@ -1017,10 +1081,11 @@
                     localStorage.setItem(storageKey, imageUrl);
                     if (callback) callback(imageUrl);
                     initializeGame('reset'); // Re-initialize game to apply new images
+                    logTerminalHistory(translations[currentLang].uploadSuccess(imageUrl), 'success');
                 };
                 reader.readAsDataURL(file);
             } else {
-                logDebugError(translations[currentLang].uploadErrorMessage(storageKey));
+                logDebugError(translations[currentLang].uploadError(storageKey));
             }
         }
 
@@ -1035,6 +1100,8 @@
 
             passwordInput.value = ''; // Always clear input after processing
             toggleCardNumberVisibility(null); // Hide any displayed numbers by default
+
+            logTerminalHistory(t.commandExecuted(command), 'command'); // Log the executed command
 
             if (lowerCaseCommand === t.cmd_secret_code) {
                 showMessage(t.bombLocation(bombIndex + 1));
@@ -1072,10 +1139,8 @@
                 }
             } else if (lowerCaseCommand === t.cmd_lang_en) {
                 setLanguage('en');
-                showMessage(translations['en'].uiRestored); // Show message in new language
             } else if (lowerCaseCommand === t.cmd_lang_id) {
                 setLanguage('id');
-                showMessage(translations['id'].uiRestored); // Show message in new language
             } else if (lowerCaseCommand === t.cmd_help) {
                 helpPanel.classList.add('show'); // Show help panel
             } else if (command === '') { // Empty input, show all numbers
@@ -1140,6 +1205,8 @@
             commandsTableBody = document.getElementById('commands-table-body');
             tableHeaderCommand = document.getElementById('table-header-command');
             tableHeaderDescription = document.getElementById('table-header-description');
+
+            terminalHistory = document.getElementById('terminal-history'); // Assign terminal history element
 
 
             // Image Uploads
